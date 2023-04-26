@@ -1,0 +1,8 @@
+.flex{
+    display: flex;
+    gap: "10px"
+}
+
+select{
+    margin: 10px;
+}
