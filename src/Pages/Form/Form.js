@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Option } from './Option'
 import { InitialOption } from './InitialOption';
 import '../../Styles/forms.css'
 import { months, years, transaction_type, accounts, currency, imageType } from '../../Constants/_const'
-import { addIfDoesntExists, addObjectToLocalStorage } from '../../Services/localstorage.service';
+import { addObjectToLocalStorage } from '../../Services/localstorage.service';
 import Filebase from 'react-file-base64'
 
 export const Form = () => {
 
-    const INITIAL_STATE = {
-        date: "",
-        month: "",
-        year: "",
-        transaction: "",
-        from_account: "",
-        to_account: "",
-        amount: "",
-        selectedFile: ""
-    }
+    // const INITIAL_STATE = {
+    //     date: "",
+    //     month: "",
+    //     year: "",
+    //     transaction: "",
+    //     from_account: "",
+    //     to_account: "",
+    //     amount: "",
+    //     selectedFile: ""
+    // }
 
     // States being used in this Component
     const [currencyVal, setCurrencyVal] = useState("")
@@ -31,24 +31,22 @@ export const Form = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const { month, year, transaction, from_account, to_account, currency, amount } = e.target;
-        let final_amount = Number(amount.value).toLocaleString('en-IN');
+        // let final_amount = Number(amount.value).toLocaleString('en-IN');
         let fileData = {
             month: month.value,
             year: year.value,
             transaction: transaction.value,
             from_account: from_account.value,
             to_account: to_account.value,
-            amount: `${currency.value}${final_amount}`,
+            currency: currency.value,
+            amount: Number(amount.value),
             selectedFile: fileBase64
         }
         await addObjectToLocalStorage(fileData)
         e.target.reset();
 
     }
-    /* const handleNumberFormat = (e) => {
-        let enteredNumber = e.target.value;
-        console.log(Number(enteredNumber).toLocaleString('en-IN'));
-    } */
+
     return (
         <div>
             <form onSubmit={handleSubmit}>
