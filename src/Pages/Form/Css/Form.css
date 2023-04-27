@@ -1,0 +1,30 @@
+form{
+    background-color: #f3f3f3;
+    width: 40%;
+    display: inline-block;
+    margin: 2rem 0;
+    padding: 20px;
+}
+body{
+    text-align: center;
+}
+.flex{
+    margin: 10px;
+    justify-content: space-between;
+    gap: 50px 20px;
+    flex-wrap: wrap;
+}
+
+input[type="number"]{
+    height: 45px;
+}
+
+input[type="submit"]{
+    padding: 10px;
+    cursor: pointer;
+}
+
+select{
+    padding: 10px;
+}
+

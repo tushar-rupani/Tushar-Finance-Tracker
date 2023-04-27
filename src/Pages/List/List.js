@@ -10,6 +10,7 @@ import { loadDataFromLocal } from '../../Services/localstorage.service'
 import VerticalAlignCenterIcon from '@mui/icons-material/VerticalAlignCenter';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Link } from 'react-router-dom';
+import { Navbar } from '../Home/Navbar';
 export const List = () => {
   let allData = loadDataFromLocal();
   let [dataValue, setDataValue] = useState(allData);
@@ -17,7 +18,7 @@ export const List = () => {
   let [groupedData, setGroupedData] = useState([]);
   let handleSort = (title) => {
   let sortedData;
-
+    console.log(title);
     if (title === "amount") {
       sortedData = [...dataValue].sort((d1, d2) => {
         if (sortedOrder === "asc") {
@@ -61,10 +62,11 @@ export const List = () => {
   }
   return (
     <>
-    
+      <Navbar />
       <select onChange={handleChange}>
         <option disabled selected>Select Group By</option>
         <option value="month">Month</option>
+        <option value="year">Year</option>
         <option value="transaction">Transaction</option>
         <option value="from_account">From Account</option>
         <option value="to_account">To Account</option>
@@ -81,6 +83,7 @@ export const List = () => {
               <TableCell align="right" onClick={() => handleSort("from_account")}>From Account <VerticalAlignCenterIcon /></TableCell>
               <TableCell align="right" onClick={() => handleSort("to_account")}>To Account <VerticalAlignCenterIcon /></TableCell>
               <TableCell align="right" onClick={() => handleSort("amount")}>Amount <VerticalAlignCenterIcon /></TableCell>
+              <TableCell align="right" onClick={() => handleSort("notes")}>Notes <VerticalAlignCenterIcon /></TableCell>
               <TableCell align="right">Image <VerticalAlignCenterIcon /></TableCell>
               <TableCell align="right">View <RemoveRedEyeIcon /></TableCell>
             </TableRow>
@@ -98,6 +101,7 @@ export const List = () => {
                 <TableCell align="right">{data.from_account}</TableCell>
                 <TableCell align="right">{data.to_account}</TableCell>
                 <TableCell align="right">{data.currency}{data.amount.toLocaleString('en-IN')}</TableCell>
+                <TableCell align="right">{data.notes.substr(0, 15)}...</TableCell>
                 <TableCell align="right">
                   <img src={data.selectedFile} alt='error in loading' width={75} height={75} />
                 </TableCell>

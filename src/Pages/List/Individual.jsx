@@ -15,6 +15,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useParams } from 'react-router-dom';
+import { Navbar } from '../Home/Navbar';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -38,7 +39,9 @@ export function Individual() {
         setExpanded(!expanded);
     };
 
-    return (
+    return (<div>
+        <Navbar />
+        <br />
         <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
             <Card sx={{ maxWidth: 345 }} >
                 <CardHeader
@@ -63,14 +66,12 @@ export function Individual() {
                 />
                 <CardContent>
                     <Typography variant="body2" color="text.secondary">
-                        This impressive paella is a perfect party dish and a fun meal to cook
-                        together with your guests. Add 1 cup of frozen peas along with the mussels,
-                        if you like.
+                        Notes: {dataToDisplay.notes}
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
                     <IconButton aria-label="add to favorites">
-                        <FavoriteIcon />
+                        <Typography variant='subtitle1'>Expand for more details</Typography>
                     </IconButton>
 
                     <ExpandMore
@@ -101,14 +102,12 @@ export function Individual() {
 
                         <Typography paragraph>Amount</Typography>
                         <Typography paragraph>
-                            <b>{dataToDisplay.amount}</b>
+                            <b>{dataToDisplay.currency}{dataToDisplay.amount.toLocaleString('en-IN')}</b>
                         </Typography>
-
-
-
                     </CardContent>
                 </Collapse>
             </Card>
+        </div>
         </div>
     );
 }

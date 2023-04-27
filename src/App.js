@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { List } from './Pages/List/List';
 import { Individual } from './Pages/List/Individual';
 function App() {
+  
   return (
     <div className="App">
       <BrowserRouter>
