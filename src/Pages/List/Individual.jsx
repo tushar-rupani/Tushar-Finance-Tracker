@@ -10,8 +10,6 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useParams } from 'react-router-dom';
@@ -33,7 +31,6 @@ export function Individual() {
     let index = params.id;
     let dataToDisplay = JSON.parse(localStorage.getItem("expense-data"));
     dataToDisplay = dataToDisplay.filter(data => data.id === Number(index))
-    console.log("data", dataToDisplay);
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {

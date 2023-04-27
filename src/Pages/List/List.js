@@ -1,15 +1,6 @@
 import React, { useState } from 'react'
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import { loadDataFromLocal } from '../../Services/localstorage.service'
-import VerticalAlignCenterIcon from '@mui/icons-material/VerticalAlignCenter';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { Link } from 'react-router-dom';
+import { TableComp } from '../../Components/Table';
 import { Navbar } from '../Home/Navbar';
 import { addIfDoesntExists } from '../../Services/localstorage.service';
 export const List = () => {
@@ -42,7 +33,6 @@ export const List = () => {
       setSortedOrder(sortedOrder === "asc" ? "desc" : "asc");
       setDataValue(sortedData);
     } else {
-      console.log("Executing Grid One");
       let objToUpdate = groupedData[data];
       if (title === "amount") {
         groupSortData = [...objToUpdate].sort((d1, d2) => {
@@ -61,13 +51,10 @@ export const List = () => {
           }
         })
       }
-
       setSortedOrder(sortedOrder === "asc" ? "desc" : "asc");
       groupedData[data] = groupSortData;
       setGroupedData(groupedData)
     }
-
-
 
   }
   var searchingValues;
@@ -83,7 +70,6 @@ export const List = () => {
         return data[search] === searchValue
       })
     })
-    console.log(answerObj);
 
     setDataValue([])
     setGroupedData(answerObj);
@@ -105,80 +91,16 @@ export const List = () => {
       </select>
       {Object.keys(groupedData).length > 0 && <button onClick={handleRemoveFilter}>Remove Filter</button>}
 
-      {dataValue.length > 0 && <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead style={{ background: "rgb(160, 162, 192)", color: "white", cursor: "pointer" }}>
-            <TableRow>
-              <TableCell onClick={() => handleSort("month")}> Month <VerticalAlignCenterIcon /></TableCell>
-              <TableCell align="right" onClick={() => handleSort("year")}>Year <VerticalAlignCenterIcon /></TableCell>
-              <TableCell align="right" onClick={() => handleSort("transaction")}>Transaction <VerticalAlignCenterIcon /></TableCell>
-              <TableCell align="right" onClick={() => handleSort("from_account")}>From Account <VerticalAlignCenterIcon /></TableCell>
-              <TableCell align="right" onClick={() => handleSort("to_account")}>To Account <VerticalAlignCenterIcon /></TableCell>
-              <TableCell align="right" onClick={() => handleSort("amount")}>Amount <VerticalAlignCenterIcon /></TableCell>
-              <TableCell align="right" onClick={() => handleSort("notes")}>Notes <VerticalAlignCenterIcon /></TableCell>
-              <TableCell align="right">Image <VerticalAlignCenterIcon /></TableCell>
-              <TableCell align="right">View <RemoveRedEyeIcon /></TableCell>
-            </TableRow>
-          </TableHead >
-          <TableBody>
-            {dataValue.length > 0 && dataValue.map((data, index) => (
-              <TableRow
-                key={index}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell component="th" scope="row">
-                  {data.month}
-                </TableCell>
-                <TableCell align="right">{data.year}</TableCell>
-                <TableCell align="right">{data.transaction}</TableCell>
-                <TableCell align="right">{data.from_account}</TableCell>
-                <TableCell align="right">{data.to_account}</TableCell>
-                <TableCell align="right">{data.currency}{data.amount.toLocaleString('en-IN')}</TableCell>
-                <TableCell align="right">{data.notes.substr(0, 15)}...</TableCell>
-                <TableCell align="right">
-                  <img src={data.selectedFile} alt='error in loading' width={75} height={75} />
-                </TableCell>
-                <TableCell align="right"><Link to={`/transaction/${data.id}`}>View</Link></TableCell>
-
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table >
-      </TableContainer >}
+      {dataValue.length > 0 && <TableComp handleSort={handleSort} dataValue = {dataValue} data = "" grid={false}  />}
       {Object.keys(groupedData) && Object.keys(groupedData).map((data, index) => (
         <div>
           <h2>{data}</h2>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead style={{ background: "rgb(160, 162, 192)", color: "white", cursor: "pointer" }}>
-              <TableRow>
-                <TableCell onClick={() => handleSort("month", true, data)}> Month <VerticalAlignCenterIcon /></TableCell>
-                <TableCell align="right" onClick={() => handleSort("year", true, data)}>Year <VerticalAlignCenterIcon /></TableCell>
-                <TableCell align="right" onClick={() => handleSort("transaction", true, data)}>Transaction <VerticalAlignCenterIcon /></TableCell>
-                <TableCell align="right" onClick={() => handleSort("from_account", true, data)}>From Account <VerticalAlignCenterIcon /></TableCell>
-                <TableCell align="right" onClick={() => handleSort("to_account", true, data)}>To Account <VerticalAlignCenterIcon /></TableCell>
-                <TableCell align="right" onClick={() => handleSort("amount", true, data)}>Amount <VerticalAlignCenterIcon /></TableCell>
-                <TableCell align="right">Image <VerticalAlignCenterIcon /></TableCell>
-              </TableRow>
-            </TableHead >
-            <TableBody>
-              {groupedData[data].map((d, index) => (
-                <TableRow
-                  key={index}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                  <TableCell component="th" scope="row">
-                    {d.month}
-                  </TableCell>
-                  <TableCell align="right">{d.year}</TableCell>
-                  <TableCell align="right">{d.transaction}</TableCell>
-                  <TableCell align="right">{d.from_account}</TableCell>
-                  <TableCell align="right">{d.to_account}</TableCell>
-                  <TableCell align="right">{d.currency}{d.amount.toLocaleString("en-IN")}</TableCell>
-                  <TableCell align="right">
-                    <img src={d.selectedFile} alt='error in loading' width={75} height={75} />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <TableComp 
+          handleSort={handleSort}
+          dataValue={groupedData[data]}
+          data={data}
+          grid={true}
+          />
         </div>
       ))}
 
