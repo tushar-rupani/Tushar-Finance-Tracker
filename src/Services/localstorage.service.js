@@ -15,5 +15,4 @@ export let addObjectToLocalStorage = async(data) => {
 export let loadDataFromLocal = () => {
     let newObject = JSON.parse(localStorage.getItem("expense-data"));
     return newObject;
-
 }

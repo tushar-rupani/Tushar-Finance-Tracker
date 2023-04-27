@@ -9,7 +9,7 @@ import { Navbar } from '../Home/Navbar';
 import './Css/Form.css'
 
 export const Form = () => {
-    // States being used in this Component
+    // eslint-disable-next-line
     const [currencyVal, setCurrencyVal] = useState("")
     const [errors, setErrors] = useState("")
 
@@ -31,6 +31,7 @@ export const Form = () => {
         setErrors("")
         const { month, year, transaction, from_account, to_account, currency, amount, notes } = e.target;
         let fileData = {
+            id: new Date().getTime(),
             month: month.value,
             year: year.value,
             transaction: transaction.value,
@@ -40,6 +41,7 @@ export const Form = () => {
             amount: Number(amount.value),
             notes: notes.value,
             selectedFile: fileBase64
+
         }
         let final_amount = amount.value.toString();
 

@@ -31,8 +31,9 @@ const ExpandMore = styled((props) => {
 export function Individual() {
     const params = useParams();
     let index = params.id;
-    let dataToDisplay = JSON.parse(localStorage.getItem("expense-data"))[index];
-
+    let dataToDisplay = JSON.parse(localStorage.getItem("expense-data"));
+    dataToDisplay = dataToDisplay.filter(data => data.id === Number(index))
+    console.log("data", dataToDisplay);
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
@@ -42,7 +43,7 @@ export function Individual() {
     return (<div>
         <Navbar />
         <br />
-        <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
             <Card sx={{ maxWidth: 345 }} >
                 <CardHeader
                     avatar={
@@ -56,17 +57,17 @@ export function Individual() {
                         </IconButton>
                     }
                     title="Tushar Rupani"
-                    subheader={`${dataToDisplay.month} ${dataToDisplay.year}`}
+                    subheader={`${dataToDisplay[0].month} ${dataToDisplay[0].year}`}
                 />
                 <CardMedia
                     component="img"
                     height="194"
-                    image={dataToDisplay.selectedFile}
+                    image={dataToDisplay[0].selectedFile}
                     alt="Paella dish"
                 />
                 <CardContent>
                     <Typography variant="body2" color="text.secondary">
-                        Notes: {dataToDisplay.notes}
+                        Notes: {dataToDisplay[0].notes}
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
@@ -87,27 +88,27 @@ export function Individual() {
                     <CardContent>
                         <Typography paragraph>From Account:</Typography>
                         <Typography paragraph>
-                            <b>{dataToDisplay.from_account}</b>
+                            <b>{dataToDisplay[0].from_account}</b>
                         </Typography>
 
                         <Typography paragraph>To Account:</Typography>
                         <Typography paragraph>
-                            <b>{dataToDisplay.to_account}</b>
+                            <b>{dataToDisplay[0].to_account}</b>
                         </Typography>
 
                         <Typography paragraph>Transaction</Typography>
                         <Typography paragraph>
-                            <b>{dataToDisplay.transaction}</b>
+                            <b>{dataToDisplay[0].transaction}</b>
                         </Typography>
 
                         <Typography paragraph>Amount</Typography>
                         <Typography paragraph>
-                            <b>{dataToDisplay.currency}{dataToDisplay.amount.toLocaleString('en-IN')}</b>
+                            <b>{dataToDisplay[0].currency}{dataToDisplay[0].amount.toLocaleString('en-IN')}</b>
                         </Typography>
                     </CardContent>
                 </Collapse>
             </Card>
         </div>
-        </div>
+    </div>
     );
 }

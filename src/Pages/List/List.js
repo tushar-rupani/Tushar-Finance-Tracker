@@ -137,7 +137,7 @@ export const List = () => {
                 <TableCell align="right">
                   <img src={data.selectedFile} alt='error in loading' width={75} height={75} />
                 </TableCell>
-                <TableCell align="right"><Link to={`/transaction/${index}`}>View</Link></TableCell>
+                <TableCell align="right"><Link to={`/transaction/${data.id}`}>View</Link></TableCell>
 
               </TableRow>
             ))}
