@@ -9,18 +9,20 @@ import { Navbar } from '../Home/Navbar';
 import './Css/Form.css'
 
 export const Form = () => {
-    // eslint-disable-next-line
-    const [currencyVal, setCurrencyVal] = useState("")
-    const [errors, setErrors] = useState("")
+   
+    const [currencyVal, setCurrencyVal] = useState("");
+    const [errors, setErrors] = useState("");
+    const [imageSelected, setImageSelected] = useState(false);
 
-    let fileBase64 = "";
+    // let fileBase64 = "";
+    const [fileBase64, setFileBase64] = useState("");
     let fileType = "";
     let imageSize = 0;
     const handleCurrencyChange = (e) => {
         setCurrencyVal(e.target.value);
     }
     let requiredValidate = (value, label) => {
-        if(!value.length){
+        if(value === ""){
             alert(`${label} is required`)
             return false
         }
@@ -57,7 +59,7 @@ export const Form = () => {
             alert("Value of Notes should not be greater than 255");
             return
         }
-        if (!imageType.includes(fileType)) {
+        if (fileType !== "" && !imageType.includes(fileType)) {
             alert("We allow images only, alreay told you bro");
             return 
         }
@@ -75,33 +77,36 @@ export const Form = () => {
         <div>
             <Navbar />
             <form onSubmit={handleSubmit}>
-                <label>Date: </label>
-                <input type='date' />
+               
+                <div>
+                    <label>Date: </label>
+                    <input type='date' />
+                </div>
                 <div className='flex'>
-                    <select name='month'>
+                    <select name='month' defaultValue={""}>
                         <InitialOption params="Month" />
                         {months.map((month, index) => <Option key={index} value={month} />)}
                     </select>
 
-                    <select name='year'>
+                    <select name='year' defaultValue={""}>
                         <InitialOption params="Year" />
                         {years.map(year => <Option value={year} />)}
                     </select>
-                    <select name='transaction'>
+                    <select name='transaction' defaultValue={""}>
                     <InitialOption params="Transaction" />
-                    {transaction_type.map(transaction => <Option value={transaction} />)}
+                    {transaction_type.map((transaction, index) => <Option key = {index} value={transaction} />)}
                 </select>
                 </div>
 
                
 
                 <div className='flex'>
-                    <select name='from_account'>
+                    <select name='from_account' defaultValue={""}>
                         <InitialOption params="From Account" />
                         {accounts.map(accs => <Option value={accs} />)}
                     </select>
 
-                    <select name='to_account'>
+                    <select name='to_account' defaultValue={""}>
                         <InitialOption params="To Account" />
                         {accounts.map(accs => <Option value={accs} />)}
                     </select>
@@ -117,17 +122,18 @@ export const Form = () => {
                 </div>
                 <label>Notes: </label>
                 <textarea name='notes'>
-
-                </textarea><br /><br />
-                <Filebase type="file" name="file" multiple={false} onDone={(file) => {
                     
+                </textarea><br /><br />
+                { !imageSelected && 
+                <Filebase type="file" name="file" multiple={false} onDone={(file) => { 
                     fileType = file.type;
                     imageSize = file.file.size;
                     if (!imageType.includes(file.type)) {
                         alert("We allow images only")
                         return
                     } else {
-                        fileBase64 = file.base64
+                        setFileBase64(file.base64)
+                        setImageSelected(true);
                     }
 
                     if(file.file.size > 1024000){
@@ -136,6 +142,11 @@ export const Form = () => {
                     }
                 }
                 } />
+            }
+            {imageSelected && <div>
+                <img src={fileBase64} alt='Error in loading' width={200} height={200} /> 
+                <button onClick={() => setImageSelected(prev => !prev)}>X</button>   
+            </div>}
                 <input type='submit' value="Submit" />
                
             </form>

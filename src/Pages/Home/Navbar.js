@@ -15,7 +15,6 @@ import AdbIcon from '@mui/icons-material/Adb';
 import espark from './espark-white-logo.svg'
 import tushar from './tushar.jpg'
 import { Link } from 'react-router-dom';
-const pages = ['Add Data', 'Show Data'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 export const Navbar = () => {
@@ -96,7 +95,7 @@ export const Navbar = () => {
                             <Button
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: 'white', display: 'block' }}>
-                                <Link to="/add" style={{padding: "10px", textDecoration: "none", color: "white"}}>Add Data</Link>
+                                <Link to="/add" state={null} style={{padding: "10px", textDecoration: "none", color: "white"}}>Add Data</Link>
                             </Button>
                             <Button
                                 onClick={handleCloseNavMenu}

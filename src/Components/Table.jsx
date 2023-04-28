@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,25 +9,52 @@ import Paper from '@mui/material/Paper';
 import VerticalAlignCenterIcon from '@mui/icons-material/VerticalAlignCenter';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Link } from 'react-router-dom';
-export const TableComp = ({handleSort, dataValue, grid, data}) => {
+
+export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue }) => {
+  const itemsPerPage = 2;
+  const lengthOfData = dataValue.length;
+
+  const pagesNeeded = Math.ceil(lengthOfData / itemsPerPage);
+  const pageNumbers = [...Array(pagesNeeded + 1).keys()].slice(1)
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const indexOfLastPage = currentPage * itemsPerPage;
+  const indexOfFirstPage = indexOfLastPage - itemsPerPage;
+
+  // const [tempData, setTempData] = useState(dataValue.slice(indexOfFirstPage, indexOfLastPage));
+  const transactionHeader = [{ title: "Month", functionTitle: "month"  },
+  { title: "Year", functionTitle: "year"  },
+  { title: "Transaction", functionTitle: "transaction" },
+  { title: "From Account", functionTitle: "from_account"},
+  { title: "To Account", functionTitle: "to_account"},
+  { title: "Amount", functionTitle: "amount"},
+  { title: "Notes", functionTitle: "notes"},
+  ]
+
+  const handlePagination = (number) => {
+    setCurrentPage(number)
+    // setTempData(dataValue.slice(indexOfFirstPage, indexOfLastPage))
+    // console.log(tempData);
+  }
+
+
   return (
-    <TableContainer component={Paper}>
+    <div>
+      <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead style={{ background: "rgb(160, 162, 192)", color: "white", cursor: "pointer" }}>
             <TableRow>
-              <TableCell onClick={() => handleSort("month")}> Month <VerticalAlignCenterIcon /></TableCell>
-              <TableCell align="right" onClick={() => handleSort("year", grid, data)}>Year <VerticalAlignCenterIcon /></TableCell>
-              <TableCell align="right" onClick={() => handleSort("transaction", grid, data)}>Transaction <VerticalAlignCenterIcon /></TableCell>
-              <TableCell align="right" onClick={() => handleSort("from_account", grid, data)}>From Account <VerticalAlignCenterIcon /></TableCell>
-              <TableCell align="right" onClick={() => handleSort("to_account", grid, data)}>To Account <VerticalAlignCenterIcon /></TableCell>
-              <TableCell align="right" onClick={() => handleSort("amount", grid, data)}>Amount <VerticalAlignCenterIcon /></TableCell>
-              <TableCell align="right" onClick={() => handleSort("notes", grid, data)}>Notes <VerticalAlignCenterIcon /></TableCell>
+              {transactionHeader.map((header, index) => (
+                <TableCell key={index} align='right' onClick={() => handleSort(header.functionTitle, grid, data )}> {header.title} <VerticalAlignCenterIcon /></TableCell>
+              ))}
               <TableCell align="right">Image <VerticalAlignCenterIcon /></TableCell>
               <TableCell align="right">View <RemoveRedEyeIcon /></TableCell>
+              <TableCell align="right">Edit <RemoveRedEyeIcon /></TableCell>
             </TableRow>
           </TableHead >
           <TableBody>
-            {dataValue.length > 0 && dataValue.map((data, index) => (
+            {dataValue.length > 0 && dataValue.slice(indexOfFirstPage, indexOfLastPage).map((data, index) => (
               <TableRow
                 key={index}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -41,14 +68,21 @@ export const TableComp = ({handleSort, dataValue, grid, data}) => {
                 <TableCell align="right">{data.currency}{data.amount.toLocaleString('en-IN')}</TableCell>
                 <TableCell align="right">{data.notes.substr(0, 15)}...</TableCell>
                 <TableCell align="right">
-                  <img src={data.selectedFile} alt='error in loading' width={75} height={75} />
+                  <img src={data.selectedFile} alt='Did not select' width={75} height={75} />
                 </TableCell>
                 <TableCell align="right"><Link to={`/transaction/${data.id}`}>View</Link></TableCell>
+                <TableCell align="right"><Link to={`/add`} state={data.id}>Edit</Link></TableCell>
 
               </TableRow>
             ))}
           </TableBody>
         </Table >
       </TableContainer >
+      <br />
+      {pageNumbers.map((number, index) => (
+        <span key={index} className={`pagination ${currentPage === number && 'active'}`} onClick={() => handlePagination(number) }>{number}</span>
+      ))}
+
+    </div>
   )
 }
