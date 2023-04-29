@@ -12,7 +12,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import TableRowComp from './TableRowComp';
 
 export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue }) => {
-  const itemsPerPage = 5;
+  const itemsPerPage = 2;
   const lengthOfData = dataValue.length;
 
   const pagesNeeded = Math.ceil(lengthOfData / itemsPerPage);

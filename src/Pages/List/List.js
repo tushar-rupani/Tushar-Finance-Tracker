@@ -117,9 +117,9 @@ export const List = () => {
       if (
         data.month.includes(searchTerm) ||
         data.year.includes(searchTerm) ||
-        data.to_account.includes(searchTerm) ||
-        data.from_account.includes(searchTerm) ||
-        data.transaction.includes(searchTerm) ||
+        data.toAccount.includes(searchTerm) ||
+        data.fromAccount.includes(searchTerm) ||
+        data.transactionType.includes(searchTerm) ||
         data.amount.toString().includes(searchTerm)
       ) {
         return data;
