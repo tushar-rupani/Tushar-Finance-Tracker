@@ -4,15 +4,22 @@ import { TableComp } from '../../Components/Table';
 import { Navbar } from '../Home/Navbar';
 import { addIfDoesntExists } from '../../Services/localstorage.service';
 export const List = () => {
+  addIfDoesntExists()
   let allData = loadDataFromLocal();
   let [dataValue, setDataValue] = useState([...allData]);
-  addIfDoesntExists()
   const [sortedOrder, setSortedOrder] = useState("asc");
   let [groupedData, setGroupedData] = useState({});
+  let [currentTitle, setCurrentTitle] = useState("")
 
-  let handleSort = (title, grid = false, data = "", indexOfFirstPage, indexOfLastPage) => {
+  let handleSort = async(title, grid = false, data = "", indexOfFirstPage, indexOfLastPage) => {
     let groupSortData;
     let cloneData;
+    setCurrentTitle(title)
+    if(title !== currentTitle){
+      console.log("coming inside");
+      setSortedOrder("asc");
+      console.log(sortedOrder);
+    }
     const itemsOnPage = dataValue.slice(indexOfFirstPage, indexOfLastPage)
     if (!grid) {
       if (title === "amount") {
@@ -22,7 +29,6 @@ export const List = () => {
           cloneData = itemsOnPage.sort((a, b) => b[title] - a[title])
         }
         else{
-          // cloneData = allData
           setDataValue(allData);
           return
         }
@@ -121,16 +127,14 @@ export const List = () => {
       return '';
     });
       setDataValue(filteredData);
-   
   }
-
-  
   return (
     <>
       <Navbar />
 
-      <input type='text' placeholder='Enter Search..' onChange={handleSearch}/>
-      <select onChange={handleChange} defaultValue={""}>
+      <input type='text' placeholder='Enter Search..' onChange={handleSearch} style={{margin: "20px", padding: "10px"}}/>
+      <br />
+      <select onChange={handleChange} defaultValue={""} style={{width: "40%"}}>
         <option disabled value="">Select Group By</option>
         <option value="month">Month</option>
         <option value="year">Year</option>

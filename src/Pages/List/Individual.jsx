@@ -59,7 +59,7 @@ export function Individual() {
                 <CardMedia
                     component="img"
                     height="194"
-                    image={dataToDisplay[0].selectedFile}
+                    image={dataToDisplay[0].fileBase64}
                     alt="Paella dish"
                 />
                 <CardContent>
@@ -85,17 +85,17 @@ export function Individual() {
                     <CardContent>
                         <Typography paragraph>From Account:</Typography>
                         <Typography paragraph>
-                            <b>{dataToDisplay[0].from_account}</b>
+                            <b>{dataToDisplay[0].fromAccount}</b>
                         </Typography>
 
                         <Typography paragraph>To Account:</Typography>
                         <Typography paragraph>
-                            <b>{dataToDisplay[0].to_account}</b>
+                            <b>{dataToDisplay[0].toAccount}</b>
                         </Typography>
 
                         <Typography paragraph>Transaction</Typography>
                         <Typography paragraph>
-                            <b>{dataToDisplay[0].transaction}</b>
+                            <b>{dataToDisplay[0].transactionType}</b>
                         </Typography>
 
                         <Typography paragraph>Amount</Typography>

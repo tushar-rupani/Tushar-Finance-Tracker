@@ -8,7 +8,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import VerticalAlignCenterIcon from '@mui/icons-material/VerticalAlignCenter';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { Link } from 'react-router-dom';
+
+import TableRowComp from './TableRowComp';
 
 export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue }) => {
   const itemsPerPage = 5;
@@ -58,26 +59,7 @@ export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue }) =
           <TableBody>
             {dataValue.length > 0 && dataValue.slice(indexOfFirstPage, indexOfLastPage).map((data, index) => (
               
-              <TableRow
-                key={index}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell component="th" scope="row">
-                  {new Date(data.id).toLocaleDateString()}
-                </TableCell>
-                <TableCell align="right">{data.month}</TableCell>
-                <TableCell align="right">{data.year}</TableCell>
-                <TableCell align="right">{data.transaction}</TableCell>
-                <TableCell align="right">{data.from_account}</TableCell>
-                <TableCell align="right">{data.to_account}</TableCell>
-                <TableCell align="right">{data.currency}{data.amount.toLocaleString('en-IN')}</TableCell>
-                <TableCell align="right">{data.notes.substr(0, 15)}...</TableCell>
-                <TableCell align="right">
-                  <img src={data.selectedFile} alt='Did not select' width={75} height={75} />
-                </TableCell>
-                <TableCell align="right"><Link to={`/transaction/${data.id}`}>View</Link></TableCell>
-                <TableCell align="right"><Link to={`/add`} state={data.id}>Edit</Link></TableCell>
-
-              </TableRow>
+              <TableRowComp data = {data} index = {index}/>
             ))}
           </TableBody>
         </Table >
