@@ -22,7 +22,7 @@ export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue }) =
   const indexOfLastPage = currentPage * itemsPerPage;
   const indexOfFirstPage = indexOfLastPage - itemsPerPage;
 
-  // const [tempData, setTempData] = useState(dataValue.slice(indexOfFirstPage, indexOfLastPage));
+  const [tempData, setTempData] = useState(dataValue.slice(indexOfFirstPage, indexOfLastPage));
   const transactionHeader = [{ title: "Month", functionTitle: "month"  },
   { title: "Year", functionTitle: "year"  },
   { title: "Transaction", functionTitle: "transaction" },
@@ -34,8 +34,8 @@ export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue }) =
 
   const handlePagination = (number) => {
     setCurrentPage(number)
-    // setTempData(dataValue.slice(indexOfFirstPage, indexOfLastPage))
-    // console.log(tempData);
+    setTempData(dataValue.slice(indexOfFirstPage, indexOfLastPage))
+    console.log(tempData);
   }
 
 
@@ -46,7 +46,7 @@ export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue }) =
           <TableHead style={{ background: "rgb(160, 162, 192)", color: "white", cursor: "pointer" }}>
             <TableRow>
               {transactionHeader.map((header, index) => (
-                <TableCell key={index} align='right' onClick={() => handleSort(header.functionTitle, grid, data )}> {header.title} <VerticalAlignCenterIcon /></TableCell>
+                <TableCell key={index} align='right' onClick={() => handleSort(header.functionTitle, grid, data, indexOfFirstPage, indexOfLastPage )}> {header.title} <VerticalAlignCenterIcon /></TableCell>
               ))}
               <TableCell align="right">Image <VerticalAlignCenterIcon /></TableCell>
               <TableCell align="right">View <RemoveRedEyeIcon /></TableCell>

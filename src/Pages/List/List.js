@@ -9,36 +9,46 @@ export const List = () => {
   addIfDoesntExists()
   const [sortedOrder, setSortedOrder] = useState("asc");
   let [groupedData, setGroupedData] = useState({});
-  let handleSort = (title, grid = false, data = "") => {
+
+  let handleSort = (title, grid = false, data = "", indexOfFirstPage, indexOfLastPage) => {
     let groupSortData;
     let cloneData;
+    const itemsOnPage = dataValue.slice(indexOfFirstPage, indexOfLastPage)
     if (!grid) {
       if (title === "amount") {
         if(sortedOrder === "asc"){
-          cloneData = dataValue.sort((a, b) => a[title] - b[title])
+          cloneData = itemsOnPage.sort((a, b) => a[title] - b[title])
         }else if(sortedOrder === "desc"){
-          cloneData = dataValue.sort((a, b) => b[title] - a[title])
+          cloneData = itemsOnPage.sort((a, b) => b[title] - a[title])
         }
         else{
-          cloneData = allData
+          // cloneData = allData
+          setDataValue(allData);
+          return
         }
       } else {
         if(sortedOrder === "asc"){
-          cloneData = dataValue.sort((a, b) => a[title] > b[title] ? 1 : -1)
+          cloneData = itemsOnPage.sort((a, b) => a[title] > b[title] ? 1 : -1)
         }
         else if(sortedOrder === "desc"){
-          cloneData = dataValue.sort((a, b) => a[title] < b[title] ? 1 : -1)
+          cloneData = itemsOnPage.sort((a, b) => a[title] < b[title] ? 1 : -1)
         }else{
-          cloneData = allData
+          // cloneData = allData
+          setDataValue(allData);
+          setSortedOrder("asc")
+          return
         }
       }
+      const allItems = [...dataValue];
+      allItems.splice(indexOfFirstPage, indexOfLastPage - indexOfFirstPage, ...cloneData)
+      console.log(allItems);
       setSortedOrder(prev => {
         if(prev === "asc") return "desc"
         else if(prev === "desc") return "original"
         else if(prev === "original") return "asc"
       })
-      console.log(sortedOrder);
-      setDataValue(cloneData);
+      
+      setDataValue(allItems);
     } else {
       let objToUpdate = groupedData[data];
       if (title === "amount") {
