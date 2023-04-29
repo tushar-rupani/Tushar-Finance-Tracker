@@ -11,7 +11,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Link } from 'react-router-dom';
 
 export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue }) => {
-  const itemsPerPage = 2;
+  const itemsPerPage = 5;
   const lengthOfData = dataValue.length;
 
   const pagesNeeded = Math.ceil(lengthOfData / itemsPerPage);
@@ -23,7 +23,9 @@ export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue }) =
   const indexOfFirstPage = indexOfLastPage - itemsPerPage;
 
   const [tempData, setTempData] = useState(dataValue.slice(indexOfFirstPage, indexOfLastPage));
-  const transactionHeader = [{ title: "Month", functionTitle: "month"  },
+  const transactionHeader = [
+  {title: "Date", functionTitle: "id"},
+  { title: "Month", functionTitle: "month"  },
   { title: "Year", functionTitle: "year"  },
   { title: "Transaction", functionTitle: "transaction" },
   { title: "From Account", functionTitle: "from_account"},
@@ -55,12 +57,14 @@ export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue }) =
           </TableHead >
           <TableBody>
             {dataValue.length > 0 && dataValue.slice(indexOfFirstPage, indexOfLastPage).map((data, index) => (
+              
               <TableRow
                 key={index}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell component="th" scope="row">
-                  {data.month}
+                  {new Date(data.id).toLocaleDateString()}
                 </TableCell>
+                <TableCell align="right">{data.month}</TableCell>
                 <TableCell align="right">{data.year}</TableCell>
                 <TableCell align="right">{data.transaction}</TableCell>
                 <TableCell align="right">{data.from_account}</TableCell>

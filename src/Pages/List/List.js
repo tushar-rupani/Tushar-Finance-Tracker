@@ -106,7 +106,7 @@ export const List = () => {
       setDataValue(allData);
       return
     }
-    let clonedObject = [...dataValue]
+    let clonedObject = [...allData]
     const filteredData = clonedObject.filter((data) => {
       if (
         data.month.includes(searchTerm) ||
@@ -120,8 +120,8 @@ export const List = () => {
       }
       return '';
     });
-    if(filteredData.length > 0)
       setDataValue(filteredData);
+   
   }
 
   
