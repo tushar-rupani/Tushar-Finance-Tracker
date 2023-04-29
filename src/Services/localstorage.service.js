@@ -25,6 +25,7 @@ export let getDataFromLocal = (id) => {
 
 export let editDataIntoLocal = (id, newObj) => {
     let allData = loadDataFromLocal();
+    // eslint-disable-next-line 
     let updatedData = allData.map((data) => data.id == id ? newObj : data)
     console.log(updatedData);
     localStorage.setItem("expense-data", JSON.stringify(updatedData))
