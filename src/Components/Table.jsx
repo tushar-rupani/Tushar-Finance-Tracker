@@ -25,12 +25,12 @@ export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue }) =
 
   const [tempData, setTempData] = useState(dataValue.slice(indexOfFirstPage, indexOfLastPage));
   const transactionHeader = [
-  {title: "Date", functionTitle: "id"},
+  {title: "Date", functionTitle: "date"},
   { title: "Month", functionTitle: "month"  },
   { title: "Year", functionTitle: "year"  },
-  { title: "Transaction", functionTitle: "transaction" },
-  { title: "From Account", functionTitle: "from_account"},
-  { title: "To Account", functionTitle: "to_account"},
+  { title: "Transaction", functionTitle: "transactionType" },
+  { title: "From Account", functionTitle: "fromAccount"},
+  { title: "To Account", functionTitle: "toAccount"},
   { title: "Amount", functionTitle: "amount"},
   { title: "Notes", functionTitle: "notes"},
   ]
@@ -58,7 +58,6 @@ export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue }) =
           </TableHead >
           <TableBody>
             {dataValue.length > 0 && dataValue.slice(indexOfFirstPage, indexOfLastPage).map((data, index) => (
-              
               <TableRowComp data = {data} index = {index}/>
             ))}
           </TableBody>

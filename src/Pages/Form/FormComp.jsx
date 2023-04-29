@@ -23,7 +23,7 @@ const FormComp = ({
       <div>
         <label>Date: </label>
         <input type="date" name="date" onChange={handleOnChange} />
-        {errors.date && "Date " + errors.date}
+        {errors.date && <span>Date {errors.date}</span>}
       </div>
       <div>
         <select name="month" defaultValue={""} onChange={handleOnChange}>
@@ -32,14 +32,14 @@ const FormComp = ({
             <Option key={index} value={month} myKey={index}/>
           ))}
         </select>
-          {errors.month && "Month " + errors.month}
+          {errors.month && <span>Month {errors.month}</span>}
         <select name="year" defaultValue={""} onChange={handleOnChange}>
           <InitialOption params="Year" />
           {years.map((year, index) => (
             <Option value={year} key={index} myKey={index}/>
           ))}
         </select>
-        {errors.year && "Year " + errors.year}
+        {errors.year && <span>Year {errors.year}</span>}
         <select
           name="transactionType"
           defaultValue={""}
@@ -50,7 +50,7 @@ const FormComp = ({
             <Option key={index} value={transaction} myKey={index} />
             ))}
         </select>
-            {errors.transactionType && "Transaction " + errors.transactionType}
+            {errors.transactionType && <span>Transaction {errors.transactionType}</span>}
       </div>
 
       <div>
@@ -60,14 +60,14 @@ const FormComp = ({
             <Option value={accs} key={index} myKey={index} />
           ))}
         </select>
-        {errors.fromAccount && "From Account " + errors.fromAccount}
+        {errors.fromAccount && <span>From Account {errors.fromAccount}</span>}
         <select name="toAccount" defaultValue={""} onChange={handleOnChange}>
           <InitialOption params="To Account" />
           {accounts.map((accs, index) => (
             <Option value={accs} key={index} myKey={index}/>
           ))}
         </select>
-        {errors.toAccount && "To Account " + errors.toAccount}
+        {errors.toAccount && <span>To Account {errors.toAccount}</span>}
       </div>
 
       <div>
@@ -85,7 +85,7 @@ const FormComp = ({
           placeholder="Enter expenses"
           onChange={handleOnChange}
         />
-         {errors.amount && "Amount " + errors.amount}
+         {errors.amount && <span>Amount {errors.amount}</span>}
          <br /><br />
       </div>
       <label>Notes: </label>
@@ -103,7 +103,7 @@ const FormComp = ({
           onDone={handleFileSelect}
         />
         <br /><br />
-        {errors.fileBase64 && errors.fileBase64}
+        {errors.fileBase64 && <span>{errors.fileBase64}</span>}
         <br /><br />
         </div>
       )}

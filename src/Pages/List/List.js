@@ -138,9 +138,9 @@ export const List = () => {
         <option disabled value="">Select Group By</option>
         <option value="month">Month</option>
         <option value="year">Year</option>
-        <option value="transaction">Transaction</option>
-        <option value="from_account">From Account</option>
-        <option value="to_account">To Account</option>
+        <option value="transactionType">Transaction</option>
+        <option value="fromAccount">From Account</option>
+        <option value="toAccount">To Account</option>
       </select>
       {Object.keys(groupedData).length > 0 && <button onClick={handleRemoveFilter}>Remove Filter</button>}
 
