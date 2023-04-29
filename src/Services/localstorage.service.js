@@ -18,10 +18,15 @@ export let loadDataFromLocal = () => {
 }
 
 export let getDataFromLocal = (id) => {
-    console.log(id);
     let allData = loadDataFromLocal();
-    console.log(allData);
-    // let dataOfId = allData.find(data => data.id = id);
     let dataOfId = allData.find(data => data.id === parseInt(id));
     return dataOfId
+}
+
+export let editDataIntoLocal = (id, newObj) => {
+    let allData = loadDataFromLocal();
+    let updatedData = allData.map((data) => data.id == id ? newObj : data)
+    console.log(updatedData);
+    localStorage.setItem("expense-data", JSON.stringify(updatedData))
+    alert("Data has been updated!")
 }

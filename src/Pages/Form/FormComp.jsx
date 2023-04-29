@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import {
   months,
   years,
@@ -9,7 +9,8 @@ import {
 import Filebase from "react-file-base64";
 import { InitialOption } from "../Form/InitialOption";
 import { Option } from "../Form/Option";
-import { addObjectToLocalStorage } from "../../Services/localstorage.service";
+import { addObjectToLocalStorage, editDataIntoLocal } from "../../Services/localstorage.service";
+import { useNavigate } from "react-router-dom";
 const FormComp = ({ dataToDisplay }) => {
   
   const INITIAL_STATE = {
@@ -25,7 +26,9 @@ const FormComp = ({ dataToDisplay }) => {
     notes: "",
     fileBase64: "",
   };
+  const navigate = useNavigate();
   let errorObj = {};
+  // eslint-disable-next-line
   const [fileBase64, setFileBase64] = useState("");
   const [errors, setErrors] = useState({});
   let initialDataToShow = dataToDisplay ? dataToDisplay : INITIAL_STATE;
@@ -69,8 +72,15 @@ const FormComp = ({ dataToDisplay }) => {
     });
     setErrors(errorObj);
     if (Object.keys(errorObj).length === 0) {
+      if(dataToDisplay){
+        console.log("We will edit this");
+        editDataIntoLocal(formState.id, formState)
+        navigate("/show")
+        return
+      }
       await addObjectToLocalStorage(formState);
       setFormState(INITIAL_STATE);
+      navigate("/show")
     }
   };
 
