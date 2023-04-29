@@ -21,3 +21,7 @@ textarea
 .active{
     background-color: lightblue
 }
+
+textarea{
+    resize: none;
+}

@@ -22,35 +22,44 @@ export const Form = () => {
     notes: "",
     fileBase64: "",
   });
+  let errorObj = {};
 
+  const [errors, setErrors] = useState({});
   const handleOnChange = (e) => {
     let { name, value } = e.target;
-    console.log(name, value);
-    if(name === "amount"){
-        value = Number(value);
+    if (name === "amount") {
+      value = Number(value);
     }
     setFormState((prevState) => ({ ...prevState, [name]: value }));
-    console.log(formState);
   };
 
   const handleFileSelect = (file) => {
     if (file.file.size > 1024 * 1024) {
       alert("File Should be less than 1MB");
+      errorObj["fileBase64"] = "Images with less than 1 MB only";
       return;
     }
     if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
-      alert("Only image files are allowed.");
+      errorObj["fileBase64"] = "Only images are allowed";
       return;
     }
-    setImageSelected(true)
-    setFileBase64(file.base64)
-    setFormState((prevState) => ({...prevState, fileBase64: file.base64}))
+    setImageSelected(true);
+    setFileBase64(file.base64);
+    setFormState((prevState) => ({ ...prevState, fileBase64: file.base64 }));
   };
   const handleSubmit = async (e, text) => {
     e.preventDefault();
-    // setFormState((prevState) => ({...prevState, id: new Date().getTime() }))
-    await addObjectToLocalStorage(formState)
-    e.target.reset();
+    Object.keys(formState).forEach((data) => {
+      if (data === "fileBase64") return;
+      if (formState[data] === "") {
+        errorObj[data] = "is required";
+      }
+    });
+    setErrors(errorObj);
+    if (Object.keys(errorObj).length === 0) {
+      await addObjectToLocalStorage(formState);
+      e.target.reset();
+    }
   };
 
   return (
@@ -60,11 +69,11 @@ export const Form = () => {
         handleSubmit={handleSubmit}
         handleOnChange={handleOnChange}
         handleFileSelect={handleFileSelect}
-        imageSelected = {imageSelected}
-        setImageSelected = {setImageSelected}
-        fileBase64 = {fileBase64}
+        imageSelected={imageSelected}
+        setImageSelected={setImageSelected}
+        fileBase64={fileBase64}
+        errors={errors}
       />
-      <div></div>
     </div>
   );
 };
