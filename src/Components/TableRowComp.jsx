@@ -34,7 +34,7 @@ const TableRowComp = ({data, index}) => {
         <Link to={`/transaction/${data.id}`}>View</Link>
       </TableCell>
       <TableCell align="right">
-        <Link to={`/add`} state={data.id}>
+        <Link to={`/edit/${data.id}`}>
           Edit
         </Link>
       </TableCell>

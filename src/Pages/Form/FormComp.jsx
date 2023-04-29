@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   months,
   years,
@@ -9,69 +9,148 @@ import {
 import Filebase from "react-file-base64";
 import { InitialOption } from "../Form/InitialOption";
 import { Option } from "../Form/Option";
-const FormComp = ({
-  handleSubmit,
-  handleOnChange,
-  handleFileSelect,
-  imageSelected,
-  setImageSelected,
-  fileBase64,
-  errors
-}) => {
+import { addObjectToLocalStorage } from "../../Services/localstorage.service";
+const FormComp = ({ dataToDisplay }) => {
+  
+  const INITIAL_STATE = {
+    id: new Date().getTime(),
+    date: "",
+    month: "",
+    year: "",
+    transactionType: "",
+    fromAccount: "",
+    toAccount: "",
+    currency: "",
+    amount: "",
+    notes: "",
+    fileBase64: "",
+  };
+  let errorObj = {};
+  const [fileBase64, setFileBase64] = useState("");
+  const [errors, setErrors] = useState({});
+  let initialDataToShow = dataToDisplay ? dataToDisplay : INITIAL_STATE;
+  let showInitialImage = dataToDisplay ? true : false
+  const [formState, setFormState] = useState(initialDataToShow);
+  const [imageSelected, setImageSelected] = useState(showInitialImage);
+ 
+  const handleOnChange = (e) => {
+    let { name, value } = e.target;
+    if (name === "amount") {
+      value = Number(value);
+    }
+    setFormState((prevState) => ({ ...prevState, [name]: value }));
+    console.log(formState);
+  };
+
+  const handleFileSelect = (file) => {
+    if (file.file.size > 1024 * 1024) {
+      alert("File Should be less than 1MB");
+      errorObj["fileBase64"] = "Images with less than 1 MB only";
+      return;
+    }
+    if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
+      errorObj["fileBase64"] = "Only images are allowed";
+      return;
+    }
+    setImageSelected(true);
+    setFileBase64(file.base64);
+    setFormState((prevState) => ({ ...prevState, fileBase64: file.base64 }));
+  };
+  const handleSubmit = async (e, text) => {
+    e.preventDefault();
+    Object.keys(formState).forEach((data) => {
+      if (data === "fileBase64") return;
+      if (formState[data] === "") {
+        errorObj[data] = "is required";
+      }
+      if(formState["fromAccount"] === formState["toAccount"]){
+        errorObj["toAccount"] = "and From account can not be the same"
+      }
+    });
+    setErrors(errorObj);
+    if (Object.keys(errorObj).length === 0) {
+      await addObjectToLocalStorage(formState);
+      setFormState(INITIAL_STATE);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <div>
         <label>Date: </label>
-        <input type="date" name="date" onChange={handleOnChange} />
+        <input
+          type="date"
+          name="date"
+          onChange={handleOnChange}
+          defaultValue={
+            formState?.date !== "" &&
+            new Date(formState.date).toISOString().slice(0, 10)
+          }
+        />
+
         {errors.date && <span>Date {errors.date}</span>}
       </div>
       <div>
-        <select name="month" defaultValue={""} onChange={handleOnChange}>
+        <select name="month" value={formState.month} onChange={handleOnChange}>
           <InitialOption params="Month" />
           {months.map((month, index) => (
-            <Option key={index} value={month} myKey={index}/>
+            <Option key={index} value={month} myKey={index} />
           ))}
         </select>
-          {errors.month && <span>Month {errors.month}</span>}
-        <select name="year" defaultValue={""} onChange={handleOnChange}>
+        {errors.month && <span>Month {errors.month}</span>}
+        <select name="year" value={formState.year} onChange={handleOnChange}>
           <InitialOption params="Year" />
           {years.map((year, index) => (
-            <Option value={year} key={index} myKey={index}/>
+            <Option value={year} key={index} myKey={index} />
           ))}
         </select>
         {errors.year && <span>Year {errors.year}</span>}
         <select
           name="transactionType"
-          defaultValue={""}
+          value={formState.transactionType}
           onChange={handleOnChange}
-          >
+        >
           <InitialOption params="Transaction" />
           {transaction_type.map((transaction, index) => (
             <Option key={index} value={transaction} myKey={index} />
-            ))}
+          ))}
         </select>
-            {errors.transactionType && <span>Transaction {errors.transactionType}</span>}
+        {errors.transactionType && (
+          <span>Transaction {errors.transactionType}</span>
+        )}
       </div>
 
       <div>
-        <select name="fromAccount" defaultValue={""} onChange={handleOnChange}>
+        <select
+          name="fromAccount"
+          value={formState.fromAccount}
+          onChange={handleOnChange}
+        >
           <InitialOption params="From Account" />
           {accounts.map((accs, index) => (
             <Option value={accs} key={index} myKey={index} />
           ))}
         </select>
         {errors.fromAccount && <span>From Account {errors.fromAccount}</span>}
-        <select name="toAccount" defaultValue={""} onChange={handleOnChange}>
+        <select
+          name="toAccount"
+          value={formState.toAccount}
+          onChange={handleOnChange}
+        >
           <InitialOption params="To Account" />
           {accounts.map((accs, index) => (
-            <Option value={accs} key={index} myKey={index}/>
+            <Option value={accs} key={index} myKey={index} />
           ))}
         </select>
         {errors.toAccount && <span>To Account {errors.toAccount}</span>}
       </div>
 
       <div>
-        <select name="currency" onChange={handleOnChange}> 
+        <select
+          name="currency"
+          onChange={handleOnChange}
+          value={formState.currency}
+        >
           <InitialOption params="Currency" />
           {currency.map((cur, index) => (
             <Option value={cur} key={index} myKey={index} />
@@ -84,38 +163,51 @@ const FormComp = ({
           name="amount"
           placeholder="Enter expenses"
           onChange={handleOnChange}
+          value={formState.amount}
         />
-         {errors.amount && <span>Amount {errors.amount}</span>}
-         <br /><br />
+        {errors.amount && <span>Amount {errors.amount}</span>}
+        <br />
+        <br />
       </div>
       <label>Notes: </label>
-      <textarea name="notes" onChange={handleOnChange}></textarea>
+      <textarea
+        name="notes"
+        onChange={handleOnChange}
+        value={formState.notes}
+      ></textarea>
       {errors.notes && <span>"Notes" {errors.notes}</span>}
       <br />
       <br />
 
       {!imageSelected && (
         <div>
-        <Filebase
-          type="file"
-          name="fileBase64"
-          multiple={false}
-          onDone={handleFileSelect}
-        />
-        <br /><br />
-        {errors.fileBase64 && <span>{errors.fileBase64}</span>}
-        <br /><br />
+          <Filebase
+            type="file"
+            name="fileBase64"
+            multiple={false}
+            onDone={handleFileSelect}
+          />
+          <br />
+          <br />
+          {errors.fileBase64 && <span>{errors.fileBase64}</span>}
+          <br />
+          <br />
         </div>
       )}
       {imageSelected && (
         <div>
           <img
-            src={fileBase64}
+            src={formState.fileBase64}
             alt="Error in loading"
             width={200}
             height={200}
           />
-          <button onClick={() => setImageSelected((prev) => !prev)}>X</button>
+          <button
+            type="button"
+            onClick={() => setImageSelected((prev) => !prev)}
+          >
+            X
+          </button>
         </div>
       )}
       <input type="submit" value="Submit" />

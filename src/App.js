@@ -3,6 +3,7 @@ import { Home } from './Pages/Home/Home';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { List } from './Pages/List/List';
 import { Individual } from './Pages/List/Individual';
+import {EditForm} from './Pages/Form/EditForm';
 function App() {
   
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path='/add' element={<Form />} />
           <Route path='/show' element={<List />} />
           <Route path='/transaction/:id' element={<Individual />} />
+          <Route path='/edit/:id' element={<EditForm />} />
         </Routes>
       </BrowserRouter>
     </div>
