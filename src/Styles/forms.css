@@ -26,6 +26,6 @@ textarea{
     resize: none;
 }
 
-span{
-    color: red
+.error{
+    color: red;
 }

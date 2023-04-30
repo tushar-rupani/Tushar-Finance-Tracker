@@ -85,7 +85,7 @@ const FormComp = ({ dataToDisplay }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="form-add">
       <div>
         <label>Date: </label>
         <input

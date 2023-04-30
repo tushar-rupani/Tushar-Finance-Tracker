@@ -1,11 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Navigate, Outlet } from 'react-router-dom';
 
 const Protected = () => {
-  return (
-    <div>
-    
-    </div>
-  )
+    const [authenticated, setAuthenticated] = useState(false);
+    return authenticated ? <Outlet /> : <Navigate to="/" /> 
 }
 
 export default Protected
