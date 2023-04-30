@@ -11,5 +11,5 @@
 | Edit Mode                                 | 29th April, 2023  7:30PM | 29th April, 2023  9:30 PM | done     |
 | Solving bugs as Senior suggested          | 30th April, 2023  8:30 | 30th April, 2023  10:50 | done     |
 | Remove and Display Image feature          | 28th April, 2023  4:30 | 28th April, 2023  4:35 | done     |
-| Export Data To JSON file                  | 30th April, 2023  12:40 | 30th April, 2023  1:40 | pending  |
-| Protected Route                           | -                       | -                       | pending  |
+| Export Data To JSON file                  | 30th April, 2023  12:40 | 30th April, 2023  1:40 | done  |
+| Protected Route                           | 30th April, 2023 15:40  | 30th April, 2023 17:30 | done  |
