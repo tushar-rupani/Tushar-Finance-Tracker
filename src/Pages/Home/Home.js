@@ -20,68 +20,74 @@ export const Home = () => {
     },
     {
       title: "Storing data into LocalStorage",
-      startDate: "25th April, 2023 | 4:30",
-      endDate: "25th April, 2023 | 6:50",
+      startDate: "26th April, 2023 | 8:30",
+      endDate: "26th April, 2023 | 9:10",
       status: "done"
     },
     {
       title: "Showing Stored Data",
-      startDate: "25th April, 2023 | 4:30",
-      endDate: "25th April, 2023 | 6:50",
+      startDate: "26th April, 2023 | 10:30",
+      endDate: "26th April, 2023 | 10:50",
       status: "done"
     },
     {
       title: "Performing Sorting on Data",
-      startDate: "25th April, 2023 | 4:30",
-      endDate: "25th April, 2023 | 6:50",
+      startDate: "26th April, 2023 | 2:30",
+      endDate: "26th April, 2023 | 4:30",
       status: "done"
     },
     {
       title: "Pagination",
-      startDate: "25th April, 2023 | 4:30",
-      endDate: "25th April, 2023 | 6:50",
-      status: "done"
-    },
-    {
-      title: "Performing sorting on paginated data.",
-      startDate: "25th April, 2023 | 4:30",
-      endDate: "25th April, 2023 | 6:50",
+      startDate: "27th April, 2023 | 9:30",
+      endDate: "27th April, 2023 | 9:50",
       status: "done"
     },
     {
       title: "Group By",
-      startDate: "25th April, 2023 | 4:30",
-      endDate: "25th April, 2023 | 6:50",
+      startDate: "27th April, 2023 | 2:30",
+      endDate: "27th April, 2023 | 3:50",
+      status: "done"
+    },
+    {
+      title: "Performing sorting on paginated data.",
+      startDate: "28th April, 2023 | 10:30",
+      endDate: "28th April, 2023 | 1:30",
       status: "done"
     },
     {
       title: "Searching",
-      startDate: "25th April, 2023 | 4:30",
-      endDate: "25th April, 2023 | 6:50",
+      startDate: "28th April, 2023 | 4:30",
+      endDate: "28th April, 2023 | 4:50",
       status: "done"
     },
     {
       title: "Edit Mode",
-      startDate: "25th April, 2023 | 4:30",
-      endDate: "25th April, 2023 | 6:50",
+      startDate: "29th April, 2023 | 7:30PM",
+      endDate: "29th April, 2023 | 9:30 PM",
       status: "done"
     },
     {
       title: "Solving bugs as Senior suggested",
-      startDate: "25th April, 2023 | 4:30",
-      endDate: "25th April, 2023 | 6:50",
+      startDate: "30th April, 2023 | 8:30",
+      endDate: "30th April, 2023 | 10:50",
       status: "done"
     },
     {
       title: "Remove and Display Image feature | Sanket Sir suggested.",
-      startDate: "25th April, 2023 | 4:30",
-      endDate: "25th April, 2023 | 6:50",
+      startDate: "28th April, 2023 | 4:30",
+      endDate: "28th April, 2023 | 4:35",
       status: "done"
     },
     {
       title: "Export Data To JSON file",
-      startDate: "25th April, 2023 | 4:30",
-      endDate: "25th April, 2023 | 6:50",
+      startDate: "30th April, 2023 | 12:40",
+      endDate: "30th April, 2023 | 1:40",
+      status: "pending"
+    },
+    {
+      title: "Protected Route",
+      startDate: "-",
+      endDate: "-",
       status: "pending"
     }
   ]
