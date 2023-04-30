@@ -37,3 +37,7 @@ export let add = (key, object) => {
     localStorage.setItem(key, JSON.stringify(object));
     console.log("Added successfully")
 }
+
+export let get = (key) => {
+    return JSON.parse(localStorage.getItem(key));
+}

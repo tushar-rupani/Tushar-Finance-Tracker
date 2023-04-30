@@ -7,13 +7,16 @@ import { EditForm } from "./Pages/Form/EditForm";
 import { Fragment } from "react";
 import Protected from "./components/Protected";
 import Login from "./Pages/Authentication/Login";
+import CheckToken from "./components/CheckToken";
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Fragment>
           <Routes>
+            <Route element={<CheckToken />}>
             <Route index element={<Login />} />
+            </Route>
             <Route element={<Protected />}>
               <Route path="/home" element={<Home />} />
               <Route path="/show" element={<List />} />

@@ -11,9 +11,10 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { add } from "../../Services/localstorage.service";
+import { add, get } from "../../Services/localstorage.service";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 const Login = () => {
@@ -22,6 +23,7 @@ const Login = () => {
     password: "",
     repassword: ""
   };
+  const navigate = useNavigate();
   const [formData, setFormData] = useState(initalState);
   const [errors, setErrors] = useState({});
   const [signUp, setSignUp] = useState(false);
@@ -29,19 +31,45 @@ const Login = () => {
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+  const generateString = () => {
+    const randomString = Math.random().toString(36).substring(2, 18);
+    return randomString;
+  };
   const handleSubmit = (e) => {
+    let errorObj = {}
     e.preventDefault();
     if(signUp){
+      Object.keys(formData).forEach((data) => {
+        if(formData[data] === ""){
+          errorObj[data] = "This field is required"
+        }
+      })
+      setErrors(errorObj)
       if(formData.password !== formData.repassword){
         setErrors((prev) => ({...prev, repassword: "This password does not match with the previous one"}));
         return
       }
-      
+      if(Object.keys(errorObj).length === 0){
       add("credentials", formData);
       toast("User has been added, try logging in!")
       setSignUp(false)
       e.target.reset();
       e.target.email.focus()
+      }
+    }else{
+      Object.keys(formData).forEach((data) => {
+        if(formData[data] === "" && data !== "repassword"){
+          errorObj[data] = "This field is required"
+        }
+      })
+      setErrors(errorObj)
+      if(Object.keys(errorObj).length === 0){
+        let dataFromLS = get("credentials");
+        if(formData.email === dataFromLS.email && formData.password === dataFromLS.password){
+          add("token", generateString())
+          navigate("/home")
+        }
+      }
     }
   };
 
@@ -75,7 +103,7 @@ const Login = () => {
             sx={{ mt: 1 }}
           >
             <TextField
-            // error
+              error = {errors.email && true}
               margin="normal"
               required
               fullWidth
@@ -84,10 +112,12 @@ const Login = () => {
               name="email"
               autoComplete="email"
               onChange={handleChange}
+              helperText = {errors.email && errors.email}
               // helperText="Enter Please"
               autoFocus
             />
             <TextField
+              error = {errors.password && true}
               margin="normal"
               required
               fullWidth
@@ -96,6 +126,7 @@ const Login = () => {
               type="password"
               id="password"
               onChange={handleChange}
+              helperText = {errors.password && errors.password}
               autoComplete="current-password"
             />
             {signUp && (

@@ -15,13 +15,14 @@ import AdbIcon from '@mui/icons-material/Adb';
 import espark from './espark-white-logo.svg'
 import tushar from './tushar.jpg'
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import XLSX from "xlsx"
 import { loadDataFromLocal } from '../../Services/localstorage.service';
 const XLSX = require("xlsx");
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 export const Navbar = () => {
+    const navigate = useNavigate();
     const allData = loadDataFromLocal();
     const newMyData = allData.map(({fileBase64, id,  ...rest}) => rest);
     const createWorkBook = (data) => {
@@ -54,6 +55,12 @@ export const Navbar = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    const logoutHandler = () => {
+        localStorage.removeItem("token");
+        navigate("/")
+
+    }
 
     return (
         <AppBar position="static">
@@ -152,11 +159,16 @@ export const Navbar = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
+                          
+                                <MenuItem onClick={logoutHandler}>
+                                    <Typography textAlign="center">Logout</Typography>
                                 </MenuItem>
-                            ))}
+
+                                
+                                <MenuItem onClick={handleCloseUserMenu}>
+                                    <Typography textAlign="center">GitHub Code</Typography>
+                                </MenuItem>
+                            
                         </Menu>
                     </Box>
                 </Toolbar>
