@@ -15,9 +15,28 @@ import AdbIcon from '@mui/icons-material/Adb';
 import espark from './espark-white-logo.svg'
 import tushar from './tushar.jpg'
 import { Link } from 'react-router-dom';
+// import XLSX from "xlsx"
+import { loadDataFromLocal } from '../../Services/localstorage.service';
+const XLSX = require("xlsx");
+
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 export const Navbar = () => {
+    const allData = loadDataFromLocal();
+    const newMyData = allData.map(({fileBase64, id,  ...rest}) => rest);
+    const createWorkBook = (data) => {
+        const worksheet = XLSX.utils.json_to_sheet(newMyData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1")
+        return workbook;
+    }
+    const handleDownload = () => {
+        const workbook = createWorkBook(allData);
+        const fileName = "Data.xlsx"
+        XLSX.writeFile(workbook, fileName); 
+    }
+
+    // eslint-disable-next-line 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -101,6 +120,11 @@ export const Navbar = () => {
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: 'white', display: 'block' }}>
                                 <Link to="/show" style={{padding: "10px", textDecoration: "none", color: "white"}}>Show Data</Link>
+                            </Button>
+                            <Button
+                                onClick={handleDownload}
+                                sx={{ my: 2, color: 'white', display: 'block' }}>
+                                    Export as a Sheet
                             </Button>
                     </Box>
 
