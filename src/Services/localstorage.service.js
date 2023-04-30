@@ -31,3 +31,9 @@ export let editDataIntoLocal = (id, newObj) => {
     localStorage.setItem("expense-data", JSON.stringify(updatedData))
     alert("Data has been updated!")
 }
+
+export let add = (key, object) => {
+    localStorage.getItem(key) && localStorage.removeItem(key)
+    localStorage.setItem(key, JSON.stringify(object));
+    console.log("Added successfully")
+}
