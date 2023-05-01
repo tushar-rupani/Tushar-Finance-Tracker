@@ -11,7 +11,18 @@ export const List = () => {
   let [groupedData, setGroupedData] = useState({});
   let [currentTitle, setCurrentTitle] = useState("")
 
-  let handleSort = async(title, grid = false, data = "", indexOfFirstPage, indexOfLastPage) => {
+  const itemsPerPage = 2;
+  const lengthOfData = dataValue.length;
+
+  const pagesNeeded = Math.ceil(lengthOfData / itemsPerPage);
+  const pageNumbers = [...Array(pagesNeeded + 1).keys()].slice(1)
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const indexOfLastPage = currentPage * itemsPerPage;
+  const indexOfFirstPage = indexOfLastPage - itemsPerPage;
+
+  let handleSort = async(title, grid = false, data = "") => {
     let groupSortData;
     let cloneData;
     setCurrentTitle(title)
@@ -20,13 +31,13 @@ export const List = () => {
       setSortedOrder("asc");
       console.log(sortedOrder);
     }
-    const itemsOnPage = dataValue.slice(indexOfFirstPage, indexOfLastPage)
+    // const itemsOnPage = dataValue.slice(indexOfFirstPage, indexOfLastPage)
     if (!grid) {
       if (title === "amount") {
         if(sortedOrder === "asc"){
-          cloneData = itemsOnPage.sort((a, b) => a[title] - b[title])
+          cloneData = dataValue.sort((a, b) => a[title] - b[title])
         }else if(sortedOrder === "desc"){
-          cloneData = itemsOnPage.sort((a, b) => b[title] - a[title])
+          cloneData = dataValue.sort((a, b) => b[title] - a[title])
         }
         else{
           setDataValue(allData);
@@ -34,10 +45,10 @@ export const List = () => {
         }
       } else {
         if(sortedOrder === "asc"){
-          cloneData = itemsOnPage.sort((a, b) => a[title] > b[title] ? 1 : -1)
+          cloneData = dataValue.sort((a, b) => a[title] > b[title] ? 1 : -1)
         }
         else if(sortedOrder === "desc"){
-          cloneData = itemsOnPage.sort((a, b) => a[title] < b[title] ? 1 : -1)
+          cloneData = dataValue.sort((a, b) => a[title] < b[title] ? 1 : -1)
         }else{
           // cloneData = allData
           setDataValue(allData);
@@ -45,16 +56,14 @@ export const List = () => {
           return
         }
       }
-      const allItems = [...dataValue];
-      allItems.splice(indexOfFirstPage, indexOfLastPage - indexOfFirstPage, ...cloneData)
-      console.log(allItems);
       setSortedOrder(prev => {
         if(prev === "asc") return "desc"
         else if(prev === "desc") return "original"
         else if(prev === "original") return "asc"
       })
       
-      setDataValue(allItems);
+      setDataValue(cloneData);
+      setCurrentPage(1)
     } else {
       let objToUpdate = groupedData[data];
       if (title === "amount") {
@@ -128,6 +137,7 @@ export const List = () => {
       return '';
     });
       setDataValue(filteredData);
+      setCurrentPage(1)
   }
   return (
     <>
@@ -145,7 +155,7 @@ export const List = () => {
       </select>
       {Object.keys(groupedData).length > 0 && <button onClick={handleRemoveFilter}>Remove Filter</button>}
 
-      {dataValue.length > 0 && <TableComp handleSort={handleSort} setDataValue = {setDataValue} dataValue = {dataValue} data = "" grid={false}  />}
+      {dataValue.length > 0 && <TableComp handleSort={handleSort} setDataValue = {setDataValue} dataValue = {dataValue} data = "" grid={false} indexOfFirstPage = {indexOfFirstPage} indexOfLastPage = {indexOfLastPage} pageNumbers = {pageNumbers} currentPage = {currentPage} setCurrentPage = {setCurrentPage} />}
       {Object.keys(groupedData) && Object.keys(groupedData).map((data, index) => (
         <div>
           <h2>{data}</h2>

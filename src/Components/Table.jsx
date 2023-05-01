@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -10,20 +10,19 @@ import VerticalAlignCenterIcon from '@mui/icons-material/VerticalAlignCenter';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 import TableRowComp from './TableRowComp';
+import { Pagination } from './Pagination';
+export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue, indexOfFirstPage, indexOfLastPage, pageNumbers, currentPage, setCurrentPage }) => {
+  // const itemsPerPage = 2;
+  // const lengthOfData = dataValue.length;
 
-export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue }) => {
-  const itemsPerPage = 2;
-  const lengthOfData = dataValue.length;
+  // const pagesNeeded = Math.ceil(lengthOfData / itemsPerPage);
+  // const pageNumbers = [...Array(pagesNeeded + 1).keys()].slice(1)
 
-  const pagesNeeded = Math.ceil(lengthOfData / itemsPerPage);
-  const pageNumbers = [...Array(pagesNeeded + 1).keys()].slice(1)
+  // const [currentPage, setCurrentPage] = useState(1);
 
-  const [currentPage, setCurrentPage] = useState(1);
+  // const indexOfLastPage = currentPage * itemsPerPage;
+  // const indexOfFirstPage = indexOfLastPage - itemsPerPage;
 
-  const indexOfLastPage = currentPage * itemsPerPage;
-  const indexOfFirstPage = indexOfLastPage - itemsPerPage;
-
-  const [tempData, setTempData] = useState(dataValue.slice(indexOfFirstPage, indexOfLastPage));
   const transactionHeader = [
   {title: "Date", functionTitle: "date"},
   { title: "Month", functionTitle: "month"  },
@@ -34,13 +33,6 @@ export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue }) =
   { title: "Amount", functionTitle: "amount"},
   { title: "Notes", functionTitle: "notes"},
   ]
-
-  const handlePagination = (number) => {
-    setCurrentPage(number)
-    setTempData(dataValue.slice(indexOfFirstPage, indexOfLastPage))
-  }
-
-
   return (
     <div>
       <TableContainer component={Paper}>
@@ -48,7 +40,7 @@ export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue }) =
           <TableHead style={{ background: "rgb(160, 162, 192)", color: "white", cursor: "pointer" }}>
             <TableRow>
               {transactionHeader.map((header, index) => (
-                <TableCell key={index} align='right' onClick={() => handleSort(header.functionTitle, grid, data, indexOfFirstPage, indexOfLastPage )}> {header.title} <VerticalAlignCenterIcon /></TableCell>
+                <TableCell key={index} align='right' onClick={() => handleSort(header.functionTitle, grid, data )}> {header.title} <VerticalAlignCenterIcon /></TableCell>
               ))}
               <TableCell align="right">Image <VerticalAlignCenterIcon /></TableCell>
               <TableCell align="right">View <RemoveRedEyeIcon /></TableCell>
@@ -63,10 +55,8 @@ export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue }) =
         </Table >
       </TableContainer >
       <br />
-      {pageNumbers.map((number, index) => (
-        <span key={index} className={`pagination ${currentPage === number && 'active'}`} onClick={() => handlePagination(number) }>{number}</span>
-      ))}
-
+    
+      <Pagination currentPage = {currentPage} setCurrentPage = {setCurrentPage} pageNumbers = {pageNumbers}/>
     </div>
   )
 }
