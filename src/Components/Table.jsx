@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,17 +11,17 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 import TableRowComp from './TableRowComp';
 import { Pagination } from './Pagination';
-export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue, indexOfFirstPage, indexOfLastPage, pageNumbers, currentPage, setCurrentPage }) => {
-  // const itemsPerPage = 2;
-  // const lengthOfData = dataValue.length;
+export const TableComp = ({ handleSort, dataValue, grid, data }) => {
+  const itemsPerPage = 2;
+  const lengthOfData = dataValue.length;
 
-  // const pagesNeeded = Math.ceil(lengthOfData / itemsPerPage);
-  // const pageNumbers = [...Array(pagesNeeded + 1).keys()].slice(1)
+  const pagesNeeded = Math.ceil(lengthOfData / itemsPerPage);
+  const pageNumbers = [...Array(pagesNeeded + 1).keys()].slice(1)
 
-  // const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // const indexOfLastPage = currentPage * itemsPerPage;
-  // const indexOfFirstPage = indexOfLastPage - itemsPerPage;
+  const indexOfLastPage = currentPage * itemsPerPage;
+  const indexOfFirstPage = indexOfLastPage - itemsPerPage;
 
   const transactionHeader = [
   {title: "Date", functionTitle: "date"},
@@ -40,7 +40,7 @@ export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue, ind
           <TableHead style={{ background: "rgb(160, 162, 192)", color: "white", cursor: "pointer" }}>
             <TableRow>
               {transactionHeader.map((header, index) => (
-                <TableCell key={index} align='right' onClick={() => handleSort(header.functionTitle, grid, data )}> {header.title} <VerticalAlignCenterIcon /></TableCell>
+                <TableCell key={index} align='right' onClick={() => handleSort(header.functionTitle, grid, data, setCurrentPage )}> {header.title} <VerticalAlignCenterIcon /></TableCell>
               ))}
               <TableCell align="right">Image <VerticalAlignCenterIcon /></TableCell>
               <TableCell align="right">View <RemoveRedEyeIcon /></TableCell>

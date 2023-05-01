@@ -11,18 +11,9 @@ export const List = () => {
   let [groupedData, setGroupedData] = useState({});
   let [currentTitle, setCurrentTitle] = useState("")
 
-  const itemsPerPage = 2;
-  const lengthOfData = dataValue.length;
+  
 
-  const pagesNeeded = Math.ceil(lengthOfData / itemsPerPage);
-  const pageNumbers = [...Array(pagesNeeded + 1).keys()].slice(1)
-
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const indexOfLastPage = currentPage * itemsPerPage;
-  const indexOfFirstPage = indexOfLastPage - itemsPerPage;
-
-  let handleSort = async(title, grid = false, data = "") => {
+  let handleSort = async(title, grid = false, data = "", setCurrentPage) => {
     let groupSortData;
     let cloneData;
     setCurrentTitle(title)
@@ -137,7 +128,7 @@ export const List = () => {
       return '';
     });
       setDataValue(filteredData);
-      setCurrentPage(1)
+      // setCurrentPage(1)
   }
   return (
     <>
@@ -155,7 +146,7 @@ export const List = () => {
       </select>
       {Object.keys(groupedData).length > 0 && <button onClick={handleRemoveFilter}>Remove Filter</button>}
 
-      {dataValue.length > 0 && <TableComp handleSort={handleSort} setDataValue = {setDataValue} dataValue = {dataValue} data = "" grid={false} indexOfFirstPage = {indexOfFirstPage} indexOfLastPage = {indexOfLastPage} pageNumbers = {pageNumbers} currentPage = {currentPage} setCurrentPage = {setCurrentPage} />}
+      {dataValue.length > 0 && <TableComp handleSort={handleSort} setDataValue = {setDataValue} dataValue = {dataValue} data = "" grid={false} />}
       {Object.keys(groupedData) && Object.keys(groupedData).map((data, index) => (
         <div>
           <h2>{data}</h2>
@@ -164,7 +155,6 @@ export const List = () => {
           dataValue={groupedData[data]}
           data={data}
           grid={true}
-          pageNumbers = {pageNumbers} currentPage = {currentPage} setCurrentPage = {setCurrentPage}
           />
         </div>
       ))}
