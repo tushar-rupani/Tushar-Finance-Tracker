@@ -55,7 +55,7 @@ export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue, ind
         </Table >
       </TableContainer >
       <br />
-    
+       
       <Pagination currentPage = {currentPage} setCurrentPage = {setCurrentPage} pageNumbers = {pageNumbers}/>
     </div>
   )

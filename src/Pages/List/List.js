@@ -164,6 +164,7 @@ export const List = () => {
           dataValue={groupedData[data]}
           data={data}
           grid={true}
+          pageNumbers = {pageNumbers} currentPage = {currentPage} setCurrentPage = {setCurrentPage}
           />
         </div>
       ))}
