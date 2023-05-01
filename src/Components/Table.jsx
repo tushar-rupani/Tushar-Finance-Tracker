@@ -11,14 +11,14 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 import TableRowComp from './TableRowComp';
 import { Pagination } from './Pagination';
-export const TableComp = ({ handleSort, dataValue, grid, data }) => {
-  const itemsPerPage = 2;
+export const TableComp = ({ handleSort, dataValue, grid, data, setCurrentPage, currentPage }) => {
+  const itemsPerPage = 3;
   const lengthOfData = dataValue.length;
 
   const pagesNeeded = Math.ceil(lengthOfData / itemsPerPage);
   const pageNumbers = [...Array(pagesNeeded + 1).keys()].slice(1)
 
-  const [currentPage, setCurrentPage] = useState(1);
+  
 
   const indexOfLastPage = currentPage * itemsPerPage;
   const indexOfFirstPage = indexOfLastPage - itemsPerPage;

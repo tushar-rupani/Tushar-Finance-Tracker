@@ -4,7 +4,8 @@ import { TableComp } from '../../Components/Table';
 import { Navbar } from '../Home/Navbar';
 import { addIfDoesntExists } from '../../Services/localstorage.service';
 export const List = () => {
-  addIfDoesntExists()
+  addIfDoesntExists();
+  const [currentPage, setCurrentPage] = useState(1);
   let allData = loadDataFromLocal();
   let [dataValue, setDataValue] = useState([...allData]);
   const [sortedOrder, setSortedOrder] = useState("asc");
@@ -128,7 +129,7 @@ export const List = () => {
       return '';
     });
       setDataValue(filteredData);
-      // setCurrentPage(1)
+      setCurrentPage(1)
   }
   return (
     <>
@@ -146,7 +147,7 @@ export const List = () => {
       </select>
       {Object.keys(groupedData).length > 0 && <button onClick={handleRemoveFilter}>Remove Filter</button>}
 
-      {dataValue.length > 0 && <TableComp handleSort={handleSort} setDataValue = {setDataValue} dataValue = {dataValue} data = "" grid={false} />}
+      {dataValue.length > 0 && <TableComp handleSort={handleSort} setDataValue = {setDataValue} dataValue = {dataValue} data = "" grid={false} setCurrentPage = {setCurrentPage} currentPage = {currentPage}/>}
       {Object.keys(groupedData) && Object.keys(groupedData).map((data, index) => (
         <div>
           <h2>{data}</h2>
@@ -155,6 +156,8 @@ export const List = () => {
           dataValue={groupedData[data]}
           data={data}
           grid={true}
+          setCurrentPage = {setCurrentPage}
+          currentPage = {currentPage}
           />
         </div>
       ))}
