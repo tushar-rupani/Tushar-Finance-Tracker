@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { loadDataFromLocal } from '../../Services/localstorage.service'
-import { TableComp } from '../../components/Table';
+import { TableComp } from '../../Components/Table';
 import { Navbar } from '../Home/Navbar';
 import { addIfDoesntExists } from '../../Services/localstorage.service';
 export const List = () => {
@@ -113,6 +113,7 @@ export const List = () => {
       return
     }
     let clonedObject = [...allData]
+    console.log("called",clonedObject);
     const filteredData = clonedObject.filter((data) => {
       if (
         data.month.includes(searchTerm) ||

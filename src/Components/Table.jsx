@@ -38,7 +38,6 @@ export const TableComp = ({ handleSort, dataValue, grid, data, setDataValue }) =
   const handlePagination = (number) => {
     setCurrentPage(number)
     setTempData(dataValue.slice(indexOfFirstPage, indexOfLastPage))
-    console.log(tempData);
   }
 
 

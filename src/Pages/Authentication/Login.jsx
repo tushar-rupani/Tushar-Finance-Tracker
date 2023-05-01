@@ -11,7 +11,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { add, get } from "../../Services/localstorage.service";
+import { add, addIfDoesntExists, get } from "../../Services/localstorage.service";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
@@ -23,6 +23,7 @@ const Login = () => {
     password: "",
     repassword: ""
   };
+  addIfDoesntExists();
   const navigate = useNavigate();
   const [formData, setFormData] = useState(initalState);
   const [errors, setErrors] = useState({});
@@ -65,9 +66,15 @@ const Login = () => {
       setErrors(errorObj)
       if(Object.keys(errorObj).length === 0){
         let dataFromLS = get("credentials");
+        if(dataFromLS == null){
+          toast.error("No accounts created!")
+          return
+        }
         if(formData.email === dataFromLS.email && formData.password === dataFromLS.password){
           add("token", generateString())
           navigate("/home")
+        }else{
+          toast.error("You have entered wrong credentials")
         }
       }
     }
