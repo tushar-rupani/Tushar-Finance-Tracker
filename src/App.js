@@ -8,6 +8,7 @@ import { Fragment } from "react";
 import Protected from "./Components/Protected";
 import Login from "./Pages/Authentication/Login";
 import CheckToken from "./Components/CheckToken";
+import { Learning } from "./Components/Learning";
 function App() {
   return (
     <div className="App">
@@ -24,6 +25,7 @@ function App() {
               <Route path="/add" element={<Form />} />
               <Route path="/edit/:id" element={<EditForm />} />
             </Route>
+          <Route path="/learn" element={<Learning />} />
           </Routes>
         </Fragment>
       </BrowserRouter>

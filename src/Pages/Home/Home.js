@@ -100,7 +100,6 @@ export const Home = () => {
       reader.onload = (e) => {
         const wb = read(e.target.result);
         const sheets = wb.Sheets
-
         if(sheets.length){
           const rows = utils.sheet_to_json(wb.Sheets[sheets[0]]);
           console.log(rows);
@@ -128,8 +127,9 @@ export const Home = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {tasksObject.map((object) => (
+          {tasksObject.map((object, id) => (
                 <TableRow
+                key={id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell component="th" scope="row">{object.title}</TableCell>
                 <TableCell align="right">{object.startDate}</TableCell>

@@ -109,7 +109,6 @@ const FormComp = ({ dataToDisplay }) => {
     setErrors(errorObj);
     if (Object.keys(errorObj).length === 0) {
       if(dataToDisplay){
-        console.log("We will edit this");
         editDataIntoLocal(formState.id, formState)
         navigate("/show")
         return

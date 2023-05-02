@@ -12,16 +12,17 @@ import TableRowComp from './TableRowComp';
 import { Pagination } from './Pagination';
 export const TableComp = ({ handleSort, dataValue, grid, data, setCurrentPage, currentPage }) => {
   const itemsPerPage = 2;
+
   const [groupedPage, setGroupedPage] = useState(1);
   var lengthOfData, pagesNeeded, pageNumbers, indexOfFirstPage, indexOfLastPage;
   lengthOfData = dataValue.length;
   pagesNeeded = Math.ceil(lengthOfData / itemsPerPage);
   pageNumbers = [...Array(pagesNeeded + 1).keys()].slice(1)
 
-  if(!grid){
+  if (!grid) {
     indexOfLastPage = currentPage * itemsPerPage;
     indexOfFirstPage = indexOfLastPage - itemsPerPage;
-  }else{
+  } else {
     indexOfLastPage = groupedPage * itemsPerPage;
     indexOfFirstPage = indexOfLastPage - itemsPerPage;
   }
@@ -59,8 +60,8 @@ export const TableComp = ({ handleSort, dataValue, grid, data, setCurrentPage, c
         </Table >
       </TableContainer >
       <br />
-      {<Pagination grid={grid} currentPage={grid ? groupedPage : currentPage} setCurrentPage={grid ? setGroupedPage : setCurrentPage} pageNumbers={pageNumbers} /> }
-      
+      {<Pagination grid={grid} currentPage={grid ? groupedPage : currentPage} setCurrentPage={grid ? setGroupedPage : setCurrentPage} pageNumbers={pageNumbers} />}
+
     </div>
   )
 }

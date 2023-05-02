@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 const theme = createTheme();
 const Login = () => {
   const initalState = {
+    id: new Date().getTime(),
     email: "",
     password: "",
     repassword: ""
@@ -39,41 +40,41 @@ const Login = () => {
   const handleSubmit = (e) => {
     let errorObj = {}
     e.preventDefault();
-    if(signUp){
+    if (signUp) {
       Object.keys(formData).forEach((data) => {
-        if(formData[data] === ""){
+        if (formData[data] === "") {
           errorObj[data] = "This field is required"
         }
       })
       setErrors(errorObj)
-      if(formData.password !== formData.repassword){
-        setErrors((prev) => ({...prev, repassword: "This password does not match with the previous one"}));
+      if (formData.password !== formData.repassword) {
+        setErrors((prev) => ({ ...prev, repassword: "This password does not match with the previous one" }));
         return
       }
-      if(Object.keys(errorObj).length === 0){
-      add("credentials", formData);
-      toast("User has been added, try logging in!")
-      setSignUp(false)
-      e.target.reset();
-      e.target.email.focus()
+      if (Object.keys(errorObj).length === 0) {
+        add("credentials", formData);
+        toast("User has been added, try logging in!")
+        setSignUp(false)
+        e.target.reset();
+        e.target.email.focus()
       }
-    }else{
+    } else {
       Object.keys(formData).forEach((data) => {
-        if(formData[data] === "" && data !== "repassword"){
+        if (formData[data] === "" && data !== "repassword") {
           errorObj[data] = "This field is required"
         }
       })
       setErrors(errorObj)
-      if(Object.keys(errorObj).length === 0){
+      if (Object.keys(errorObj).length === 0) {
         let dataFromLS = get("credentials");
-        if(dataFromLS == null){
+        if (dataFromLS == null) {
           toast.error("No accounts created!")
           return
         }
-        if(formData.email === dataFromLS.email && formData.password === dataFromLS.password){
+        if (formData.email === dataFromLS.email && formData.password === dataFromLS.password) {
           add("token", generateString())
           navigate("/home")
-        }else{
+        } else {
           setFormData({})
           console.log(formData);
           toast.error("You have entered wrong credentials")
@@ -104,7 +105,7 @@ const Login = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-          {signUp ? "Sign Up" : "Sign In"}
+            {signUp ? "Sign Up" : "Sign In"}
           </Typography>
           <Box
             component="form"
@@ -113,7 +114,7 @@ const Login = () => {
             sx={{ mt: 1 }}
           >
             <TextField
-              error = {errors.email && true}
+              error={errors.email && true}
               margin="normal"
               required
               fullWidth
@@ -123,12 +124,12 @@ const Login = () => {
               autoComplete="email"
               value={formData.email}
               onChange={handleChange}
-              helperText = {errors.email && errors.email}
+              helperText={errors.email && errors.email}
               // helperText="Enter Please"
               autoFocus
             />
             <TextField
-              error = {errors.password && true}
+              error={errors.password && true}
               margin="normal"
               required
               fullWidth
@@ -138,12 +139,12 @@ const Login = () => {
               id="password"
               value={formData.password}
               onChange={handleChange}
-              helperText = {errors.password && errors.password}
+              helperText={errors.password && errors.password}
               autoComplete="current-password"
             />
             {signUp && (
               <TextField
-                error = {errors.repassword && true}
+                error={errors.repassword && true}
                 margin="normal"
                 required
                 fullWidth
@@ -154,7 +155,7 @@ const Login = () => {
                 onChange={handleChange}
                 autoComplete="current-password"
                 value={formData.repassword}
-                helperText = {errors.repassword && errors.repassword}
+                helperText={errors.repassword && errors.repassword}
               />
             )}
             <Button
@@ -166,11 +167,7 @@ const Login = () => {
               {signUp ? "Sign UP" : "Sign In"}
             </Button>
             <Grid container>
-              <Grid item xl>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
+
               <Grid item>
                 <Button href="#" variant="body2" onClick={handleState}>
                   {!signUp ? "Don't have an account? Sign Up" : "Already have an account Login"}
