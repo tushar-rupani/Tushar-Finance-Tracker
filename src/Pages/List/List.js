@@ -11,7 +11,7 @@ export const List = () => {
   const [sortedOrder, setSortedOrder] = useState("asc");
   let [groupedData, setGroupedData] = useState({});
   let [currentTitle, setCurrentTitle] = useState("")
-
+  let [dataFound, setDataFound] = useState("");
   
 
   let handleSort = async(title, grid = false, data = "", setCurrentPage) => {
@@ -116,6 +116,7 @@ export const List = () => {
     searchTerm = searchTerm.toLowerCase();
     if(searchTerm.length === 0){
       setDataValue(allData);
+      setDataFound("")
       return
     }
     let clonedObject = [...allData]
@@ -133,6 +134,11 @@ export const List = () => {
       }
       return '';
     });
+    if(!filteredData.length){
+      setDataFound("No data found");
+    }else{
+      setDataFound(`${filteredData.length} record(s) found!`)
+    }
       setDataValue(filteredData);
       setCurrentPage(1)
   }
@@ -142,6 +148,7 @@ export const List = () => {
 
       <input type='text' placeholder='Enter Search..' onChange={handleSearch} style={{margin: "20px", padding: "10px"}}/>
       <br />
+      {dataFound} <br />
       <select onChange={handleChange} defaultValue={""} style={{width: "40%"}}>
         <option disabled value="">Select Group By</option>
         <option value="month">Month</option>

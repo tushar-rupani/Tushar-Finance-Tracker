@@ -24,7 +24,7 @@ const TableRowComp = ({data, index}) => {
         {data.currency}
         {data.amount.toLocaleString("en-IN")}
       </TableCell>
-      <TableCell align="right">{data.notes.substr(0, 15)}...</TableCell>
+      <TableCell align="right">{data.notes.substr(0, 15)}{data.notes.length > 15 ? "..." : ""}</TableCell>
       <TableCell align="right">
         {data.fileBase64 ? <img
           src={data.fileBase64}

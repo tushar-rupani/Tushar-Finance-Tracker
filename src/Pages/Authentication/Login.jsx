@@ -74,6 +74,8 @@ const Login = () => {
           add("token", generateString())
           navigate("/home")
         }else{
+          setFormData({})
+          console.log(formData);
           toast.error("You have entered wrong credentials")
         }
       }
@@ -82,6 +84,7 @@ const Login = () => {
 
   const handleState = () => {
     setSignUp((prev) => !prev);
+    setErrors({})
   };
   return (
     <ThemeProvider theme={theme}>
@@ -118,6 +121,7 @@ const Login = () => {
               label="Email Address"
               name="email"
               autoComplete="email"
+              value={formData.email}
               onChange={handleChange}
               helperText = {errors.email && errors.email}
               // helperText="Enter Please"
@@ -132,6 +136,7 @@ const Login = () => {
               label="Password"
               type="password"
               id="password"
+              value={formData.password}
               onChange={handleChange}
               helperText = {errors.password && errors.password}
               autoComplete="current-password"
@@ -148,6 +153,7 @@ const Login = () => {
                 id="re-password"
                 onChange={handleChange}
                 autoComplete="current-password"
+                value={formData.repassword}
                 helperText = {errors.repassword && errors.repassword}
               />
             )}
