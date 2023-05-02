@@ -109,6 +109,11 @@ export const List = () => {
   // handle search functionality
   const handleSearch = (e) => {
     let searchTerm = e.target.value;
+    console.log(searchTerm);
+    if(searchTerm){
+      searchTerm = searchTerm.toLowerCase()
+    }
+    searchTerm = searchTerm.toLowerCase();
     if(searchTerm.length === 0){
       setDataValue(allData);
       return
@@ -117,12 +122,12 @@ export const List = () => {
     console.log("called",clonedObject);
     const filteredData = clonedObject.filter((data) => {
       if (
-        data.month.includes(searchTerm) ||
-        data.year.includes(searchTerm) ||
-        data.toAccount.includes(searchTerm) ||
-        data.fromAccount.includes(searchTerm) ||
-        data.transactionType.includes(searchTerm) ||
-        data.amount.toString().includes(searchTerm)
+        data.month.toLowerCase().includes(searchTerm) ||
+        data.year.toLowerCase().includes(searchTerm) ||
+        data.toAccount.toLowerCase().includes(searchTerm) ||
+        data.fromAccount.toLowerCase().includes(searchTerm) ||
+        data.transactionType.toLowerCase().includes(searchTerm) ||
+        data.amount.toString().toLowerCase().includes(searchTerm)
       ) {
         return data;
       }

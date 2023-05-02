@@ -32,3 +32,10 @@ select{
     padding: 3px;
 }
 
+a{
+    text-decoration: none;
+}
+
+.white {
+    color: "white"
+}

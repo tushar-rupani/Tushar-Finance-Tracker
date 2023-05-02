@@ -2,6 +2,9 @@ import React from "react";
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import { Link } from 'react-router-dom';
+import { Button } from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
+import { RemoveRedEyeOutlined } from "@mui/icons-material";
 const TableRowComp = ({data, index}) => {
   return (
     <TableRow
@@ -23,20 +26,19 @@ const TableRowComp = ({data, index}) => {
       </TableCell>
       <TableCell align="right">{data.notes.substr(0, 15)}...</TableCell>
       <TableCell align="right">
-        <img
+        {data.fileBase64 ? <img
           src={data.fileBase64}
           alt="Did not select"
           width={75}
           height={75}
-        />
+        /> : "No Image Selected"}
+        
       </TableCell>
       <TableCell align="right">
-        <Link to={`/transaction/${data.id}`}>View</Link>
-      </TableCell>
-      <TableCell align="right">
-        <Link to={`/edit/${data.id}`}>
-          Edit
-        </Link>
+        <Button style={{color: "white"}}><Link to={`/transaction/${data.id}`}><RemoveRedEyeOutlined /></Link></Button> &nbsp; |  
+        &nbsp; <Button variant="contained" style={{background: "#d2c9c9"}}><Link to={`/edit/${data.id}`}> <EditIcon /></Link></Button>
+         
+        
       </TableCell>
     </TableRow>
   );

@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, {useEffect, useState } from "react";
 import {
   months,
   years,
@@ -35,6 +35,12 @@ const FormComp = ({ dataToDisplay }) => {
   let showInitialImage = dataToDisplay ? true : false
   const [formState, setFormState] = useState(initialDataToShow);
   const [imageSelected, setImageSelected] = useState(showInitialImage);
+
+  useEffect(() => {
+    if(formState.fileBase64 === ""){
+      setImageSelected(false);
+    }
+  }, [])
  
   const handleOnChange = (e) => {
     let { name, value } = e.target;

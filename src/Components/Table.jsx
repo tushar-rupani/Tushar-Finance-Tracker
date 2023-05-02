@@ -12,7 +12,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import TableRowComp from './TableRowComp';
 import { Pagination } from './Pagination';
 export const TableComp = ({ handleSort, dataValue, grid, data, setCurrentPage, currentPage }) => {
-  const itemsPerPage = 3;
+  const itemsPerPage = 2;
   const lengthOfData = dataValue.length;
 
   const pagesNeeded = Math.ceil(lengthOfData / itemsPerPage);
@@ -42,9 +42,8 @@ export const TableComp = ({ handleSort, dataValue, grid, data, setCurrentPage, c
               {transactionHeader.map((header, index) => (
                 <TableCell key={index} align='right' onClick={() => handleSort(header.functionTitle, grid, data, setCurrentPage )}> {header.title} <VerticalAlignCenterIcon /></TableCell>
               ))}
-              <TableCell align="right">Image <VerticalAlignCenterIcon /></TableCell>
-              <TableCell align="right">View <RemoveRedEyeIcon /></TableCell>
-              <TableCell align="right">Edit <RemoveRedEyeIcon /></TableCell>
+              <TableCell align="right">Image</TableCell>
+              <TableCell align="right">Action</TableCell>
             </TableRow>
           </TableHead >
           <TableBody>
