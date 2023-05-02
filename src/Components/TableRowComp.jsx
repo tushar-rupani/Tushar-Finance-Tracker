@@ -36,7 +36,7 @@ const TableRowComp = ({data, index}) => {
       </TableCell>
       <TableCell align="right">
         <Button style={{color: "white"}}><Link to={`/transaction/${data.id}`}><RemoveRedEyeOutlined /></Link></Button> &nbsp; |  
-        &nbsp; <Button variant="contained" style={{background: "#d2c9c9"}}><Link to={`/edit/${data.id}`}> <EditIcon /></Link></Button>
+        &nbsp; <Button><Link to={`/edit/${data.id}`}> <EditIcon /></Link></Button>
          
         
       </TableCell>

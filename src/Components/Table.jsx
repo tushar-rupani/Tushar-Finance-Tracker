@@ -7,31 +7,36 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import VerticalAlignCenterIcon from '@mui/icons-material/VerticalAlignCenter';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 import TableRowComp from './TableRowComp';
 import { Pagination } from './Pagination';
 export const TableComp = ({ handleSort, dataValue, grid, data, setCurrentPage, currentPage }) => {
   const itemsPerPage = 2;
-  const lengthOfData = dataValue.length;
+  const [groupedPage, setGroupedPage] = useState(1);
+  var lengthOfData, pagesNeeded, pageNumbers, indexOfFirstPage, indexOfLastPage;
+  lengthOfData = dataValue.length;
+  pagesNeeded = Math.ceil(lengthOfData / itemsPerPage);
+  pageNumbers = [...Array(pagesNeeded + 1).keys()].slice(1)
 
-  const pagesNeeded = Math.ceil(lengthOfData / itemsPerPage);
-  const pageNumbers = [...Array(pagesNeeded + 1).keys()].slice(1)
+  if(!grid){
+    indexOfLastPage = currentPage * itemsPerPage;
+    indexOfFirstPage = indexOfLastPage - itemsPerPage;
+  }else{
+    indexOfLastPage = groupedPage * itemsPerPage;
+    indexOfFirstPage = indexOfLastPage - itemsPerPage;
+  }
 
-  
-
-  const indexOfLastPage = currentPage * itemsPerPage;
-  const indexOfFirstPage = indexOfLastPage - itemsPerPage;
+  console.log(indexOfFirstPage, indexOfLastPage);
 
   const transactionHeader = [
-  {title: "Date", functionTitle: "date"},
-  { title: "Month", functionTitle: "month"  },
-  { title: "Year", functionTitle: "year"  },
-  { title: "Transaction", functionTitle: "transactionType" },
-  { title: "From Account", functionTitle: "fromAccount"},
-  { title: "To Account", functionTitle: "toAccount"},
-  { title: "Amount", functionTitle: "amount"},
-  { title: "Notes", functionTitle: "notes"},
+    { title: "Date", functionTitle: "date" },
+    { title: "Month", functionTitle: "month" },
+    { title: "Year", functionTitle: "year" },
+    { title: "Transaction", functionTitle: "transactionType" },
+    { title: "From Account", functionTitle: "fromAccount" },
+    { title: "To Account", functionTitle: "toAccount" },
+    { title: "Amount", functionTitle: "amount" },
+    { title: "Notes", functionTitle: "notes" },
   ]
   return (
     <div>
@@ -40,7 +45,7 @@ export const TableComp = ({ handleSort, dataValue, grid, data, setCurrentPage, c
           <TableHead style={{ background: "rgb(160, 162, 192)", color: "white", cursor: "pointer" }}>
             <TableRow>
               {transactionHeader.map((header, index) => (
-                <TableCell key={index} align='right' onClick={() => handleSort(header.functionTitle, grid, data, setCurrentPage )}> {header.title} <VerticalAlignCenterIcon /></TableCell>
+                <TableCell key={index} align='right' onClick={() => handleSort(header.functionTitle, grid, data, setCurrentPage)}> {header.title} <VerticalAlignCenterIcon /></TableCell>
               ))}
               <TableCell align="right">Image</TableCell>
               <TableCell align="right">Action</TableCell>
@@ -48,14 +53,14 @@ export const TableComp = ({ handleSort, dataValue, grid, data, setCurrentPage, c
           </TableHead >
           <TableBody>
             {dataValue.length > 0 && dataValue.slice(indexOfFirstPage, indexOfLastPage).map((data, index) => (
-              <TableRowComp data = {data} index = {index}/>
+              <TableRowComp data={data} index={index} />
             ))}
           </TableBody>
         </Table >
       </TableContainer >
       <br />
-       
-      <Pagination currentPage = {currentPage} setCurrentPage = {setCurrentPage} pageNumbers = {pageNumbers}/>
+      {<Pagination grid={grid} currentPage={grid ? groupedPage : currentPage} setCurrentPage={grid ? setGroupedPage : setCurrentPage} pageNumbers={pageNumbers} /> }
+      
     </div>
   )
 }

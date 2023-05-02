@@ -26,11 +26,23 @@ const FormComp = ({ dataToDisplay }) => {
     notes: "",
     fileBase64: "",
   };
+  const ERROR_STATE = {
+    date: "",
+    month: "",
+    year: "",
+    transactionType: "",
+    fromAccount: "",
+    toAccount: "",
+    currency: "",
+    amount: "",
+    notes: "",
+    fileBase64: "",
+  }
   const navigate = useNavigate();
   let errorObj = {};
   // eslint-disable-next-line
   const [fileBase64, setFileBase64] = useState("");
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState(ERROR_STATE);
   let initialDataToShow = dataToDisplay ? dataToDisplay : INITIAL_STATE;
   let showInitialImage = dataToDisplay ? true : false
   const [formState, setFormState] = useState(initialDataToShow);
@@ -40,15 +52,33 @@ const FormComp = ({ dataToDisplay }) => {
     if(formState.fileBase64 === ""){
       setImageSelected(false);
     }
+    // eslint-disable-next-line 
   }, [])
  
   const handleOnChange = (e) => {
     let { name, value } = e.target;
+    if(e.target.name === "toAccount"){
+      let fromAccount = formState.fromAccount;
+      if(e.target.value === fromAccount){
+        setErrors((prevState) => ({...prevState, toAccount: "and From Account, Both are same"}))
+      }
+    }else if(e.target.name === "fromAccount"){
+      let toAccount = formState.toAccount;
+      if(e.target.value === toAccount){
+        setErrors((prevState) => ({...prevState, fromAccount: "and To Account, Both are same"}))
+      }else{
+        setErrors((prevState) => ({...prevState, toAccount: "", fromAccount: ""}))
+      }
+    }
+    
+    
+    if(errors[name]){
+      setErrors((prev) => ({...prev, [name] : ""}))
+    }
     if (name === "amount") {
       value = Number(value);
     }
     setFormState((prevState) => ({ ...prevState, [name]: value }));
-    console.log(formState);
   };
 
   const handleFileSelect = (file) => {

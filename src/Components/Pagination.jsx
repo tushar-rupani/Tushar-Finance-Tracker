@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Pagination = ({ pageNumbers, currentPage, setCurrentPage }) => {
+export const Pagination = ({ pageNumbers, currentPage, setCurrentPage, grid }) => {
     const handlePagination = (number) => {
         setCurrentPage(number)
     }

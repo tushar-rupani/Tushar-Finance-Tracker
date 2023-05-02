@@ -69,7 +69,7 @@ export function Individual() {
                 </CardContent>
                 <CardActions disableSpacing>
                     <IconButton aria-label="add to favorites">
-                        <Typography variant='subtitle1'>Expand for more details</Typography>
+                        <Typography variant='subtitle1' onClick={handleExpandClick}>Expand for more details</Typography>
                     </IconButton>
 
                     <ExpandMore
