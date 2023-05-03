@@ -13,15 +13,12 @@ export const List = () => {
   let [currentTitle, setCurrentTitle] = useState("")
   let [dataFound, setDataFound] = useState("");
   // let [allGrouped, setAllGrouped] = useState({});
-  
-  
-  
 
-  let handleSort = async(title, grid = false, data = "", setCurrentPage, setGroupPage) => {
+  let handleSort = async (title, grid = false, data = "", setCurrentPage, setGroupPage) => {
     let groupSortData;
     let cloneData;
     setCurrentTitle(title)
-    if(title !== currentTitle){
+    if (title !== currentTitle) {
       console.log("coming inside");
       setSortedOrder("asc");
       console.log(sortedOrder);
@@ -29,22 +26,22 @@ export const List = () => {
     // const itemsOnPage = dataValue.slice(indexOfFirstPage, indexOfLastPage)
     if (!grid) {
       if (title === "amount") {
-        if(sortedOrder === "asc"){
+        if (sortedOrder === "asc") {
           cloneData = dataValue.sort((a, b) => a[title] - b[title])
-        }else if(sortedOrder === "desc"){
+        } else if (sortedOrder === "desc") {
           cloneData = dataValue.sort((a, b) => b[title] - a[title])
         }
-        else{
+        else {
           setDataValue(allData);
           return
         }
       } else {
-        if(sortedOrder === "asc"){
+        if (sortedOrder === "asc") {
           cloneData = dataValue.sort((a, b) => a[title] > b[title] ? 1 : -1)
         }
-        else if(sortedOrder === "desc"){
+        else if (sortedOrder === "desc") {
           cloneData = dataValue.sort((a, b) => a[title] < b[title] ? 1 : -1)
-        }else{
+        } else {
           // cloneData = allData
           setDataValue(allData);
           setSortedOrder("asc")
@@ -52,11 +49,11 @@ export const List = () => {
         }
       }
       setSortedOrder(prev => {
-        if(prev === "asc") return "desc"
-        else if(prev === "desc") return "original"
-        else if(prev === "original") return "asc"
+        if (prev === "asc") return "desc"
+        else if (prev === "desc") return "original"
+        else if (prev === "original") return "asc"
       })
-      
+
       setDataValue(cloneData);
       setCurrentPage(1)
     } else {
@@ -87,21 +84,19 @@ export const List = () => {
   }
 
   // Creating an array of objects when clicked on Group By
-  var searchingValues;
   const handleChange = (e) => {
     let search = e.target.value;
-    searchingValues = allData.map((data) => {
-      return data[search]
-    })
-    searchingValues = [...new Set(searchingValues)]
-    const answerObj = {}
-    searchingValues.forEach((searchValue) => {
-      answerObj[searchValue] = allData.filter((data) => {
-        return data[search] === searchValue
-      })
-    })
+    const groupByCategory = allData.reduce((group, product) => {
+      const category = product[search];
+      group[category] = group[category] ?? [];
+      console.log(group[category]);
+      group[category].push(product);
+      return group
+    }, {})
+
+    console.log(groupByCategory);
+    setGroupedData(groupByCategory);
     setDataValue([])
-    setGroupedData(answerObj);
   }
 
   // Handle remove function
@@ -114,17 +109,17 @@ export const List = () => {
   const handleSearch = (e) => {
     let searchTerm = e.target.value;
     console.log(searchTerm);
-    if(searchTerm){
+    if (searchTerm) {
       searchTerm = searchTerm.toLowerCase()
     }
     searchTerm = searchTerm.toLowerCase();
-    if(searchTerm.length === 0){
+    if (searchTerm.length === 0) {
       setDataValue(allData);
       setDataFound("")
       return
     }
     let clonedObject = [...allData]
-    console.log("called",clonedObject);
+    console.log("called", clonedObject);
     const filteredData = clonedObject.filter((data) => {
       if (
         data.month.toLowerCase().includes(searchTerm) ||
@@ -138,30 +133,30 @@ export const List = () => {
       }
       return '';
     });
-    if(!filteredData.length){
+    if (!filteredData.length) {
       setDataFound("No data found");
-    }else{
+    } else {
       setDataFound(`${filteredData.length} record(s) found!`)
     }
-      setDataValue(filteredData);
-      setCurrentPage(1)
+    setDataValue(filteredData);
+    setCurrentPage(1)
   }
 
   const handleGroupedSearch = (e) => {
     const searchedData = {};
-    
+
     let groupedSearchTerm = e.target.value.toLowerCase();
-    for(let key in groupedData){
+    for (let key in groupedData) {
       let array = groupedData[key]
       let filteredData = array.filter((data) => {
-        if(data.month.toLowerCase().includes(groupedSearchTerm) ||
-        data.year.toLowerCase().includes(groupedSearchTerm) ||
-        data.toAccount.toLowerCase().includes(groupedSearchTerm) ||
-        data.fromAccount.toLowerCase().includes(groupedSearchTerm) ||
-        data.transactionType.toLowerCase().includes(groupedSearchTerm) ||
-        data.amount.toString().toLowerCase().includes(groupedSearchTerm)){
+        if (data.month.toLowerCase().includes(groupedSearchTerm) ||
+          data.year.toLowerCase().includes(groupedSearchTerm) ||
+          data.toAccount.toLowerCase().includes(groupedSearchTerm) ||
+          data.fromAccount.toLowerCase().includes(groupedSearchTerm) ||
+          data.transactionType.toLowerCase().includes(groupedSearchTerm) ||
+          data.amount.toString().toLowerCase().includes(groupedSearchTerm)) {
           return data
-        }else {
+        } else {
           return ''
         }
       })
@@ -173,13 +168,13 @@ export const List = () => {
     <>
       <Navbar />
       {
-      dataValue.length > 0
-      ? <input type='text' placeholder='Enter Search..' onChange={handleSearch} style={{margin: "20px", padding: "10px"}}/>
-            
-      : <input type='text' placeholder='Type to search on Grouped Data..' onChange={handleGroupedSearch} style={{margin: "20px", padding: "10px"}}/>
+        dataValue.length > 0
+          ? <input type='text' placeholder='Enter Search..' onChange={handleSearch} style={{ margin: "20px", padding: "10px" }} />
+
+          : <input type='text' placeholder='Type to search on Grouped Data..' onChange={handleGroupedSearch} style={{ margin: "20px", padding: "10px" }} />
       }<br />
       {dataFound} <br />
-      <select onChange={handleChange} defaultValue={""} style={{width: "40%"}}>
+      <select onChange={handleChange} defaultValue={""} style={{ width: "40%" }}>
         <option disabled value="">Select Group By</option>
         <option value="month">Month</option>
         <option value="year">Year</option>
@@ -189,23 +184,23 @@ export const List = () => {
       </select>
       {Object.keys(groupedData).length > 0 && <button onClick={handleRemoveFilter}>Remove Filter</button>}
 
-      {dataValue.length > 0 && <TableComp handleSort={handleSort} setDataValue = {setDataValue} dataValue = {dataValue} data = "" grid={false} setCurrentPage = {setCurrentPage} currentPage = {currentPage}/>}
+      {dataValue.length > 0 && <TableComp handleSort={handleSort} setDataValue={setDataValue} dataValue={dataValue} data="" grid={false} setCurrentPage={setCurrentPage} currentPage={currentPage} />}
 
       {Object.keys(groupedData) && Object.keys(groupedData).map((data, index) => (
         <div>
-          { groupedData[data].length > 0 &&
-          <> 
-          <h2>{data}</h2>
-          <TableComp 
-          handleSort={handleSort}
-          dataValue={groupedData[data]}
-          data={data}
-          grid={true}
-          setCurrentPage = {setCurrentPage}
-          currentPage = {currentPage}
-          />
-          </>
-        }
+          {groupedData[data].length > 0 &&
+            <>
+              <h2>{data}</h2>
+              <TableComp
+                handleSort={handleSort}
+                dataValue={groupedData[data]}
+                data={data}
+                grid={true}
+                setCurrentPage={setCurrentPage}
+                currentPage={currentPage}
+              />
+            </>
+          }
         </div>
       ))}
     </>

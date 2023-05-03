@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   months,
   years,
@@ -12,7 +12,7 @@ import { Option } from "../Form/Option";
 import { addObjectToLocalStorage, editDataIntoLocal } from "../../Services/localstorage.service";
 import { useNavigate } from "react-router-dom";
 const FormComp = ({ dataToDisplay }) => {
-  
+
   const INITIAL_STATE = {
     id: new Date().getTime(),
     date: "",
@@ -49,31 +49,31 @@ const FormComp = ({ dataToDisplay }) => {
   const [imageSelected, setImageSelected] = useState(showInitialImage);
 
   useEffect(() => {
-    if(formState.fileBase64 === ""){
+    if (formState.fileBase64 === "") {
       setImageSelected(false);
     }
     // eslint-disable-next-line 
   }, [])
- 
+
   const handleOnChange = (e) => {
     let { name, value } = e.target;
-    if(e.target.name === "toAccount"){
+    if (e.target.name === "toAccount") {
       let fromAccount = formState.fromAccount;
-      if(e.target.value === fromAccount){
-        setErrors((prevState) => ({...prevState, toAccount: "and From Account, Both are same"}))
+      if (e.target.value === fromAccount) {
+        setErrors((prevState) => ({ ...prevState, toAccount: "and From Account, Both are same" }))
       }
-    }else if(e.target.name === "fromAccount"){
+    } else if (e.target.name === "fromAccount") {
       let toAccount = formState.toAccount;
-      if(e.target.value === toAccount){
-        setErrors((prevState) => ({...prevState, fromAccount: "and To Account, Both are same"}))
-      }else{
-        setErrors((prevState) => ({...prevState, toAccount: "", fromAccount: ""}))
+      if (e.target.value === toAccount) {
+        setErrors((prevState) => ({ ...prevState, fromAccount: "and To Account, Both are same" }))
+      } else {
+        setErrors((prevState) => ({ ...prevState, toAccount: "", fromAccount: "" }))
       }
     }
-    
-    
-    if(errors[name]){
-      setErrors((prev) => ({...prev, [name] : ""}))
+
+
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }))
     }
     if (name === "amount") {
       value = Number(value);
@@ -95,6 +95,8 @@ const FormComp = ({ dataToDisplay }) => {
     setFileBase64(file.base64);
     setFormState((prevState) => ({ ...prevState, fileBase64: file.base64 }));
   };
+
+
   const handleSubmit = async (e, text) => {
     e.preventDefault();
     Object.keys(formState).forEach((data) => {
@@ -102,13 +104,13 @@ const FormComp = ({ dataToDisplay }) => {
       if (formState[data] === "") {
         errorObj[data] = "is required";
       }
-      if(formState["fromAccount"] === formState["toAccount"]){
+      if (formState["fromAccount"] === formState["toAccount"]) {
         errorObj["toAccount"] = "and From account can not be the same"
       }
     });
     setErrors(errorObj);
     if (Object.keys(errorObj).length === 0) {
-      if(dataToDisplay){
+      if (dataToDisplay) {
         editDataIntoLocal(formState.id, formState)
         navigate("/show")
         return
@@ -118,6 +120,8 @@ const FormComp = ({ dataToDisplay }) => {
       navigate("/show")
     }
   };
+
+
 
   return (
     <form onSubmit={handleSubmit} className="form-add">
