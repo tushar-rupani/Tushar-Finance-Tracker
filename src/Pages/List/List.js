@@ -12,6 +12,8 @@ export const List = () => {
   let [groupedData, setGroupedData] = useState({});
   let [currentTitle, setCurrentTitle] = useState("")
   let [dataFound, setDataFound] = useState("");
+  let [allGrouped, setAllGrouped] = useState({});
+  
   
 
   let handleSort = async(title, grid = false, data = "", setCurrentPage) => {
@@ -145,22 +147,23 @@ export const List = () => {
 
   const handleGroupedSearch = (e) => {
     const searchedData = {};
-    let groupedSearchTerm = e.target.value;
-    console.log(groupedSearchTerm);
+    
+    let groupedSearchTerm = e.target.value.toLowerCase();
     for(let key in groupedData){
-      const array = groupedData[key];
-      const filteredData = array.filter((data) => {
-        if(data.month.toLowerCase().includes(groupedSearchTerm) || 
-        data.year.toLowerCase().includes(groupedSearchTerm) || 
+      let array = groupedData[key]
+      let filteredData = array.filter((data) => {
+        if(data.month.toLowerCase().includes(groupedSearchTerm) ||
+        data.year.toLowerCase().includes(groupedSearchTerm) ||
         data.toAccount.toLowerCase().includes(groupedSearchTerm) ||
         data.fromAccount.toLowerCase().includes(groupedSearchTerm) ||
         data.transactionType.toLowerCase().includes(groupedSearchTerm) ||
         data.amount.toString().toLowerCase().includes(groupedSearchTerm)){
           return data
+        }else {
+          return ''
         }
-        return ""
       })
-      searchedData[key] = filteredData;
+      searchedData[key] = filteredData
     }
     setGroupedData(searchedData)
   }
@@ -187,6 +190,8 @@ export const List = () => {
       {dataValue.length > 0 && <TableComp handleSort={handleSort} setDataValue = {setDataValue} dataValue = {dataValue} data = "" grid={false} setCurrentPage = {setCurrentPage} currentPage = {currentPage}/>}
       {Object.keys(groupedData) && Object.keys(groupedData).map((data, index) => (
         <div>
+          { groupedData[data].length > 0 &&
+          <> 
           <h2>{data}</h2>
           <TableComp 
           handleSort={handleSort}
@@ -196,6 +201,8 @@ export const List = () => {
           setCurrentPage = {setCurrentPage}
           currentPage = {currentPage}
           />
+          </>
+        }
         </div>
       ))}
     </>
