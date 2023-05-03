@@ -12,7 +12,7 @@ export const List = () => {
   let [groupedData, setGroupedData] = useState({});
   let [currentTitle, setCurrentTitle] = useState("")
   let [dataFound, setDataFound] = useState("");
-  let [allGrouped, setAllGrouped] = useState({});
+  // let [allGrouped, setAllGrouped] = useState({});
   
   
 
