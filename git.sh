@@ -11,5 +11,3 @@ git commit -m "$commitMessage"
 git push origin main
 
 echo "Pushed"
-
-read
