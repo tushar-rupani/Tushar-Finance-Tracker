@@ -46,7 +46,7 @@ export const TableComp = ({ handleSort, dataValue, grid, data, setCurrentPage, c
           <TableHead style={{ background: "rgb(160, 162, 192)", color: "white", cursor: "pointer" }}>
             <TableRow>
               {transactionHeader.map((header, index) => (
-                <TableCell key={index} align='right' onClick={() => handleSort(header.functionTitle, grid, data, setCurrentPage)}> {header.title} <VerticalAlignCenterIcon /></TableCell>
+                <TableCell key={index} align='right' onClick={() => handleSort(header.functionTitle, grid, data, setCurrentPage, setGroupedPage)}> {header.title} <VerticalAlignCenterIcon /></TableCell>
               ))}
               <TableCell align="right">Image</TableCell>
               <TableCell align="right">Action</TableCell>

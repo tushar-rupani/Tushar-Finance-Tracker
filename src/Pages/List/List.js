@@ -16,7 +16,7 @@ export const List = () => {
   
   
 
-  let handleSort = async(title, grid = false, data = "", setCurrentPage) => {
+  let handleSort = async(title, grid = false, data = "", setCurrentPage, setGroupPage) => {
     let groupSortData;
     let cloneData;
     setCurrentTitle(title)
@@ -80,6 +80,7 @@ export const List = () => {
       setSortedOrder(sortedOrder === "asc" ? "desc" : "asc");
       groupedData[data] = groupSortData;
       setGroupedData(groupedData)
+      setGroupPage(1)
     }
 
   }
@@ -188,6 +189,7 @@ export const List = () => {
       {Object.keys(groupedData).length > 0 && <button onClick={handleRemoveFilter}>Remove Filter</button>}
 
       {dataValue.length > 0 && <TableComp handleSort={handleSort} setDataValue = {setDataValue} dataValue = {dataValue} data = "" grid={false} setCurrentPage = {setCurrentPage} currentPage = {currentPage}/>}
+
       {Object.keys(groupedData) && Object.keys(groupedData).map((data, index) => (
         <div>
           { groupedData[data].length > 0 &&
