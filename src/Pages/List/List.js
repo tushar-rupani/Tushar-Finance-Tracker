@@ -142,12 +142,37 @@ export const List = () => {
       setDataValue(filteredData);
       setCurrentPage(1)
   }
+
+  const handleGroupedSearch = (e) => {
+    const searchedData = {};
+    let groupedSearchTerm = e.target.value;
+    console.log(groupedSearchTerm);
+    for(let key in groupedData){
+      const array = groupedData[key];
+      const filteredData = array.filter((data) => {
+        if(data.month.toLowerCase().includes(groupedSearchTerm) || 
+        data.year.toLowerCase().includes(groupedSearchTerm) || 
+        data.toAccount.toLowerCase().includes(groupedSearchTerm) ||
+        data.fromAccount.toLowerCase().includes(groupedSearchTerm) ||
+        data.transactionType.toLowerCase().includes(groupedSearchTerm) ||
+        data.amount.toString().toLowerCase().includes(groupedSearchTerm)){
+          return data
+        }
+        return ""
+      })
+      searchedData[key] = filteredData;
+    }
+    setGroupedData(searchedData)
+  }
   return (
     <>
       <Navbar />
-
-      <input type='text' placeholder='Enter Search..' onChange={handleSearch} style={{margin: "20px", padding: "10px"}}/>
-      <br />
+      {
+      dataValue.length > 0
+      ? <input type='text' placeholder='Enter Search..' onChange={handleSearch} style={{margin: "20px", padding: "10px"}}/>
+            
+      : <input type='text' placeholder='Type to search on Grouped Data..' onChange={handleGroupedSearch} style={{margin: "20px", padding: "10px"}}/>
+      }<br />
       {dataFound} <br />
       <select onChange={handleChange} defaultValue={""} style={{width: "40%"}}>
         <option disabled value="">Select Group By</option>
