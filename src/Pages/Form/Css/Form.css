@@ -39,3 +39,6 @@ a{
 .white {
     color: "white"
 }
+.MuiSvgIcon-root{
+    /* margin-top: -20px; */
+}

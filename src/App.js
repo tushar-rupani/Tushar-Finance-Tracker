@@ -5,10 +5,10 @@ import { List } from "./Pages/List/List";
 import { Individual } from "./Pages/List/Individual";
 import { EditForm } from "./Pages/Form/EditForm";
 import { Fragment } from "react";
-import Protected from "./Components/Protected";
+import Protected from "./components/Protected";
 import Login from "./Pages/Authentication/Login";
-import CheckToken from "./Components/CheckToken";
-import { Learning } from "./Components/Learning";
+import CheckToken from "./components/CheckToken";
+import { Learning } from "./components/Learning";
 function App() {
   return (
     <div className="App">
