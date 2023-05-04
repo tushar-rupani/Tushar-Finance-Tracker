@@ -61,8 +61,7 @@ export const TableComp = ({dataValue, setDataValue, group}) => {
       setDataFound("")
       return
     }
-    let clonedObject = [...dataValue]
-    const filteredData = clonedObject.filter((data) => {
+    const filteredData = cloneData.filter((data) => {
       if (
         data.month.toLowerCase().includes(searchTerm) ||
         data.year.toLowerCase().includes(searchTerm) ||
