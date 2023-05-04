@@ -19,17 +19,16 @@ export const TableComp = ({
   setGroupedData,
 }) => {
   let handleSort = async (title) => {
-    console.log(title);
-    setCurrentTitle(title);
-    if (currentTitle !== title) {
-      setSortedOrder("asc");
-    } else {
-      setSortedOrder((prev) => {
-        if (prev === "asc") return "desc";
-        else if (prev === "desc") return "original";
-        else if (prev === "original") return "asc";
-      });
-    }
+    // setCurrentTitle(title);
+    // if (currentTitle !== title) {
+    //   setSortedOrder("asc");
+    // } else if (currentTitle === title) {
+    setSortedOrder((prev) => {
+      if (prev === "asc") return "desc";
+      else if (prev === "desc") return "original";
+      else if (prev === "original") return "asc";
+    });
+    // }
     let cloneData;
     if (title === "amount") {
       if (sortedOrder === "asc") {
@@ -53,12 +52,12 @@ export const TableComp = ({
       }
     }
 
+    setCurrentPage(1);
     if (group) {
       setGroupedData((prev) => ({ ...prev, data: cloneData }));
     } else {
       setDataValue(cloneData);
     }
-    setCurrentPage(1);
   };
   const handleSearch = (e) => {
     let searchTerm = e.target.value;
@@ -92,7 +91,7 @@ export const TableComp = ({
   };
   const itemsPerPage = 3;
   const [sortedOrder, setSortedOrder] = useState("asc");
-  const [currentTitle, setCurrentTitle] = useState("");
+  // const [currentTitle, setCurrentTitle] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [dataFound, setDataFound] = useState("");
   // eslint-disable-next-line
