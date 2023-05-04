@@ -5,14 +5,16 @@ import {
   transaction_type,
   accounts,
   currency,
-} from "../../Constants/_const";
+} from "../../utils/constants/_const";
 import Filebase from "react-file-base64";
 import { InitialOption } from "../Form/InitialOption";
 import { Option } from "../Form/Option";
-import { addObjectToLocalStorage, editDataIntoLocal } from "../../Services/localstorage.service";
+import {
+  addObjectToLocalStorage,
+  editDataIntoLocal,
+} from "../../Services/localstorage.service";
 import { useNavigate } from "react-router-dom";
 const FormComp = ({ dataToDisplay }) => {
-
   const INITIAL_STATE = {
     id: new Date().getTime(),
     date: "",
@@ -37,14 +39,14 @@ const FormComp = ({ dataToDisplay }) => {
     amount: "",
     notes: "",
     fileBase64: "",
-  }
+  };
   const navigate = useNavigate();
   let errorObj = {};
   // eslint-disable-next-line
   const [fileBase64, setFileBase64] = useState("");
   const [errors, setErrors] = useState(ERROR_STATE);
   let initialDataToShow = dataToDisplay ? dataToDisplay : INITIAL_STATE;
-  let showInitialImage = dataToDisplay ? true : false
+  let showInitialImage = dataToDisplay ? true : false;
   const [formState, setFormState] = useState(initialDataToShow);
   const [imageSelected, setImageSelected] = useState(showInitialImage);
 
@@ -52,28 +54,40 @@ const FormComp = ({ dataToDisplay }) => {
     if (formState.fileBase64 === "") {
       setImageSelected(false);
     }
-    // eslint-disable-next-line 
-  }, [])
+    // eslint-disable-next-line
+  }, []);
 
   const handleOnChange = (e) => {
     let { name, value } = e.target;
     if (e.target.name === "toAccount") {
       let fromAccount = formState.fromAccount;
       if (e.target.value === fromAccount) {
-        setErrors((prevState) => ({ ...prevState, toAccount: "and From Account, Both are same" }))
+        setErrors((prevState) => ({
+          ...prevState,
+          toAccount: "and From Account, Both are same",
+        }));
       }
     } else if (e.target.name === "fromAccount") {
       let toAccount = formState.toAccount;
       if (e.target.value === toAccount) {
-        setErrors((prevState) => ({ ...prevState, fromAccount: "and To Account, Both are same" }))
+        setErrors((prevState) => ({
+          ...prevState,
+          fromAccount: "and To Account, Both are same",
+        }));
       } else {
-        setErrors((prevState) => ({ ...prevState, toAccount: "", fromAccount: "" }))
+        setErrors((prevState) => ({
+          ...prevState,
+          toAccount: "",
+          fromAccount: "",
+        }));
+        delete errorObj["toAccount"];
+        delete errorObj["fromAccount"];
       }
     }
 
-
     if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: "" }))
+      delete errorObj[name];
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
     if (name === "amount") {
       value = Number(value);
@@ -96,7 +110,6 @@ const FormComp = ({ dataToDisplay }) => {
     setFormState((prevState) => ({ ...prevState, fileBase64: file.base64 }));
   };
 
-
   const handleSubmit = async (e, text) => {
     e.preventDefault();
     Object.keys(formState).forEach((data) => {
@@ -105,23 +118,21 @@ const FormComp = ({ dataToDisplay }) => {
         errorObj[data] = "is required";
       }
       if (formState["fromAccount"] === formState["toAccount"]) {
-        errorObj["toAccount"] = "and From account can not be the same"
+        errorObj["toAccount"] = "and From account can not be the same";
       }
     });
     setErrors(errorObj);
     if (Object.keys(errorObj).length === 0) {
       if (dataToDisplay) {
-        editDataIntoLocal(formState.id, formState)
-        navigate("/show")
-        return
+        editDataIntoLocal(formState.id, formState);
+        navigate("/show");
+        return;
       }
       await addObjectToLocalStorage(formState);
       setFormState(INITIAL_STATE);
-      navigate("/show")
+      navigate("/show");
     }
   };
-
-
 
   return (
     <form onSubmit={handleSubmit} className="form-add">

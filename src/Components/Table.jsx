@@ -141,7 +141,8 @@ export const TableComp = ({
                   onClick={() => handleSort(header.functionTitle)}
                 >
                   {" "}
-                  <span>{header.title}</span>
+                  <span style={{ fontSize: "15px" }}>{header.title}</span>{" "}
+                  &nbsp;
                   <SortIcon />
                 </TableCell>
               ))}

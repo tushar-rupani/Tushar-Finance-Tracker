@@ -4,16 +4,19 @@ import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import espark from "../Home/logo.svg";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { add, addIfDoesntExists, get } from "../../Services/localstorage.service";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {
+  add,
+  addIfDoesntExists,
+  get,
+} from "../../Services/localstorage.service";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
@@ -22,7 +25,7 @@ const Login = () => {
     id: new Date().getTime(),
     email: "",
     password: "",
-    repassword: ""
+    repassword: "",
   };
   addIfDoesntExists();
   const navigate = useNavigate();
@@ -38,46 +41,52 @@ const Login = () => {
     return randomString;
   };
   const handleSubmit = (e) => {
-    let errorObj = {}
+    let errorObj = {};
     e.preventDefault();
     if (signUp) {
       Object.keys(formData).forEach((data) => {
         if (formData[data] === "") {
-          errorObj[data] = "This field is required"
+          errorObj[data] = "This field is required";
         }
-      })
-      setErrors(errorObj)
+      });
+      setErrors(errorObj);
       if (formData.password !== formData.repassword) {
-        setErrors((prev) => ({ ...prev, repassword: "This password does not match with the previous one" }));
-        return
+        setErrors((prev) => ({
+          ...prev,
+          repassword: "This password does not match with the previous one",
+        }));
+        return;
       }
       if (Object.keys(errorObj).length === 0) {
         add("credentials", formData);
-        toast("User has been added, try logging in!")
-        setSignUp(false)
+        toast("User has been added, try logging in!");
+        setSignUp(false);
         e.target.reset();
-        e.target.email.focus()
+        e.target.email.focus();
       }
     } else {
       Object.keys(formData).forEach((data) => {
         if (formData[data] === "" && data !== "repassword") {
-          errorObj[data] = "This field is required"
+          errorObj[data] = "This field is required";
         }
-      })
-      setErrors(errorObj)
+      });
+      setErrors(errorObj);
       if (Object.keys(errorObj).length === 0) {
         let dataFromLS = get("credentials");
         if (dataFromLS == null) {
-          toast.error("No accounts created!")
-          return
+          toast.error("No accounts created!");
+          return;
         }
-        if (formData.email === dataFromLS.email && formData.password === dataFromLS.password) {
-          add("token", generateString())
-          navigate("/home")
+        if (
+          formData.email === dataFromLS.email &&
+          formData.password === dataFromLS.password
+        ) {
+          add("token", generateString());
+          navigate("/home");
         } else {
-          setFormData({})
+          setFormData({});
           console.log(formData);
-          toast.error("You have entered wrong credentials")
+          toast.error("You have entered wrong credentials");
         }
       }
     }
@@ -85,7 +94,7 @@ const Login = () => {
 
   const handleState = () => {
     setSignUp((prev) => !prev);
-    setErrors({})
+    setErrors({});
   };
   return (
     <ThemeProvider theme={theme}>
@@ -119,7 +128,7 @@ const Login = () => {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Email Address or Username"
               name="email"
               autoComplete="email"
               value={formData.email}
@@ -167,10 +176,11 @@ const Login = () => {
               {signUp ? "Sign UP" : "Sign In"}
             </Button>
             <Grid container>
-
               <Grid item>
                 <Button href="#" variant="body2" onClick={handleState}>
-                  {!signUp ? "Don't have an account? Sign Up" : "Already have an account Login"}
+                  {!signUp
+                    ? "Don't have an account? Sign Up"
+                    : "Already have an account Login"}
                 </Button>
               </Grid>
             </Grid>
