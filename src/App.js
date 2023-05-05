@@ -1,14 +1,14 @@
-import { Form } from "./Pages/Form/Form";
-import { Home } from "./Pages/Home/Home";
+import { Form } from "./pages/Form/Form";
+import { Home } from "./pages/Home/Home";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { List } from "./Pages/List/List";
-import { Individual } from "./Pages/List/Individual";
-import { EditForm } from "./Pages/Form/EditForm";
+// import { List } from "./pages/List/List";
+import { List } from "./pages/List/List";
+import { Individual } from "./pages/List/Individual";
+import { EditForm } from "./pages/Form/EditForm";
 import { Fragment } from "react";
-import Protected from "./components/Protected";
-import Login from "./Pages/Authentication/Login";
-import CheckToken from "./components/CheckToken";
-import { Learning } from "./components/Learning";
+import Protected from "./components/HOCs/Protected";
+import Login from "./pages/Authentication/Login";
+import CheckToken from "./components/HOCs/CheckToken";
 function App() {
   return (
     <div className="App">
@@ -16,7 +16,7 @@ function App() {
         <Fragment>
           <Routes>
             <Route element={<CheckToken />}>
-            <Route index element={<Login />} />
+              <Route index element={<Login />} />
             </Route>
             <Route element={<Protected />}>
               <Route path="/home" element={<Home />} />
@@ -25,7 +25,6 @@ function App() {
               <Route path="/add" element={<Form />} />
               <Route path="/edit/:id" element={<EditForm />} />
             </Route>
-          <Route path="/learn" element={<Learning />} />
           </Routes>
         </Fragment>
       </BrowserRouter>

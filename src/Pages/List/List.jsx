@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { loadDataFromLocal } from "../../services/localstorage.service";
-import { TableComp } from "../../components/Table";
+import { TableComp } from "../../components/Table/Table";
 import { Navbar } from "../Home/Navbar";
 import { addIfDoesntExists } from "../../services/localstorage.service";
 export const List = () => {

@@ -7,8 +7,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TableRowComp from "./TableRowComp";
-import { Pagination } from "./Pagination";
-import { loadDataFromLocal } from "../services/localstorage.service";
+import { Pagination } from "../Pagination";
+import { loadDataFromLocal } from "../../services/localstorage.service";
 
 const allData = loadDataFromLocal();
 export const TableComp = ({ dataValue, setDataValue, group }) => {

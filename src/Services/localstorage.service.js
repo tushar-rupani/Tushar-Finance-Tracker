@@ -14,7 +14,7 @@ export let addObjectToLocalStorage = async (data) => {
 
 export let loadDataFromLocal = () => {
   let newObject = JSON.parse(localStorage.getItem("expense-data"));
-  let currentUser = get("token").email;
+  let currentUser = get("token")?.email;
   let filterObject = newObject.filter((data) => data.user === currentUser);
   return filterObject;
 };
