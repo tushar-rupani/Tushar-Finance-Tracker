@@ -12,11 +12,14 @@ import { Option } from "../Form/Option";
 import {
   addObjectToLocalStorage,
   editDataIntoLocal,
+  get,
 } from "../../Services/localstorage.service";
 import { useNavigate } from "react-router-dom";
 const FormComp = ({ dataToDisplay }) => {
+  let user = get("token");
   const INITIAL_STATE = {
     id: new Date().getTime(),
+    user: user.email,
     date: "",
     month: "",
     year: "",

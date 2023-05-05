@@ -83,7 +83,10 @@ const Login = () => {
             formData.email === user.email &&
             formData.password === user.password
           ) {
-            localStorage.setItem("token", generateString());
+            localStorage.setItem(
+              "token",
+              JSON.stringify({ token: generateString(), email: formData.email })
+            );
             navigate("/show");
           }
         } else {
