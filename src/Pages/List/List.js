@@ -101,7 +101,7 @@ export const List = () => {
                 <h2>{data}</h2>
                 <TableComp
                   dataValue={groupedData[data]}
-                  setGroupedData={setGroupedData}
+                  setDataValue={setDataValue}
                   group={true}
                   data={data}
                 />

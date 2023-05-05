@@ -98,6 +98,12 @@ const FormComp = ({ dataToDisplay }) => {
     setFormState((prevState) => ({ ...prevState, [name]: value }));
   };
 
+  const handleImageCancel = () => {
+    setImageSelected((prev) => !prev);
+    setFileBase64("");
+    setFormState((prevState) => ({ ...prevState, fileBase64: "" }));
+  };
+
   const handleFileSelect = (file) => {
     if (file.file.size > 1024 * 1024) {
       alert("File Should be less than 1MB");
@@ -265,10 +271,7 @@ const FormComp = ({ dataToDisplay }) => {
             width={200}
             height={200}
           />
-          <button
-            type="button"
-            onClick={() => setImageSelected((prev) => !prev)}
-          >
+          <button type="button" onClick={handleImageCancel}>
             X
           </button>
         </div>

@@ -14,6 +14,7 @@ const allData = loadDataFromLocal();
 export const TableComp = ({ dataValue, setDataValue, group }) => {
   let handleSort = async (title) => {
     let cloneData;
+    console.log("coming");
     switch (title) {
       case "amount":
         if (sortedOrder.key !== title || sortedOrder.direction === "asc") {
@@ -82,7 +83,8 @@ export const TableComp = ({ dataValue, setDataValue, group }) => {
         data.toAccount.toLowerCase().includes(searchTerm) ||
         data.fromAccount.toLowerCase().includes(searchTerm) ||
         data.transactionType.toLowerCase().includes(searchTerm) ||
-        data.amount.toString().toLowerCase().includes(searchTerm)
+        data.amount.toString().toLowerCase().includes(searchTerm) ||
+        data.notes.toString().toLowerCase().includes(searchTerm)
       ) {
         return data;
       }
