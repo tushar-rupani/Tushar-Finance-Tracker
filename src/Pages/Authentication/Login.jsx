@@ -77,15 +77,16 @@ const Login = () => {
           toast.error("No accounts created!");
           return;
         }
-        if (
-          formData.email === dataFromLS.email &&
-          formData.password === dataFromLS.password
-        ) {
-          add("token", generateString());
-          navigate("/show");
+        const user = dataFromLS.find((data) => data.email === formData.email);
+        if (user) {
+          if (
+            formData.email === user.email &&
+            formData.password === user.password
+          ) {
+            localStorage.setItem("token", generateString());
+            navigate("/show");
+          }
         } else {
-          setFormData({});
-          console.log(formData);
           toast.error("You have entered wrong credentials");
         }
       }

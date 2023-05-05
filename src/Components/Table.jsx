@@ -6,7 +6,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import SortIcon from "@mui/icons-material/Sort";
 import TableRowComp from "./TableRowComp";
 import { Pagination } from "./Pagination";
 import { loadDataFromLocal } from "../Services/localstorage.service";
@@ -15,32 +14,56 @@ const allData = loadDataFromLocal();
 export const TableComp = ({ dataValue, setDataValue, group }) => {
   let handleSort = async (title) => {
     let cloneData;
-    if (title === "amount") {
-      if (sortedOrder.key !== title || sortedOrder.direction === "asc") {
-        cloneData = dataValue.sort((a, b) => a[title] - b[title]);
-        setDataValue(cloneData);
-        setSortedOrder({ key: title, direction: "desc" });
-      } else if (sortedOrder.direction === "desc") {
-        cloneData = dataValue.sort((a, b) => b[title] - a[title]);
-        setDataValue(cloneData);
-        setSortedOrder({ key: title, direction: null });
-      } else {
-        setDataValue(allData);
-        setSortedOrder({ key: title, direction: "asc" });
-      }
-    } else {
-      if (sortedOrder.key !== title || sortedOrder.direction === "asc") {
-        cloneData = dataValue.sort((a, b) => (a[title] > b[title] ? 1 : -1));
-        setDataValue(cloneData);
-        setSortedOrder({ key: title, direction: "desc" });
-      } else if (sortedOrder.direction === "desc") {
-        cloneData = dataValue.sort((a, b) => (a[title] < b[title] ? 1 : -1));
-        setDataValue(cloneData);
-        setSortedOrder({ key: title, direction: null });
-      } else {
-        setDataValue(allData);
-        setSortedOrder({ key: title, direction: "asc" });
-      }
+    switch (title) {
+      case "amount":
+        if (sortedOrder.key !== title || sortedOrder.direction === "asc") {
+          cloneData = dataValue.sort((a, b) => a[title] - b[title]);
+          setDataValue(cloneData);
+          setSortedOrder({ key: title, direction: "desc" });
+        } else if (sortedOrder.direction === "desc") {
+          cloneData = dataValue.sort((a, b) => b[title] - a[title]);
+          setDataValue(cloneData);
+          setSortedOrder({ key: title, direction: null });
+        } else {
+          setDataValue(allData);
+          setSortedOrder({ key: title, direction: "asc" });
+        }
+        break;
+
+      case "date":
+        if (sortedOrder.key !== title || sortedOrder.direction === "asc") {
+          cloneData = dataValue.sort(
+            (a, b) =>
+              new Date(a[title]).getTime() - new Date(b[title]).getTime()
+          );
+          setDataValue(cloneData);
+          setSortedOrder({ key: title, direction: "desc" });
+        } else if (sortedOrder.direction === "desc") {
+          cloneData = dataValue.sort(
+            (a, b) =>
+              new Date(b[title]).getTime() - new Date(a[title]).getTime()
+          );
+          setDataValue(cloneData);
+          setSortedOrder({ key: title, direction: null });
+        } else {
+          setDataValue(allData);
+          setSortedOrder({ key: title, direction: "asc" });
+        }
+        break;
+
+      default:
+        if (sortedOrder.key !== title || sortedOrder.direction === "asc") {
+          cloneData = dataValue.sort((a, b) => (a[title] > b[title] ? 1 : -1));
+          setDataValue(cloneData);
+          setSortedOrder({ key: title, direction: "desc" });
+        } else if (sortedOrder.direction === "desc") {
+          cloneData = dataValue.sort((a, b) => (a[title] < b[title] ? 1 : -1));
+          setDataValue(cloneData);
+          setSortedOrder({ key: title, direction: null });
+        } else {
+          setDataValue(allData);
+          setSortedOrder({ key: title, direction: "asc" });
+        }
     }
     setCurrentPage(1);
   };
@@ -131,7 +154,7 @@ export const TableComp = ({ dataValue, setDataValue, group }) => {
                   <span style={{ fontSize: "15px" }}>{header.title}</span>{" "}
                   &nbsp;
                   {sortedOrder.direction === "asc" ? (
-                    ""
+                    <>&#8661; </>
                   ) : sortedOrder.direction === "desc" ? (
                     <>&#8593;</>
                   ) : (

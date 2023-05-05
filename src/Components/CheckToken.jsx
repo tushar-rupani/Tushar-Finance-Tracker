@@ -4,7 +4,7 @@ import Login from "../Pages/Authentication/Login";
 import { Navigate } from "react-router-dom";
 
 const CheckToken = () => {
-  let token = get("token");
+  let token = localStorage.getItem("token");
   return token ? <Navigate to="/show" /> : <Login />;
 };
 
