@@ -12,52 +12,39 @@ import { Pagination } from "./Pagination";
 import { loadDataFromLocal } from "../Services/localstorage.service";
 
 const allData = loadDataFromLocal();
-export const TableComp = ({
-  dataValue,
-  setDataValue,
-  group,
-  setGroupedData,
-}) => {
+export const TableComp = ({ dataValue, setDataValue, group }) => {
   let handleSort = async (title) => {
-    // setCurrentTitle(title);
-    // if (currentTitle !== title) {
-    //   setSortedOrder("asc");
-    // } else if (currentTitle === title) {
-    setSortedOrder((prev) => {
-      if (prev === "asc") return "desc";
-      else if (prev === "desc") return "original";
-      else if (prev === "original") return "asc";
-    });
-    // }
     let cloneData;
     if (title === "amount") {
-      if (sortedOrder === "asc") {
+      if (sortedOrder.key !== title || sortedOrder.direction === "asc") {
         cloneData = dataValue.sort((a, b) => a[title] - b[title]);
-      } else if (sortedOrder === "desc") {
+        setDataValue(cloneData);
+        setSortedOrder({ key: title, direction: "desc" });
+      } else if (sortedOrder.direction === "desc") {
         cloneData = dataValue.sort((a, b) => b[title] - a[title]);
+        setDataValue(cloneData);
+        setSortedOrder({ key: title, direction: null });
       } else {
         setDataValue(allData);
-        setSortedOrder("asc");
+        setSortedOrder({ key: title, direction: "asc" });
         return;
       }
     } else {
-      if (sortedOrder === "asc") {
+      if (sortedOrder.key !== title || sortedOrder.direction === "asc") {
         cloneData = dataValue.sort((a, b) => (a[title] > b[title] ? 1 : -1));
-      } else if (sortedOrder === "desc") {
+        setDataValue(cloneData);
+        setSortedOrder({ key: title, direction: "desc" });
+      } else if (sortedOrder.direction === "desc") {
         cloneData = dataValue.sort((a, b) => (a[title] < b[title] ? 1 : -1));
+        setDataValue(cloneData);
+        setSortedOrder({ key: title, direction: null });
       } else {
         setDataValue(allData);
-        setSortedOrder("asc");
+        setSortedOrder({ key: title, direction: "asc" });
         return;
       }
     }
-
     setCurrentPage(1);
-    if (group) {
-      setGroupedData((prev) => ({ ...prev, data: cloneData }));
-    } else {
-      setDataValue(cloneData);
-    }
   };
   const handleSearch = (e) => {
     let searchTerm = e.target.value;
@@ -90,8 +77,10 @@ export const TableComp = ({
     setCurrentPage(1);
   };
   const itemsPerPage = 3;
-  const [sortedOrder, setSortedOrder] = useState("asc");
-  // const [currentTitle, setCurrentTitle] = useState("");
+  const [sortedOrder, setSortedOrder] = useState({
+    key: null,
+    direction: "asc",
+  });
   const [currentPage, setCurrentPage] = useState(1);
   const [dataFound, setDataFound] = useState("");
   // eslint-disable-next-line

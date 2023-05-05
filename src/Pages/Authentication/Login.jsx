@@ -82,7 +82,7 @@ const Login = () => {
           formData.password === dataFromLS.password
         ) {
           add("token", generateString());
-          navigate("/home");
+          navigate("/show");
         } else {
           setFormData({});
           console.log(formData);
