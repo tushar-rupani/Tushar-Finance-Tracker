@@ -8,13 +8,20 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TableRowComp from "./TableRowComp";
 import { Pagination } from "../Pagination";
-import { loadDataFromLocal } from "../../services/localstorage.service";
 
-const allData = loadDataFromLocal();
-export const TableComp = ({ dataValue, setDataValue, group }) => {
+export const TableComp = ({ data }) => {
+  const itemsPerPage = 3;
+  const [sortedOrder, setSortedOrder] = useState({
+    key: null,
+    direction: "asc",
+  });
+  const [dataValue, setDataValue] = useState(data);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [dataFound, setDataFound] = useState("");
+  // eslint-disable-next-line
+  const [cloneData, setCloneData] = useState([...data]);
   let handleSort = async (title) => {
     let cloneData;
-    console.log("coming");
     switch (title) {
       case "amount":
         if (sortedOrder.key !== title || sortedOrder.direction === "asc") {
@@ -26,7 +33,8 @@ export const TableComp = ({ dataValue, setDataValue, group }) => {
           setDataValue(cloneData);
           setSortedOrder({ key: title, direction: null });
         } else {
-          setDataValue(allData);
+          setDataValue(data);
+          console.log(data);
           setSortedOrder({ key: title, direction: "asc" });
         }
         break;
@@ -47,7 +55,7 @@ export const TableComp = ({ dataValue, setDataValue, group }) => {
           setDataValue(cloneData);
           setSortedOrder({ key: title, direction: null });
         } else {
-          setDataValue(allData);
+          setDataValue(data);
           setSortedOrder({ key: title, direction: "asc" });
         }
         break;
@@ -62,7 +70,7 @@ export const TableComp = ({ dataValue, setDataValue, group }) => {
           setDataValue(cloneData);
           setSortedOrder({ key: title, direction: null });
         } else {
-          setDataValue(allData);
+          setDataValue(data);
           setSortedOrder({ key: title, direction: "asc" });
         }
     }
@@ -96,19 +104,10 @@ export const TableComp = ({ dataValue, setDataValue, group }) => {
       setDataFound(`${filteredData.length} record(s) found!`);
     }
     setDataValue(filteredData);
-    console.log(cloneData);
     setCurrentPage(1);
   };
-  const itemsPerPage = 3;
-  const [sortedOrder, setSortedOrder] = useState({
-    key: null,
-    direction: "asc",
-  });
-  const [currentPage, setCurrentPage] = useState(1);
-  const [dataFound, setDataFound] = useState("");
-  // eslint-disable-next-line
-  const [cloneData, setCloneData] = useState([...dataValue]);
-  var lengthOfData, pagesNeeded, pageNumbers, indexOfFirstPage, indexOfLastPage;
+
+  let lengthOfData, pagesNeeded, pageNumbers, indexOfFirstPage, indexOfLastPage;
   lengthOfData = dataValue.length;
   pagesNeeded = Math.ceil(lengthOfData / itemsPerPage);
   pageNumbers = [...Array(pagesNeeded + 1).keys()].slice(1);
@@ -127,14 +126,13 @@ export const TableComp = ({ dataValue, setDataValue, group }) => {
   ];
   return (
     <div>
-      {group === false && (
-        <input
-          type="text"
-          placeholder="Enter Search.."
-          onChange={handleSearch}
-          style={{ margin: "20px", padding: "10px" }}
-        />
-      )}
+      <input
+        type="text"
+        placeholder="Enter Search.."
+        onChange={handleSearch}
+        style={{ margin: "20px", padding: "10px" }}
+      />
+
       {dataFound}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">

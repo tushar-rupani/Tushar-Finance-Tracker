@@ -126,7 +126,11 @@ const FormComp = ({ dataToDisplay }) => {
       if (formState[data] === "") {
         errorObj[data] = "is required";
       }
-      if (formState["fromAccount"] === formState["toAccount"]) {
+      if (
+        formState["fromAccount"] !== "" &&
+        formState["toAccount"] !== "" &&
+        formState["fromAccount"] === formState["toAccount"]
+      ) {
         errorObj["toAccount"] = "and From account can not be the same";
       }
     });
@@ -157,7 +161,7 @@ const FormComp = ({ dataToDisplay }) => {
           }
         />
 
-        {errors.date && <span>Date {errors.date}</span>}
+        {errors.date && <span className="error">Date {errors.date}</span>}
       </div>
       <div>
         <select name="month" value={formState.month} onChange={handleOnChange}>
@@ -166,14 +170,14 @@ const FormComp = ({ dataToDisplay }) => {
             <Option key={index} value={month} myKey={index} />
           ))}
         </select>
-        {errors.month && <span>Month {errors.month}</span>}
+        {errors.month && <span className="error">Month {errors.month}</span>}
         <select name="year" value={formState.year} onChange={handleOnChange}>
           <InitialOption params="Year" />
           {years.map((year, index) => (
             <Option value={year} key={index} myKey={index} />
           ))}
         </select>
-        {errors.year && <span>Year {errors.year}</span>}
+        {errors.year && <span className="error">Year {errors.year}</span>}
         <select
           name="transactionType"
           value={formState.transactionType}
@@ -185,7 +189,7 @@ const FormComp = ({ dataToDisplay }) => {
           ))}
         </select>
         {errors.transactionType && (
-          <span>Transaction {errors.transactionType}</span>
+          <span className="error">Transaction {errors.transactionType}</span>
         )}
       </div>
 
@@ -200,7 +204,9 @@ const FormComp = ({ dataToDisplay }) => {
             <Option value={accs} key={index} myKey={index} />
           ))}
         </select>
-        {errors.fromAccount && <span>From Account {errors.fromAccount}</span>}
+        {errors.fromAccount && (
+          <span className="error">From Account {errors.fromAccount}</span>
+        )}
         <select
           name="toAccount"
           value={formState.toAccount}
@@ -211,7 +217,9 @@ const FormComp = ({ dataToDisplay }) => {
             <Option value={accs} key={index} myKey={index} />
           ))}
         </select>
-        {errors.toAccount && <span>To Account {errors.toAccount}</span>}
+        {errors.toAccount && (
+          <span className="error">To Account {errors.toAccount}</span>
+        )}
       </div>
 
       <div>
@@ -234,7 +242,7 @@ const FormComp = ({ dataToDisplay }) => {
           onChange={handleOnChange}
           value={formState.amount}
         />
-        {errors.amount && <span>Amount {errors.amount}</span>}
+        {errors.amount && <span className="error">Amount {errors.amount}</span>}
         <br />
         <br />
       </div>
@@ -244,7 +252,7 @@ const FormComp = ({ dataToDisplay }) => {
         onChange={handleOnChange}
         value={formState.notes}
       ></textarea>
-      {errors.notes && <span>"Notes" {errors.notes}</span>}
+      {errors.notes && <span className="error">"Notes" {errors.notes}</span>}
       <br />
       <br />
 
@@ -258,7 +266,9 @@ const FormComp = ({ dataToDisplay }) => {
           />
           <br />
           <br />
-          {errors.fileBase64 && <span>{errors.fileBase64}</span>}
+          {errors.fileBase64 && (
+            <span className="error">{errors.fileBase64}</span>
+          )}
           <br />
           <br />
         </div>

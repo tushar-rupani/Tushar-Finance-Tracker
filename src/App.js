@@ -1,7 +1,6 @@
 import { Form } from "./pages/Form/Form";
 import { Home } from "./pages/Home/Home";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import { List } from "./pages/List/List";
 import { List } from "./pages/List/List";
 import { Individual } from "./pages/List/Individual";
 import { EditForm } from "./pages/Form/EditForm";

@@ -6,7 +6,6 @@ import { Navbar } from "../Home/Navbar";
 export const EditForm = () => {
   const params = useParams();
   const dataToUpdate = getDataFromLocal(params.id);
-  console.log("data update", dataToUpdate);
   return (
     <div>
       <Navbar />

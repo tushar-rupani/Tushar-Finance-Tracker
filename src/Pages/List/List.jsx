@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { loadDataFromLocal } from "../../services/localstorage.service";
+import {
+  loadDataFromLocal,
+  addIfDoesntExists,
+} from "../../services/localstorage.service";
 import { TableComp } from "../../components/Table/Table";
 import { Navbar } from "../Home/Navbar";
-import { addIfDoesntExists } from "../../services/localstorage.service";
 export const List = () => {
   addIfDoesntExists();
   let allData = loadDataFromLocal();
@@ -28,6 +30,8 @@ export const List = () => {
     setGroupedData({});
   };
 
+  // The below code handles code for searching "Grouped Data" with single search box, instead of having search box for each different table. However we are not using this anymore as Sanket Sir said.
+  // eslint-disable-next-line
   const handleGroupedSearch = (e) => {
     const searchedData = {};
     let groupedSearchTerm = e.target.value.toLowerCase();
@@ -59,14 +63,6 @@ export const List = () => {
   return (
     <>
       <Navbar />
-      {Object.keys(groupedData).length !== 0 && (
-        <input
-          type="text"
-          placeholder="Enter Group Search.."
-          onChange={handleGroupedSearch}
-          style={{ margin: "20px", padding: "10px" }}
-        />
-      )}
       <select
         onChange={handleChange}
         defaultValue={""}
@@ -85,13 +81,7 @@ export const List = () => {
         <button onClick={handleRemoveFilter}>Remove Filter</button>
       )}
 
-      {Object.keys(groupedData).length === 0 && (
-        <TableComp
-          dataValue={dataValue}
-          setDataValue={setDataValue}
-          group={false}
-        />
-      )}
+      {Object.keys(groupedData).length === 0 && <TableComp data={dataValue} />}
 
       {Object.keys(groupedData) &&
         Object.keys(groupedData).map((data, index) => (
@@ -99,12 +89,7 @@ export const List = () => {
             {groupedData[data].length > 0 && (
               <>
                 <h2>{data}</h2>
-                <TableComp
-                  dataValue={groupedData[data]}
-                  setDataValue={setDataValue}
-                  group={true}
-                  data={data}
-                />
+                <TableComp data={groupedData[data]} />
               </>
             )}
           </div>
