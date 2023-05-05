@@ -1,5 +1,5 @@
 import React from "react";
-import { addIfDoesntExists } from "../../Services/localstorage.service";
+import { addIfDoesntExists } from "../../services/localstorage.service";
 import { Navbar } from "./Navbar";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";

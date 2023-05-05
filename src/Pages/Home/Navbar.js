@@ -17,7 +17,7 @@ import tushar from "./tushar.jpg";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 // import XLSX from "xlsx"
-import { get, loadDataFromLocal } from "../../Services/localstorage.service";
+import { get, loadDataFromLocal } from "../../services/localstorage.service";
 const XLSX = require("xlsx");
 
 export const Navbar = () => {

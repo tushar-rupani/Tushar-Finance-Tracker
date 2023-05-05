@@ -13,7 +13,7 @@ import {
   addObjectToLocalStorage,
   editDataIntoLocal,
   get,
-} from "../../Services/localstorage.service";
+} from "../../services/localstorage.service";
 import { useNavigate } from "react-router-dom";
 const FormComp = ({ dataToDisplay }) => {
   let user = get("token");

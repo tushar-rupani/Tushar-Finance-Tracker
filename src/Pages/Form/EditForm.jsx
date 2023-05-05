@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import FormComp from "./FormComp";
-import { getDataFromLocal } from "../../Services/localstorage.service";
+import { getDataFromLocal } from "../../services/localstorage.service";
 import { Navbar } from "../Home/Navbar";
 export const EditForm = () => {
   const params = useParams();
@@ -9,8 +9,8 @@ export const EditForm = () => {
   console.log("data update", dataToUpdate);
   return (
     <div>
-    <Navbar />
-       <FormComp dataToDisplay={dataToUpdate}/>
+      <Navbar />
+      <FormComp dataToDisplay={dataToUpdate} />
     </div>
   );
 };

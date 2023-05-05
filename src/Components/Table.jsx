@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TableRowComp from "./TableRowComp";
 import { Pagination } from "./Pagination";
-import { loadDataFromLocal } from "../Services/localstorage.service";
+import { loadDataFromLocal } from "../services/localstorage.service";
 
 const allData = loadDataFromLocal();
 export const TableComp = ({ dataValue, setDataValue, group }) => {
@@ -156,7 +156,7 @@ export const TableComp = ({ dataValue, setDataValue, group }) => {
                   <span style={{ fontSize: "15px" }}>{header.title}</span>{" "}
                   &nbsp;
                   {sortedOrder.direction === "asc" ? (
-                    <>&#8661; </>
+                    <>&#8597; </>
                   ) : sortedOrder.direction === "desc" ? (
                     <>&#8593;</>
                   ) : (

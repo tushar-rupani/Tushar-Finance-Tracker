@@ -14,7 +14,7 @@ import {
   add,
   addIfDoesntExists,
   get,
-} from "../../Services/localstorage.service";
+} from "../../services/localstorage.service";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
