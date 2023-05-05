@@ -27,7 +27,6 @@ export const TableComp = ({ dataValue, setDataValue, group }) => {
       } else {
         setDataValue(allData);
         setSortedOrder({ key: title, direction: "asc" });
-        return;
       }
     } else {
       if (sortedOrder.key !== title || sortedOrder.direction === "asc") {
@@ -41,7 +40,6 @@ export const TableComp = ({ dataValue, setDataValue, group }) => {
       } else {
         setDataValue(allData);
         setSortedOrder({ key: title, direction: "asc" });
-        return;
       }
     }
     setCurrentPage(1);
@@ -132,7 +130,13 @@ export const TableComp = ({ dataValue, setDataValue, group }) => {
                   {" "}
                   <span style={{ fontSize: "15px" }}>{header.title}</span>{" "}
                   &nbsp;
-                  <SortIcon />
+                  {sortedOrder.direction === "asc" ? (
+                    ""
+                  ) : sortedOrder.direction === "desc" ? (
+                    <>&#8593;</>
+                  ) : (
+                    <>&#8595;</>
+                  )}
                 </TableCell>
               ))}
               <TableCell align="right">Image</TableCell>
