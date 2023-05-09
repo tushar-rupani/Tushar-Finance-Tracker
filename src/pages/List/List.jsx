@@ -1,14 +1,19 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import { TableComp } from "../../components/Table/Table";
 import { Navbar } from "../Home/Navbar";
 import { GlobalContext } from "../../context/GlobalContext";
 
 export const List = () => {
+
   const { data } = useContext(GlobalContext);
-  let [dataValue, setDataValue] = useState([...data]);
+  const [dataValue, setDataValue] = useState([])
   let [groupedData, setGroupedData] = useState({});
   let [cloneOfGroupBy, setCloneOfGroupBy] = useState({});
+  useEffect(() => {
+    setDataValue([...data])
+  }, [data])
+
   const handleChange = (e) => {
     let search = e.target.value;
     const groupByCategory = data.reduce((group, product) => {
@@ -19,7 +24,6 @@ export const List = () => {
     }, {});
 
     setGroupedData(groupByCategory);
-    console.log(groupByCategory);
     setCloneOfGroupBy({ ...groupByCategory });
     setDataValue([]);
   };
@@ -80,16 +84,16 @@ export const List = () => {
         <button onClick={handleRemoveFilter}>Remove Filter</button>
       )}
 
-      {Object.keys(groupedData).length === 0 && <TableComp data={dataValue} />}
+      {Object.keys(groupedData).length === 0 && <><TableComp data={dataValue} /></>}
 
       {Object.keys(groupedData) &&
         Object.keys(groupedData).map((data, index) => (
-          <div>
+          <div key={index}>
             {groupedData[data].length > 0 && (
-              <>
+              <div>
                 <h2>{data}</h2>
                 <TableComp data={groupedData[data]} />
-              </>
+              </div>
             )}
           </div>
         ))}

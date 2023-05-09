@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -16,7 +16,13 @@ export const TableComp = ({ data }) => {
     key: null,
     direction: "asc",
   });
-  const [dataValue, setDataValue] = useState(data);
+  const [dataValue, setDataValue] = useState([]);
+
+  useEffect(() => {
+    setDataValue([...data])
+  }, [data])
+
+
   // eslint-disable-next-line
   const [cloneOfData, setCloneOfData] = useState([...data]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -173,8 +179,8 @@ export const TableComp = ({ data }) => {
             {dataValue.length > 0 &&
               dataValue
                 .slice(indexOfFirstPage, indexOfLastPage)
-                .map((data, index) => (
-                  <TableRowComp data={data} index={index} />
+                .map((element, index) => (
+                  <TableRowComp row={element} index={index} />
                 ))}
           </TableBody>
         </Table>

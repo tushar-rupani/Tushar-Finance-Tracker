@@ -10,56 +10,57 @@ import {
 import './Form/css/Form.css'
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from '../utils/schema'
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Select } from "../components/FormElements/Select";
-// import { GlobalContext } from "../context/GlobalContext"
+import { GlobalContext } from "../context/GlobalContext"
 import { Navbar } from './Home/Navbar'
 import { INITIAL_STATE } from "../utils/constants/_const";
 
 
 const FormHook = ({ dataToDisplay }) => {
-    // const navigate = useNavigate();
-    // const { setData } = useContext(GlobalContext);
+    const navigate = useNavigate();
+    const { setData, data } = useContext(GlobalContext);
     const [formState, setFormState] = useState(INITIAL_STATE);
     const values = formState;
-    // console.log("values", values);
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm({ values, resolver: yupResolver(schema) });
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm({ values, resolver: yupResolver(schema) });
     // eslint-disable-next-line
     const [fileBase64, setFileBase64] = useState("");
-    let showInitialImage = dataToDisplay ? true : false;
+    let showInitialImage = dataToDisplay?.fileBase64 ? true : false;
     const [imageSelected, setImageSelected] = useState(showInitialImage);
 
 
     useEffect(() => {
-        if (formState.fileBase64 === "") {
-            setImageSelected(false);
-        }
         if (dataToDisplay) {
             setFormState(dataToDisplay);
+            if (dataToDisplay.fileBase64 !== "") {
+                setImageSelected(true);
+                setFileBase64(dataToDisplay.fileBase64)
+            }
         }
         // eslint-disable-next-line
     }, []);
-
-    useEffect(() => {
-        console.log("called")
-    }, [formState])
-    const onSubmitHandler = (data) => {
-        // setValue(INITIAL_STATE)
-        console.log("data coming from form", data);
-        // if (dataToDisplay) {
-        //     editDataIntoLocal(formState.id, formState)
-        //     navigate("/show")
-        //     return;
-        // }
-        // setData((prev) => ([formState, ...prev]))
-        // toast("Data Submitted")
-        // navigate("/show")
+    const onSubmitHandler = (dataFromForm) => {
+        let newObj;
+        if (dataToDisplay) {
+            newObj = { ...dataFromForm };
+            newObj["fileBase64"] = fileBase64
+            let editedData = data.map((element) => element.id === dataToDisplay.id ? newObj : element)
+            setData(editedData);
+            navigate("/show")
+            return;
+        }
+        newObj = { id: new Date().getTime(), ...dataFromForm };
+        newObj["fileBase64"] = fileBase64;
+        setData((prev) => ([newObj, ...prev]))
+        toast("Data Submitted")
+        navigate("/show")
     }
 
     const handleImageCancel = () => {
+        setValue("fileBase64", "")
         setImageSelected((prev) => !prev);
         setFileBase64("");
         setFormState((prevState) => ({ ...prevState, fileBase64: "" }));
@@ -72,7 +73,6 @@ const FormHook = ({ dataToDisplay }) => {
         reader.onload = () => {
             setFileBase64(reader.result);
             setImageSelected(true);
-            setFormState((prevState) => ({ ...prevState, fileBase64: reader.result }));
         }
     };
     return (
@@ -120,7 +120,9 @@ const FormHook = ({ dataToDisplay }) => {
                 {
                     !imageSelected && (
                         <div>
-                            <input type="file" name="receipt" onChange={handleFileSelect} {...register("fileBase64")} />
+                            <input type="file" name="receipt" onChange={handleFileSelect} {...register("fileBase64", {
+                                onChange: handleFileSelect
+                            })} />
                             <br />
                         </div>
                     )
@@ -129,11 +131,12 @@ const FormHook = ({ dataToDisplay }) => {
                     imageSelected && (
                         <div>
                             <img
-                                src={formState.fileBase64}
+                                src={fileBase64}
                                 alt="Error in loading"
                                 width={200}
                                 height={200}
                             />
+
                             <button type="button"
                                 onClick={handleImageCancel}
                             >
@@ -144,7 +147,7 @@ const FormHook = ({ dataToDisplay }) => {
                 }
                 {errors.receipt && errors.receipt.message}
                 <input type="submit" value="Submit" />
-                <ToastContainer />
+                {/* <ToastContainer /> */}
             </form >
         </>
     );

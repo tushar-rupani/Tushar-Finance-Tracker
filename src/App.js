@@ -9,6 +9,8 @@ import Login from "./pages/Authentication/Login";
 import CheckToken from "./components/HOCs/CheckToken";
 import FormHook from "./pages/FormHook";
 import { GlobalProvider } from "./context/GlobalContext";
+import { ToastContainer } from "react-toastify";
+
 function App() {
   return (
     <div className="App">
@@ -30,6 +32,7 @@ function App() {
           </Fragment>
         </GlobalProvider>
       </BrowserRouter>
+      <ToastContainer />
     </div>
   );
 }

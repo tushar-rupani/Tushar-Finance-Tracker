@@ -20,7 +20,7 @@ body {
 }
 
 input[type="number"] {
-  height: 45px;
+  height: 25px;
 }
 
 input[type="submit"] {
@@ -29,7 +29,8 @@ input[type="submit"] {
 }
 
 select {
-  padding: 3px;
+  padding: 10px;
+  font-family: "Arial";
 }
 
 a {
