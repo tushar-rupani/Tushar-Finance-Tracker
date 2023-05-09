@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Button } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import { RemoveRedEyeOutlined } from "@mui/icons-material";
-const TableRowComp = ({data, index}) => {
+const TableRowComp = ({ data, index }) => {
   return (
     <TableRow
       key={index}
@@ -17,9 +17,9 @@ const TableRowComp = ({data, index}) => {
       </TableCell>
       <TableCell align="right">{data.month}</TableCell>
       <TableCell align="right">{data.year}</TableCell>
-      <TableCell align="right">{data.transactionType}</TableCell>
-      <TableCell align="right">{data.fromAccount}</TableCell>
-      <TableCell align="right">{data.toAccount}</TableCell>
+      <TableCell align="right">{data.transaction_type}</TableCell>
+      <TableCell align="right">{data.from_account}</TableCell>
+      <TableCell align="right">{data.to_account}</TableCell>
       <TableCell align="right">
         {data.currency}
         {data.amount.toLocaleString("en-IN")}
@@ -32,13 +32,13 @@ const TableRowComp = ({data, index}) => {
           width={75}
           height={75}
         /> : "No Image Selected"}
-        
+
       </TableCell>
       <TableCell align="right">
-        <Button style={{color: "white"}}><Link to={`/transaction/${data.id}`}><RemoveRedEyeOutlined /></Link></Button> &nbsp; |  
+        <Button style={{ color: "white" }}><Link to={`/transaction/${data.id}`}><RemoveRedEyeOutlined /></Link></Button> &nbsp; |
         &nbsp; <Button><Link to={`/edit/${data.id}`}> <EditIcon /></Link></Button>
-         
-        
+
+
       </TableCell>
     </TableRow>
   );

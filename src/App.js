@@ -8,6 +8,7 @@ import { Fragment } from "react";
 import Protected from "./components/HOCs/Protected";
 import Login from "./pages/Authentication/Login";
 import CheckToken from "./components/HOCs/CheckToken";
+import FormHook from "./pages/FormHook";
 function App() {
   return (
     <div className="App">
@@ -21,7 +22,7 @@ function App() {
               <Route path="/home" element={<Home />} />
               <Route path="/show" element={<List />} />
               <Route path="/transaction/:id" element={<Individual />} />
-              <Route path="/add" element={<Form />} />
+              <Route path="/add" element={<FormHook />} />
               <Route path="/edit/:id" element={<EditForm />} />
             </Route>
           </Routes>

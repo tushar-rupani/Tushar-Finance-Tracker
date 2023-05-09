@@ -45,9 +45,9 @@ export const List = () => {
         if (
           data.month.toLowerCase().includes(groupedSearchTerm) ||
           data.year.toLowerCase().includes(groupedSearchTerm) ||
-          data.toAccount.toLowerCase().includes(groupedSearchTerm) ||
-          data.fromAccount.toLowerCase().includes(groupedSearchTerm) ||
-          data.transactionType.toLowerCase().includes(groupedSearchTerm) ||
+          data.to_account.toLowerCase().includes(groupedSearchTerm) ||
+          data.from_account.toLowerCase().includes(groupedSearchTerm) ||
+          data.transaction_type.toLowerCase().includes(groupedSearchTerm) ||
           data.amount.toString().toLowerCase().includes(groupedSearchTerm)
         ) {
           return data;
@@ -73,9 +73,9 @@ export const List = () => {
         </option>
         <option value="month">Month</option>
         <option value="year">Year</option>
-        <option value="transactionType">Transaction</option>
-        <option value="fromAccount">From Account</option>
-        <option value="toAccount">To Account</option>
+        <option value="transaction_type">Transaction</option>
+        <option value="from_account">From Account</option>
+        <option value="to_account">To Account</option>
       </select>
       {Object.keys(groupedData).length > 0 && (
         <button onClick={handleRemoveFilter}>Remove Filter</button>

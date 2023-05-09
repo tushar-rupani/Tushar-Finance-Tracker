@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import {
   months,
   years,
@@ -9,6 +10,7 @@ import {
 import Filebase from "react-file-base64";
 import { InitialOption } from "../Form/InitialOption";
 import { Option } from "../Form/Option";
+import * as Yup from "yup";
 import {
   addObjectToLocalStorage,
   editDataIntoLocal,
@@ -23,9 +25,9 @@ const FormComp = ({ dataToDisplay }) => {
     date: "",
     month: "",
     year: "",
-    transactionType: "",
-    fromAccount: "",
-    toAccount: "",
+    transaction_type: "",
+    from_account: "",
+    to_account: "",
     currency: "",
     amount: "",
     notes: "",
@@ -35,9 +37,9 @@ const FormComp = ({ dataToDisplay }) => {
     date: "",
     month: "",
     year: "",
-    transactionType: "",
-    fromAccount: "",
-    toAccount: "",
+    transaction_type: "",
+    from_account: "",
+    to_account: "",
     currency: "",
     amount: "",
     notes: "",
@@ -62,29 +64,29 @@ const FormComp = ({ dataToDisplay }) => {
 
   const handleOnChange = (e) => {
     let { name, value } = e.target;
-    if (e.target.name === "toAccount") {
-      let fromAccount = formState.fromAccount;
-      if (e.target.value === fromAccount) {
+    if (e.target.name === "to_account") {
+      let from_account = formState.from_account;
+      if (e.target.value === from_account) {
         setErrors((prevState) => ({
           ...prevState,
-          toAccount: "and From Account, Both are same",
+          to_account: "and From Account, Both are same",
         }));
       }
-    } else if (e.target.name === "fromAccount") {
-      let toAccount = formState.toAccount;
-      if (e.target.value === toAccount) {
+    } else if (e.target.name === "from_account") {
+      let to_account = formState.to_account;
+      if (e.target.value === to_account) {
         setErrors((prevState) => ({
           ...prevState,
-          fromAccount: "and To Account, Both are same",
+          from_account: "and To Account, Both are same",
         }));
       } else {
         setErrors((prevState) => ({
           ...prevState,
-          toAccount: "",
-          fromAccount: "",
+          to_account: "",
+          from_account: "",
         }));
-        delete errorObj["toAccount"];
-        delete errorObj["fromAccount"];
+        delete errorObj["to_account"];
+        delete errorObj["from_account"];
       }
     }
 
@@ -127,11 +129,11 @@ const FormComp = ({ dataToDisplay }) => {
         errorObj[data] = "is required";
       }
       if (
-        formState["fromAccount"] !== "" &&
-        formState["toAccount"] !== "" &&
-        formState["fromAccount"] === formState["toAccount"]
+        formState["from_account"] !== "" &&
+        formState["to_account"] !== "" &&
+        formState["from_account"] === formState["to_account"]
       ) {
-        errorObj["toAccount"] = "and From account can not be the same";
+        errorObj["to_account"] = "and From account can not be the same";
       }
     });
     setErrors(errorObj);
@@ -147,147 +149,35 @@ const FormComp = ({ dataToDisplay }) => {
     }
   };
 
+  const onSubmit = () => {
+    alert("Submitted")
+  }
+  const validationSchema = Yup.object({
+    date: Yup.string().required("Please select a product"),
+  });
+
+  const renderError = (message) => <p className="error">{message}</p>;
   return (
-    <form onSubmit={handleSubmit} className="form-add">
-      <div>
-        <label>Date: </label>
-        <input
-          type="date"
-          name="date"
-          onChange={handleOnChange}
-          defaultValue={
-            formState?.date !== "" &&
-            new Date(formState.date).toISOString().slice(0, 10)
-          }
-        />
+    <Formik initialValues={INITIAL_STATE} validationSchema={validationSchema} onSubmit={async (values, { resetForm }) => {
+      console.log("submitting");
+      await onSubmit(values)
+      resetForm();
+    }} >
 
-        {errors.date && <span className="error">Date {errors.date}</span>}
-      </div>
-      <div>
-        <select name="month" value={formState.month} onChange={handleOnChange}>
-          <InitialOption params="Month" />
-          {months.map((month, index) => (
-            <Option key={index} value={month} myKey={index} />
-          ))}
-        </select>
-        {errors.month && <span className="error">Month {errors.month}</span>}
-        <select name="year" value={formState.year} onChange={handleOnChange}>
-          <InitialOption params="Year" />
-          {years.map((year, index) => (
-            <Option value={year} key={index} myKey={index} />
-          ))}
-        </select>
-        {errors.year && <span className="error">Year {errors.year}</span>}
-        <select
-          name="transactionType"
-          value={formState.transactionType}
-          onChange={handleOnChange}
-        >
-          <InitialOption params="Transaction" />
-          {transaction_type.map((transaction, index) => (
-            <Option key={index} value={transaction} myKey={index} />
-          ))}
-        </select>
-        {errors.transactionType && (
-          <span className="error">Transaction {errors.transactionType}</span>
-        )}
-      </div>
-
-      <div>
-        <select
-          name="fromAccount"
-          value={formState.fromAccount}
-          onChange={handleOnChange}
-        >
-          <InitialOption params="From Account" />
-          {accounts.map((accs, index) => (
-            <Option value={accs} key={index} myKey={index} />
-          ))}
-        </select>
-        {errors.fromAccount && (
-          <span className="error">From Account {errors.fromAccount}</span>
-        )}
-        <select
-          name="toAccount"
-          value={formState.toAccount}
-          onChange={handleOnChange}
-        >
-          <InitialOption params="To Account" />
-          {accounts.map((accs, index) => (
-            <Option value={accs} key={index} myKey={index} />
-          ))}
-        </select>
-        {errors.toAccount && (
-          <span className="error">To Account {errors.toAccount}</span>
-        )}
-      </div>
-
-      <div>
-        <select
-          name="currency"
-          onChange={handleOnChange}
-          value={formState.currency}
-        >
-          <InitialOption params="Currency" />
-          {currency.map((cur, index) => (
-            <Option value={cur} key={index} myKey={index} />
-          ))}
-        </select>
-        <br />
-        <label>Amount: </label>
-        <input
-          type="number"
-          name="amount"
-          placeholder="Enter expenses"
-          onChange={handleOnChange}
-          value={formState.amount}
-        />
-        {errors.amount && <span className="error">Amount {errors.amount}</span>}
-        <br />
-        <br />
-      </div>
-      <label>Notes: </label>
-      <textarea
-        name="notes"
-        onChange={handleOnChange}
-        value={formState.notes}
-      ></textarea>
-      {errors.notes && <span className="error">"Notes" {errors.notes}</span>}
-      <br />
-      <br />
-
-      {!imageSelected && (
-        <div>
-          <Filebase
-            type="file"
-            name="fileBase64"
-            multiple={false}
-            onDone={handleFileSelect}
-          />
-          <br />
-          <br />
-          {errors.fileBase64 && (
-            <span className="error">{errors.fileBase64}</span>
-          )}
-          <br />
-          <br />
+      <Form className="form-add">
+        <div className="container" style={{ width: "60%" }}>
+          <div className="field">
+            <label htmlFor="date" className="label">Date </label>
+            <div className="control">
+              <Field name="name" type="date" />
+              <ErrorMessage name="name" render={renderError} />
+            </div>
+          </div>
+          <button type="submit">Submit</button>
         </div>
-      )}
-      {imageSelected && (
-        <div>
-          <img
-            src={formState.fileBase64}
-            alt="Error in loading"
-            width={200}
-            height={200}
-          />
-          <button type="button" onClick={handleImageCancel}>
-            X
-          </button>
-        </div>
-      )}
-      <input type="submit" value="Submit" />
-    </form>
+      </Form>
+
+    </Formik>
   );
 };
 

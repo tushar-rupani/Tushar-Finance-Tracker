@@ -90,9 +90,9 @@ export const TableComp = ({ data }) => {
       if (
         data.month.toLowerCase().includes(searchTerm) ||
         data.year.toLowerCase().includes(searchTerm) ||
-        data.toAccount.toLowerCase().includes(searchTerm) ||
-        data.fromAccount.toLowerCase().includes(searchTerm) ||
-        data.transactionType.toLowerCase().includes(searchTerm) ||
+        data.to_account.toLowerCase().includes(searchTerm) ||
+        data.from_account.toLowerCase().includes(searchTerm) ||
+        data.transaction_type.toLowerCase().includes(searchTerm) ||
         data.amount.toString().toLowerCase().includes(searchTerm) ||
         data.notes.toString().toLowerCase().includes(searchTerm)
       ) {
@@ -120,9 +120,9 @@ export const TableComp = ({ data }) => {
     { title: "Date", functionTitle: "date" },
     { title: "Month", functionTitle: "month" },
     { title: "Year", functionTitle: "year" },
-    { title: "Transaction", functionTitle: "transactionType" },
-    { title: "From Account", functionTitle: "fromAccount" },
-    { title: "To Account", functionTitle: "toAccount" },
+    { title: "Transaction", functionTitle: "transaction_type" },
+    { title: "From Account", functionTitle: "from_account" },
+    { title: "To Account", functionTitle: "to_account" },
     { title: "Amount", functionTitle: "amount" },
     { title: "Notes", functionTitle: "notes" },
   ];

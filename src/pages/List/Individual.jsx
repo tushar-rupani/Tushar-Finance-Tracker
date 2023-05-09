@@ -96,17 +96,17 @@ export function Individual() {
             <CardContent>
               <Typography paragraph>From Account:</Typography>
               <Typography paragraph>
-                <b>{dataToDisplay[0].fromAccount}</b>
+                <b>{dataToDisplay[0].from_account}</b>
               </Typography>
 
               <Typography paragraph>To Account:</Typography>
               <Typography paragraph>
-                <b>{dataToDisplay[0].toAccount}</b>
+                <b>{dataToDisplay[0].to_account}</b>
               </Typography>
 
               <Typography paragraph>Transaction</Typography>
               <Typography paragraph>
-                <b>{dataToDisplay[0].transactionType}</b>
+                <b>{dataToDisplay[0].transaction_type}</b>
               </Typography>
 
               <Typography paragraph>Amount</Typography>
