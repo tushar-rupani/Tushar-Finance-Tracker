@@ -43,3 +43,9 @@ export let add = (key, object) => {
 export let get = (key) => {
   return JSON.parse(localStorage.getItem(key));
 };
+
+export let deleteFromLS = (id) => {
+  let allData = loadDataFromLocal();
+  let refreshedData = allData.filter(data => data.id !== id);
+  localStorage.setItem("expense-data", JSON.stringify(refreshedData));
+}

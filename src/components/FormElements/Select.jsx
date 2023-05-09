@@ -1,20 +1,17 @@
 import React from 'react'
-import { InitialOption } from '../../pages/Form/InitialOption'
-import { Option } from '../../pages/Form/Option'
+// import { InitialOption } from '../../pages/Form/InitialOption'
+// import { Option } from '../../pages/Form/Option'
 
-export const Select = ({ value, name, register, handleChange, data, error }) => {
+export const Select = ({ name, register, data, error }) => {
     return (
         <>
-            <select name={name} value={value} {...register(name, {
-                onChange: handleChange,
-            })}>
-                <InitialOption params={name} />
-                {data.map((month, index) => (
-                    <Option key={index} value={month} myKey={index} />
+            <select name={name} {...register(name)}>
+                <option value={""}>Select {name}</option>
+                {data.map((element, index) => (
+                    <option key={index} value={element}>{element}</option>
                 ))}
-            </select>
+            </select >
             <span style={{ color: "red" }}>{error && error.message}</span>
-
         </>
     )
 }

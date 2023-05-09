@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
-import { getDataFromLocal } from "../../services/localstorage.service";
 import FormHook from "../FormHook";
+import { GlobalContext } from "../../context/GlobalContext";
+
 export const EditForm = () => {
   const params = useParams();
-  const dataToUpdate = getDataFromLocal(params.id);
+  const { data } = useContext(GlobalContext);
+  const dataToUpdate = data.filter(d => d.id === parseInt(params.id));
   return (
     <div>
-      <FormHook dataToDisplay={dataToUpdate} />
+      <FormHook dataToDisplay={dataToUpdate[0]} />
     </div>
   );
 };

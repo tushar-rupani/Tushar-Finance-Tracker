@@ -1,19 +1,17 @@
-import React, { useState } from "react";
-import {
-  loadDataFromLocal,
-  addIfDoesntExists,
-} from "../../services/localstorage.service";
+import React, { useState, useContext } from "react";
+
 import { TableComp } from "../../components/Table/Table";
 import { Navbar } from "../Home/Navbar";
+import { GlobalContext } from "../../context/GlobalContext";
+
 export const List = () => {
-  addIfDoesntExists();
-  let allData = loadDataFromLocal();
-  let [dataValue, setDataValue] = useState([...allData]);
+  const { data } = useContext(GlobalContext);
+  let [dataValue, setDataValue] = useState([...data]);
   let [groupedData, setGroupedData] = useState({});
   let [cloneOfGroupBy, setCloneOfGroupBy] = useState({});
   const handleChange = (e) => {
     let search = e.target.value;
-    const groupByCategory = allData.reduce((group, product) => {
+    const groupByCategory = data.reduce((group, product) => {
       const category = product[search];
       group[category] = group[category] ?? [];
       group[category].push(product);
@@ -21,12 +19,13 @@ export const List = () => {
     }, {});
 
     setGroupedData(groupByCategory);
+    console.log(groupByCategory);
     setCloneOfGroupBy({ ...groupByCategory });
     setDataValue([]);
   };
 
   const handleRemoveFilter = () => {
-    setDataValue(allData);
+    setDataValue(data);
     setGroupedData({});
   };
 
@@ -94,6 +93,7 @@ export const List = () => {
             )}
           </div>
         ))}
+
     </>
   );
 };
