@@ -1,3 +1,5 @@
+## Move to "redux" branch, if you want to see how I am achieving the same thing with redux" 
+
 | Title                                 | Start Date             | End Date               | Status |
 | ------------------------------------- | ---------------------- | ---------------------- | ------ |
 | Form Design and Validations           | 25th April, 2023 4:30  | 25th April, 2023 6:50  | done   |
