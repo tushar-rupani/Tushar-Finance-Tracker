@@ -13,7 +13,6 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import espark from "./espark-white-logo.svg";
-import tushar from "./tushar.jpg";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 // import XLSX from "xlsx"
@@ -95,9 +94,43 @@ export const Navbar = () => {
               <MenuIcon />
             </IconButton>
 
-            <Link to="/add">
-              <Typography textAlign="center">Add</Typography>
-            </Link>
+            <Button
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              <Link
+                to="/add"
+                state={null}
+                style={{
+                  padding: "10px",
+                  textDecoration: "none",
+                  color: "white",
+                }}
+              >
+                Add Data
+              </Link>
+            </Button>
+            <Button
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              <Link
+                to="/show"
+                style={{
+                  padding: "10px",
+                  textDecoration: "none",
+                  color: "white",
+                }}
+              >
+                Show Data
+              </Link>
+            </Button>
+            <Button
+              onClick={handleDownload}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              Export as a Sheet
+            </Button>
           </Box>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
@@ -116,7 +149,8 @@ export const Navbar = () => {
               textDecoration: "none",
             }}
           >
-            LOGO
+            <img src={espark} alt="Company Logo" width={100} />
+
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button

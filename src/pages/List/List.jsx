@@ -8,16 +8,30 @@ export const List = () => {
 
   const { data } = useContext(GlobalContext);
   const [dataValue, setDataValue] = useState([])
-  let [groupedData, setGroupedData] = useState({});
-  let [cloneOfGroupBy, setCloneOfGroupBy] = useState({});
+  const [groupedData, setGroupedData] = useState({});
+  const [cloneOfGroupBy, setCloneOfGroupBy] = useState({});
+  const [search, setSearch] = useState("");
   useEffect(() => {
     setDataValue([...data])
   }, [data])
 
-  const handleChange = (e) => {
-    let search = e.target.value;
+  useEffect(() => {
     const groupByCategory = data.reduce((group, product) => {
       const category = product[search];
+      group[category] = group[category] ?? [];
+      group[category].push(product);
+      return group;
+    }, {});
+    console.log(groupByCategory);
+    setGroupedData(groupByCategory)
+  }, [search, data])
+
+  
+  const handleChange = (e) => {
+    let searchTerm = e.target.value;
+    setSearch(searchTerm)
+    const groupByCategory = data.reduce((group, product) => {
+      const category = product[searchTerm];
       group[category] = group[category] ?? [];
       group[category].push(product);
       return group;
@@ -31,6 +45,7 @@ export const List = () => {
   const handleRemoveFilter = () => {
     setDataValue(data);
     setGroupedData({});
+    setSearch("")
   };
 
   // The below code handles code for searching "Grouped Data" with single search box, instead of having search box for each different table. However we are not using this anymore as Sanket Sir said.
@@ -80,13 +95,13 @@ export const List = () => {
         <option value="from_account">From Account</option>
         <option value="to_account">To Account</option>
       </select>
-      {Object.keys(groupedData).length > 0 && (
+      {search !== "" && (
         <button onClick={handleRemoveFilter}>Remove Filter</button>
       )}
 
-      {Object.keys(groupedData).length === 0 && <><TableComp data={dataValue} /></>}
+      {search === "" && <><TableComp data={dataValue} /></>}
 
-      {Object.keys(groupedData) &&
+      {search !== "" &&
         Object.keys(groupedData).map((data, index) => (
           <div key={index}>
             {groupedData[data].length > 0 && (

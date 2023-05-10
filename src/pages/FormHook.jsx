@@ -6,7 +6,6 @@ import {
     accounts,
     currency,
     imageType,
-    // imageType,
 } from "../utils/constants/_const";
 import './Form/css/Form.css'
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -19,7 +18,8 @@ import { Select } from "../components/FormElements/Select";
 import { GlobalContext } from "../context/GlobalContext"
 import { Navbar } from './Home/Navbar'
 import { INITIAL_STATE } from "../utils/constants/_const";
-
+import { Button } from "@mui/material";
+import { base64 } from "../utils/base64Converter";
 
 const FormHook = ({ dataToDisplay }) => {
     const navigate = useNavigate();
@@ -27,7 +27,6 @@ const FormHook = ({ dataToDisplay }) => {
     const [formState, setFormState] = useState(INITIAL_STATE);
     const values = formState;
     const { register, handleSubmit, formState: { errors }, setValue } = useForm({ values, resolver: yupResolver(schema) });
-    // eslint-disable-next-line
     const [fileBase64, setFileBase64] = useState("");
     let showInitialImage = dataToDisplay?.fileBase64 ? true : false;
     const [imageSelected, setImageSelected] = useState(showInitialImage);
@@ -56,29 +55,27 @@ const FormHook = ({ dataToDisplay }) => {
         newObj = { id: new Date().getTime(), ...dataFromForm };
         newObj["fileBase64"] = fileBase64;
         setData((prev) => ([newObj, ...prev]))
-        toast("Data Submitted")
+        toast.success("Data Submitted")
         navigate("/show")
     }
 
     const handleImageCancel = () => {
+        delete errors["fileBase64"]
         setValue("fileBase64", "")
         setImageSelected((prev) => !prev);
         setFileBase64("");
         setFormState((prevState) => ({ ...prevState, fileBase64: "" }));
     };
 
-    const handleFileSelect = (e) => {
+    const handleFileSelect = async (e) => {
         let file = e.target.files[0];
         if (!imageType.includes(file.type)) {
             toast.error("The File you selected is not supported");
             return;
         }
-        var reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-            setFileBase64(reader.result);
-            setImageSelected(true);
-        }
+        let filebase = await base64(file);
+        setFileBase64(filebase);
+        setImageSelected(true);
     };
     return (
         <>
@@ -90,6 +87,7 @@ const FormHook = ({ dataToDisplay }) => {
                         {...register('date')}
                         type="date"
                         name="date"
+                        defaultValue={new Date().getFullYear() + '-'}
                     />
                     <div style={{ color: "red" }}>{errors.date && errors.date.message}</div>
                 </div>
@@ -97,11 +95,11 @@ const FormHook = ({ dataToDisplay }) => {
                 <Select name="year" data={years} register={register} error={errors.year} />
                 <Select name="transaction_type" data={transaction_type} register={register} error={errors.transaction_type} />
                 <Select name="from_account" data={accounts} register={register} error={errors.from_account} />
-                <Select name="to_account" data={accounts} register={register} error={errors.from_account} />
+                <Select name="to_account" data={accounts} register={register} error={errors.to_account} />
                 <Select name="currency" data={currency} register={register} error={errors.currency} />
 
 
-                <br /><br />
+
                 <label>Amount: </label>
                 <input
                     type="number"
@@ -150,9 +148,9 @@ const FormHook = ({ dataToDisplay }) => {
                         </div>
                     )
                 }
-                {errors.fileBase64 && errors.fileBase64.message}
-                <input type="submit" value="Submit" />
-                {/* <ToastContainer /> */}
+                <div style={{ color: "red" }}>{errors.fileBase64 && errors.fileBase64.message}</div>
+                <br />
+                <Button variant="contained" color="info" type="submit">Submit</Button>
             </form >
         </>
     );

@@ -22,7 +22,8 @@ const records = [{id:1683609404905,user:"tushar",date:"2023-05-26",month:"Februa
 
 {id:1683609404906,user:"tushar",date:"2023-05-26",month:"March",year:"2024", transaction_type:"Personal Expenses",from_account:"My Dream Home",to_account:"Real Living",currency:"₹",amount:5645,notes:"Test By Tushar", fileBase64: ""}, 
 
-{id:1683609404907,user:"tushar",date:"2023-05-28",month:"March",year:"2025", transaction_type:"Personal Expenses",from_account:"My Dream Home",to_account:"Real Living",currency:"₹",amount:5645,notes:"Test By Jayesyh", fileBase64: ""}
+{id:1683609404907,user:"tushar",date:"2023-05-28",month:"March",year:"2025", transaction_type:"Personal Expenses",from_account:"My Dream Home",to_account:"Real Living",currency:"₹",amount:5645,notes:"Test By Jayesyh", fileBase64: ""},
+{id:1683609404908,user:"tushar",date:"2023-05-29",month:"April",year:"2024", transaction_type:"Personal Expenses",from_account:"My Dream Home",to_account:"Real Living",currency:"₹",amount:300,notes:"Test By Haresh", fileBase64: ""}
 ]
 
 export {months, years, transaction_type, accounts, currency, imageType, records, INITIAL_STATE}

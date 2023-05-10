@@ -16,18 +16,21 @@ export const TableComp = ({ data }) => {
     direction: "asc",
   });
   const [dataValue, setDataValue] = useState([]);
-
+  const [backupData, setBackupData] = useState([...data]);
+  const [cloneData, setCloneData] = useState([...data]);
   useEffect(() => {
     setDataValue([...data])
+    setBackupData([...data])
+    setCloneData([...data])
   }, [data])
 
 
   // eslint-disable-next-line
-  const [cloneOfData, setCloneOfData] = useState([...data]);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [dataFound, setDataFound] = useState("");
   // eslint-disable-next-line
-  const [cloneData, setCloneData] = useState([...data]);
+
   let handleSort = async (title) => {
     let cloneData;
     switch (title) {
@@ -41,7 +44,7 @@ export const TableComp = ({ data }) => {
           setDataValue(cloneData);
           setSortedOrder({ key: title, direction: null });
         } else {
-          setDataValue(cloneOfData);
+          setDataValue(backupData);
           console.log(data);
           setSortedOrder({ key: title, direction: "asc" });
         }
@@ -63,7 +66,7 @@ export const TableComp = ({ data }) => {
           setDataValue(cloneData);
           setSortedOrder({ key: title, direction: null });
         } else {
-          setDataValue(cloneOfData);
+          setDataValue(backupData);
           setSortedOrder({ key: title, direction: "asc" });
         }
         break;
@@ -78,7 +81,7 @@ export const TableComp = ({ data }) => {
           setDataValue(cloneData);
           setSortedOrder({ key: title, direction: null });
         } else {
-          setDataValue(cloneOfData);
+          setDataValue(backupData);
           setSortedOrder({ key: title, direction: "asc" });
         }
     }

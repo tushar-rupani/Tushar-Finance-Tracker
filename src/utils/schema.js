@@ -9,7 +9,8 @@ export const schema = Yup.object().shape({
     transaction_type: Yup.string().required('Transaction Type is Required'),
     from_account: Yup.string().required('From Account is Required!'),
     to_account: Yup.string()
-        .required('To Account Required')
+    .notOneOf([Yup.ref('from_account')])
+    .required('To Account Required')
     ,
     amount: Yup.number().min(1, "Should be Greater than 1").max(10000, "Should not be greater than 10000").required("Amount is required"),
     notes: Yup.string().required("Note is required"),
@@ -18,7 +19,12 @@ export const schema = Yup.object().shape({
     .test(
       'fileSize',
       'File size too large',
-      (value) =>{ return !value || value[0].size <= (1024 * 1024)}
+      (value) => {console.log(value);return !value || value[0].size <= (1024 * 1024)}
+    )
+    .test(
+      'fileType',
+      'Unsupported file format',
+      (value) => !value || imageType.includes(value[0].type)
     )
 });
 
