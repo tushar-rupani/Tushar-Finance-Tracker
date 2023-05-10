@@ -1,4 +1,4 @@
-## Move to "redux" branch, if you want to see how I am achieving the same thing with redux" 
+#### Move to "redux" branch, if you want to see how I am achieving the same thing with redux" 
 
 | Title                                 | Start Date             | End Date               | Status |
 | ------------------------------------- | ---------------------- | ---------------------- | ------ |
