@@ -141,7 +141,7 @@ export const TableComp = ({ data }) => {
         type="text"
         placeholder="Enter Search.."
         onChange={handleSearch}
-        style={{ margin: "20px", padding: "10px" }}
+        style={{ width: "40%" }}
       />
 
       {dataFound}

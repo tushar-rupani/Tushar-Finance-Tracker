@@ -91,6 +91,8 @@ const FormHook = ({ dataToDisplay }) => {
                 <Select name="currency" data={currency} register={register} error={errors.currency} />
                 <Input name="amount" type="number" register={register} error={errors.amount} label="Amount:" />
                 <Input name="notes" type="text" register={register} error={errors.notes} label="Notes:" />
+
+
                 {
                     !imageSelected && (
                         <div>
