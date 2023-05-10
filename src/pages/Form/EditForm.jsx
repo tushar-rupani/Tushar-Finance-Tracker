@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
-import FormHook from "../FormHook";
+import FormHook from "../Form/FormHook";
 import { GlobalContext } from "../../context/GlobalContext";
 
 export const EditForm = () => {

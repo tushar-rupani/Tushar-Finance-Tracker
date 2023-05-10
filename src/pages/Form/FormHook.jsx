@@ -6,20 +6,21 @@ import {
     accounts,
     currency,
     imageType,
-} from "../utils/constants/_const";
-import './Form/css/Form.css'
+} from "../../utils/constants/_const";
+import "./css/Form.css"
 import { yupResolver } from "@hookform/resolvers/yup";
-import { schema } from '../utils/schema'
+import { schema } from '../../utils/schema'
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Select } from "../components/FormElements/Select";
-import { GlobalContext } from "../context/GlobalContext"
-import { Navbar } from './Home/Navbar'
-import { INITIAL_STATE } from "../utils/constants/_const";
+import { Select } from "../../components/FormElements/Select";
+import { GlobalContext } from "../../context/GlobalContext"
+import { Navbar } from '../Home/Navbar'
+import { INITIAL_STATE } from "../../utils/constants/_const";
 import { Button } from "@mui/material";
-import { base64 } from "../utils/base64Converter";
+import { base64 } from "../../utils/base64Converter";
+import { Input } from "../../components/FormElements/Input";
 
 const FormHook = ({ dataToDisplay }) => {
     const navigate = useNavigate();
@@ -81,45 +82,15 @@ const FormHook = ({ dataToDisplay }) => {
         <>
             <Navbar />
             <form className="form-add" onSubmit={handleSubmit(onSubmitHandler)}>
-                <div>
-                    <label>Date: </label>
-                    <input
-                        {...register('date')}
-                        type="date"
-                        name="date"
-                        defaultValue={new Date().getFullYear() + '-'}
-                    />
-                    <div style={{ color: "red" }}>{errors.date && errors.date.message}</div>
-                </div>
+                <Input name="date" type="date" register={register} error={errors.date} label="Date" />
                 <Select name="month" data={months} register={register} error={errors.month} />
                 <Select name="year" data={years} register={register} error={errors.year} />
                 <Select name="transaction_type" data={transaction_type} register={register} error={errors.transaction_type} />
                 <Select name="from_account" data={accounts} register={register} error={errors.from_account} />
                 <Select name="to_account" data={accounts} register={register} error={errors.to_account} />
                 <Select name="currency" data={currency} register={register} error={errors.currency} />
-
-
-
-                <label>Amount: </label>
-                <input
-                    type="number"
-                    name="amount"
-                    placeholder="Enter expenses"
-                    {...register("amount")}
-
-                />
-                <div style={{ color: "red" }}>{errors.amount && errors.amount.message}</div>
-                <br />
-                <br />
-                <label>Notes: </label>
-                <textarea
-                    name="notes"
-                    {...register("notes")}
-                ></textarea>
-                <div style={{ color: "red" }}>{errors.notes && errors.notes.message}</div>
-                <br />
-                <br />
-
+                <Input name="amount" type="number" register={register} error={errors.amount} label="Amount:" />
+                <Input name="notes" type="text" register={register} error={errors.notes} label="Notes:" />
                 {
                     !imageSelected && (
                         <div>
@@ -139,12 +110,13 @@ const FormHook = ({ dataToDisplay }) => {
                                 width={200}
                                 height={200}
                             />
+                            &nbsp; &nbsp;
 
-                            <button type="button"
+                            <Button type="button" variant="outlined"
                                 onClick={handleImageCancel}
                             >
                                 X
-                            </button>
+                            </Button>
                         </div>
                     )
                 }

@@ -5,6 +5,7 @@
   margin: 2rem 0;
   padding: 25px;
   border-radius: 10px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 body {
   box-sizing: border-box;
@@ -21,9 +22,7 @@ body {
   flex-wrap: wrap;
 }
 
-input[type="number"] {
-  height: 25px;
-}
+
 
 input[type="submit"] {
   padding: 10px;
@@ -48,10 +47,18 @@ a {
   gap: "10px";
 }
 
+
+input[type="number"],
+input[type="date"],
+input[type="text"]{
+  height: 30px;
+}
+
 select,
 input[type="number"],
 input[type="date"],
-textarea {
+input[type="text"]
+{
   margin: 10px;
   width: 100%;
 }
