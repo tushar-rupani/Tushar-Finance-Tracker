@@ -1,19 +1,22 @@
-import React, { useContext } from "react";
+import React from "react";
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import { Link } from 'react-router-dom';
 import { Button } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import { RemoveRedEyeOutlined } from "@mui/icons-material";
-import { GlobalContext } from "../../context/GlobalContext";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { deleteTransaction } from "../../reducers/transactions";
 const TableRowComp = ({ row, index }) => {
-  const { setData, data } = useContext(GlobalContext);
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.transactions.value)
   const handleDelete = (id) => {
     let choice = window.confirm("Are you sure you want to delete this?")
     if (choice) {
       let cloneData = [...data];
       cloneData = cloneData.filter((data) => data.id !== id);
-      setData(cloneData);
+      dispatch(deleteTransaction(cloneData))
     }
   }
   return (
@@ -22,6 +25,7 @@ const TableRowComp = ({ row, index }) => {
         key={index}
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
       >
+        {console.log(index, row)}
         <TableCell component="th" scope="row">
           {/* {new Date(data.date).toLocaleDateString()} */}
           {row.date}

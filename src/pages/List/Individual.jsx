@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useContext } from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -15,7 +14,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useParams } from "react-router-dom";
 import { Navbar } from "../Home/Navbar";
-import { GlobalContext } from "../../context/GlobalContext";
+import { useSelector } from "react-redux";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -33,7 +32,7 @@ export function Individual() {
   let index = params.id;
 
   // let dataToDisplay = ;
-  const { data } = useContext(GlobalContext);
+  const data = useSelector((state) => state.transactions.value)
   const dataToDisplay = data.filter((element) => element.id === parseInt(index));
   const [expanded, setExpanded] = React.useState(false);
 

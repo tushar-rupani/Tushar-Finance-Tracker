@@ -8,14 +8,12 @@ import Protected from "./components/HOCs/Protected";
 import Login from "./pages/Authentication/Login";
 import CheckToken from "./components/HOCs/CheckToken";
 import FormHook from "./pages/Form/FormHook";
-import { GlobalProvider } from "./context/GlobalContext";
 import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <GlobalProvider>
           <Fragment>
             <Routes>
               <Route element={<CheckToken />}>
@@ -30,7 +28,6 @@ function App() {
               </Route>
             </Routes>
           </Fragment>
-        </GlobalProvider>
       </BrowserRouter>
       <ToastContainer />
     </div>

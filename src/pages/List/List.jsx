@@ -1,12 +1,12 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import { TableComp } from "../../components/Table/Table";
 import { Navbar } from "../Home/Navbar";
-import { GlobalContext } from "../../context/GlobalContext";
-
+import { useSelector } from "react-redux";
 export const List = () => {
 
-  const { data } = useContext(GlobalContext);
+  // const { data } = useContext(GlobalContext);
+  const data = useSelector((state) => state.transactions.value)
   const [dataValue, setDataValue] = useState([])
   const [groupedData, setGroupedData] = useState({});
   const [cloneOfGroupBy, setCloneOfGroupBy] = useState({});
@@ -22,11 +22,10 @@ export const List = () => {
       group[category].push(product);
       return group;
     }, {});
-    console.log(groupByCategory);
     setGroupedData(groupByCategory)
   }, [search, data])
 
-  
+
   const handleChange = (e) => {
     let searchTerm = e.target.value;
     setSearch(searchTerm)

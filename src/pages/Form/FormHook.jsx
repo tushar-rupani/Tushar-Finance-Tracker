@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import {
     months,
     years,
@@ -15,16 +15,18 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Select } from "../../components/FormElements/Select";
-import { GlobalContext } from "../../context/GlobalContext"
 import { Navbar } from '../Home/Navbar'
 import { INITIAL_STATE } from "../../utils/constants/_const";
 import { Button } from "@mui/material";
 import { base64 } from "../../utils/base64Converter";
 import { Input } from "../../components/FormElements/Input";
+import { addTransaction, editTransaction } from "../../reducers/transactions";
+import { useDispatch, useSelector } from "react-redux";
 
 const FormHook = ({ dataToDisplay }) => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { setData, data } = useContext(GlobalContext);
+    const data = useSelector((state) => state.transactions.value)
     const [formState, setFormState] = useState(INITIAL_STATE);
     const values = formState;
     const { register, handleSubmit, formState: { errors }, setValue } = useForm({ values, resolver: yupResolver(schema) });
@@ -47,15 +49,17 @@ const FormHook = ({ dataToDisplay }) => {
         let newObj;
         if (dataToDisplay) {
             newObj = { ...dataFromForm };
-            newObj["fileBase64"] = fileBase64
+            newObj["fileBase64"] = fileBase64;
             let editedData = data.map((element) => element.id === dataToDisplay.id ? newObj : element)
-            setData(editedData);
+            // setData(editedData);
+            console.log(editedData);
+            dispatch(editTransaction(editedData))
             navigate("/show")
             return;
         }
         newObj = { id: new Date().getTime(), ...dataFromForm };
         newObj["fileBase64"] = fileBase64;
-        setData((prev) => ([newObj, ...prev]))
+        dispatch(addTransaction(newObj))
         toast.success("Data Submitted")
         navigate("/show")
     }

@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import FormHook from "../Form/FormHook";
-import { GlobalContext } from "../../context/GlobalContext";
+import { useSelector } from "react-redux";
 
 export const EditForm = () => {
+  const data = useSelector((state) => state.transactions.value)
   const params = useParams();
-  const { data } = useContext(GlobalContext);
   const dataToUpdate = data.filter(d => d.id === parseInt(params.id));
   return (
     <div>
