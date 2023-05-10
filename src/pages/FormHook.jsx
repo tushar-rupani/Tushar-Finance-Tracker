@@ -5,6 +5,7 @@ import {
     transaction_type,
     accounts,
     currency,
+    imageType,
     // imageType,
 } from "../utils/constants/_const";
 import './Form/css/Form.css'
@@ -68,6 +69,10 @@ const FormHook = ({ dataToDisplay }) => {
 
     const handleFileSelect = (e) => {
         let file = e.target.files[0];
+        if (!imageType.includes(file.type)) {
+            toast.error("The File you selected is not supported");
+            return;
+        }
         var reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
@@ -145,7 +150,7 @@ const FormHook = ({ dataToDisplay }) => {
                         </div>
                     )
                 }
-                {errors.receipt && errors.receipt.message}
+                {errors.fileBase64 && errors.fileBase64.message}
                 <input type="submit" value="Submit" />
                 {/* <ToastContainer /> */}
             </form >

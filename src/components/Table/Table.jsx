@@ -10,8 +10,7 @@ import TableRowComp from "./TableRowComp";
 import { Pagination } from "../Pagination";
 
 export const TableComp = ({ data }) => {
-  console.log("data", data);
-  const itemsPerPage = 3;
+  const itemsPerPage = 2;
   const [sortedOrder, setSortedOrder] = useState({
     key: null,
     direction: "asc",

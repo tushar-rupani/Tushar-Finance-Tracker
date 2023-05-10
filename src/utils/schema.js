@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import { imageType } from "./constants/_const";
 export const schema = Yup.object().shape({
     date: Yup.string()
         .required('Date is required!'),
@@ -13,5 +14,12 @@ export const schema = Yup.object().shape({
     amount: Yup.number().min(1, "Should be Greater than 1").max(10000, "Should not be greater than 10000").required("Amount is required"),
     notes: Yup.string().required("Note is required"),
     currency: Yup.string().required("Currency is required"),
-
+    fileBase64: Yup.mixed()
+    .test(
+      'fileSize',
+      'File size too large',
+      (value) =>{ return !value || value[0].size <= (1024 * 1024)}
+    )
 });
+
+
