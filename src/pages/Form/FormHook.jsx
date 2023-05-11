@@ -26,7 +26,8 @@ import { useDispatch, useSelector } from "react-redux";
 const FormHook = ({ dataToDisplay }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const data = useSelector((state) => state.transactions.value)
+    // const data = useSelector((state) => state.transactions.value)
+    const data = useSelector((state) => state.persistedReducer.transactions.value)
     const [formState, setFormState] = useState(INITIAL_STATE);
     const values = formState;
     const { register, handleSubmit, formState: { errors }, setValue } = useForm({ values, resolver: yupResolver(schema) });

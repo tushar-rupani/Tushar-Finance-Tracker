@@ -32,7 +32,8 @@ export function Individual() {
   let index = params.id;
 
   // let dataToDisplay = ;
-  const data = useSelector((state) => state.transactions.value)
+  // const data = useSelector((state) => state.transactions.value)
+  const data = useSelector((state) => state.persistedReducer.transactions.value)
   const dataToDisplay = data.filter((element) => element.id === parseInt(index));
   const [expanded, setExpanded] = React.useState(false);
 
