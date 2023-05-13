@@ -53,7 +53,6 @@ const FormHook = ({ dataToDisplay }) => {
             newObj["fileBase64"] = fileBase64;
             let editedData = data.map((element) => element.id === dataToDisplay.id ? newObj : element)
             // setData(editedData);
-            console.log(editedData);
             dispatch(editTransaction(editedData))
             navigate("/show")
             return;

@@ -7,7 +7,6 @@ export const List = () => {
 
   // const { data } = useContext(GlobalContext);
   const data = useSelector((state) => state.persistedReducer.transactions.value)
-  // console.log("data", data);
   const [dataValue, setDataValue] = useState([])
   const [groupedData, setGroupedData] = useState({});
   const [cloneOfGroupBy, setCloneOfGroupBy] = useState({});

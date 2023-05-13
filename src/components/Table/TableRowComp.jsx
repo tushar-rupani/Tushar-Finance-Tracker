@@ -11,7 +11,7 @@ import { deleteTransaction } from "../../reducers/transactions";
 const TableRowComp = ({ row, index }) => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.persistedReducer.transactions.value)
-    const handleDelete = (id) => {
+  const handleDelete = (id) => {
     let choice = window.confirm("Are you sure you want to delete this?")
     if (choice) {
       let cloneData = [...data];
@@ -25,7 +25,6 @@ const TableRowComp = ({ row, index }) => {
         key={index}
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
       >
-        {console.log(index, row)}
         <TableCell component="th" scope="row">
           {/* {new Date(data.date).toLocaleDateString()} */}
           {row.date}

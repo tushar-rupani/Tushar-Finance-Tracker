@@ -19,12 +19,29 @@ export const schema = Yup.object().shape({
     .test(
       'fileSize',
       'File size too large',
-      (value) => {console.log(value);return !value || value[0].size <= (1024 * 1024)}
+      (value) => {
+        if(Array.isArray(value)){
+            return !value || value[0].size <= (1024 * 1024)
+        }
+        else{
+          return true;
+        }
+        
+      }
     )
     .test(
       'fileType',
       'Unsupported file format',
-      (value) => !value || imageType.includes(value[0].type)
+      (value) => {
+        if(Array.isArray(value)){
+            return (value) => !value || imageType.includes(value[0].type)
+        }
+        else{
+          return true;
+        }
+        
+      }
+      // 
     )
 });
 

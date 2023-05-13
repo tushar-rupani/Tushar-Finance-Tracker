@@ -45,7 +45,6 @@ export const TableComp = ({ data }) => {
           setSortedOrder({ key: title, direction: null });
         } else {
           setDataValue(backupData);
-          console.log(data);
           setSortedOrder({ key: title, direction: "asc" });
         }
         break;

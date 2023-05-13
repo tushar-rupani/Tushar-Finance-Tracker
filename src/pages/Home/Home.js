@@ -103,7 +103,6 @@ export const Home = () => {
         const sheets = wb.Sheets;
         if (sheets.length) {
           const rows = utils.sheet_to_json(wb.Sheets[sheets[0]]);
-          console.log(rows);
         }
       };
 
