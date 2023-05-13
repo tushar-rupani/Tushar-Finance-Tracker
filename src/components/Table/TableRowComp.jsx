@@ -14,9 +14,7 @@ const TableRowComp = ({ row, index }) => {
   const handleDelete = (id) => {
     let choice = window.confirm("Are you sure you want to delete this?")
     if (choice) {
-      let cloneData = [...data];
-      cloneData = cloneData.filter((data) => data.id !== id);
-      dispatch(deleteTransaction(cloneData))
+      dispatch(deleteTransaction(id))
     }
   }
   return (
@@ -54,7 +52,6 @@ const TableRowComp = ({ row, index }) => {
 
 
         </TableCell>
-        {/* <CustomModal open={open} setOpen={setOpen} handleClose={handleClose} id={data.id} setDataValue={setDataValue} dataValue={setDataValue} /> */}
       </TableRow>
     </>
 

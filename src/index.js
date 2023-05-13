@@ -9,6 +9,7 @@ import persistReducer from 'redux-persist/es/persistReducer';
 import { combineReducers } from '@reduxjs/toolkit';
 import persistStore from 'redux-persist/es/persistStore';
 import { PersistGate } from 'redux-persist/integration/react';
+import { userSlice } from './reducers/users';
 const persistConfig = {
     key: "root",
     version: 1,
@@ -16,7 +17,8 @@ const persistConfig = {
 }
 
 const reducer = combineReducers({
-    transactions: transactionSlice.reducer
+    transactions: transactionSlice.reducer,
+    users: userSlice.reducer
 })
 
 const persistedReducer = persistReducer(persistConfig, reducer)

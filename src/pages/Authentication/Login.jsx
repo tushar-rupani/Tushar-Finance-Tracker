@@ -10,8 +10,10 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useDispatch } from "react-redux";
+import { addUser } from "../../reducers/users"
+import { useSelector } from "react-redux";
 import {
-  add,
   addIfDoesntExists,
   get,
 } from "../../services/localstorage.service";
@@ -21,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 const Login = () => {
+  const dispatch = useDispatch();
   const initalState = {
     id: new Date().getTime(),
     email: "",
@@ -28,6 +31,7 @@ const Login = () => {
     repassword: "",
   };
   addIfDoesntExists();
+  const users = useSelector((state) => state.persistedReducer.users.value);
   const navigate = useNavigate();
   const [formData, setFormData] = useState(initalState);
   const [errors, setErrors] = useState({});
@@ -58,7 +62,8 @@ const Login = () => {
         return;
       }
       if (Object.keys(errorObj).length === 0) {
-        add("credentials", formData);
+        // add("credentials", formData);
+        dispatch(addUser(formData))
         toast("User has been added, try logging in!");
         setSignUp(false);
         e.target.reset();
@@ -77,7 +82,7 @@ const Login = () => {
           toast.error("No accounts created!");
           return;
         }
-        const user = dataFromLS.find((data) => data.email === formData.email);
+        const user = users.find(user => user.email === formData.email)
         if (user) {
           if (
             formData.email === user.email &&

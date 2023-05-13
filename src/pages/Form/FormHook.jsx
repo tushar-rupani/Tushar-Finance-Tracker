@@ -21,13 +21,12 @@ import { Button } from "@mui/material";
 import { base64 } from "../../utils/base64Converter";
 import { Input } from "../../components/FormElements/Input";
 import { addTransaction, editTransaction } from "../../reducers/transactions";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const FormHook = ({ dataToDisplay }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     // const data = useSelector((state) => state.transactions.value)
-    const data = useSelector((state) => state.persistedReducer.transactions.value)
     const [formState, setFormState] = useState(INITIAL_STATE);
     const values = formState;
     const { register, handleSubmit, formState: { errors }, setValue } = useForm({ values, resolver: yupResolver(schema) });
@@ -51,9 +50,7 @@ const FormHook = ({ dataToDisplay }) => {
         if (dataToDisplay) {
             newObj = { ...dataFromForm };
             newObj["fileBase64"] = fileBase64;
-            let editedData = data.map((element) => element.id === dataToDisplay.id ? newObj : element)
-            // setData(editedData);
-            dispatch(editTransaction(editedData))
+            dispatch(editTransaction({ id: dataToDisplay.id, newObj }))
             navigate("/show")
             return;
         }

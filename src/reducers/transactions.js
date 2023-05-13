@@ -5,13 +5,17 @@ export const transactionSlice = createSlice({
     initialState: {value: records},
     reducers: {
         addTransaction: (state, action) => {
-            state.value.unshift(action.payload)
+            const stateToBeUpdated = [ action.payload, ...state.value];
+            state.value = stateToBeUpdated
+
         },
         editTransaction: (state, action) => {
-            state.value = action.payload;
+            let updatedObj = state.value.map((element) => element.id === action.payload.id ? action.payload.newObj : element);
+            state.value = updatedObj
         },
         deleteTransaction: (state, action) => {
-            state.value = action.payload;
+            let updatedObj = state.value.filter((element) => element.id !== action.payload);
+            state.value = updatedObj;
         }
     }
 })
