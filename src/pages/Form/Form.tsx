@@ -15,33 +15,43 @@ import { schema } from "../../utils/ValidationSchema";
 import { Select } from "../components/FormElements/Select";
 import { Input } from "../components/FormElements/Input";
 import { base64 } from "../../utils/base64Converter";
+import { addTransactions } from "../../reducers/transactions";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 function Form() {
   const [formState, setFormState] = useState<FormType>(INITIAL_STATE);
   const values = formState;
-  const [fileBase64, setFileBase64] = useState<string>("");
+  const [receipt, setReceipt] = useState<string>("");
   const [imageSelected, setImageSelected] = useState<boolean>(false);
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<formValues>({ values, resolver: yupResolver(schema) });
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit((data) => {
+    const newObject: FormType = {
+      ...data,
+      fileBase64: receipt,
+      id: new Date().getTime(),
+      user: "tushar",
+    };
+    dispatch(addTransactions(newObject));
+  });
 
   const handleFileSelect = async (selectorFiles: FileList) => {
     let ans: string | unknown = await base64(selectorFiles[0]);
     if (ans) {
-      setFileBase64(ans as string);
+      setReceipt(ans as string);
       setImageSelected(true);
     }
   };
 
   const handleImageCancel = () => {
-    setFileBase64("");
+    setReceipt("");
     setImageSelected(false);
   };
-
-  console.log({ errors });
 
   return (
     <>
@@ -105,7 +115,7 @@ function Form() {
         />
         {imageSelected ? (
           <>
-            <img src={fileBase64} alt="Oops Error" width={40} height={40} />{" "}
+            <img src={receipt} alt="Oops Error" width={40} height={40} />{" "}
             <button type="button" onClick={handleImageCancel}>
               X
             </button>
@@ -123,6 +133,9 @@ function Form() {
         )}
 
         <button type="submit">Submit</button>
+        <Link to="/">
+          <button type="submit">Go to List</button>
+        </Link>
       </form>
     </>
   );

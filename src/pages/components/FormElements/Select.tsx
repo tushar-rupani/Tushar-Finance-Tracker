@@ -1,11 +1,22 @@
 import React from "react";
-import { FieldError } from "react-hook-form";
+import { FieldError, UseFormRegister } from "react-hook-form";
+import { formValues } from "../../models/FormTypes/Form";
 
 type SelectProps = {
-  name: string;
+  name:
+    | "date"
+    | "month"
+    | "year"
+    | "transaction_type"
+    | "from_account"
+    | "to_account"
+    | "currency"
+    | "amount"
+    | "notes"
+    | "fileBase64";
   data: string[];
   error: FieldError | undefined;
-  register: any;
+  register: UseFormRegister<formValues>;
 };
 
 export const Select = ({ name, register, data, error }: SelectProps) => {

@@ -16,15 +16,15 @@ export const schema = Yup.object().shape({
   notes: Yup.string().required("Note is required"),
   currency: Yup.string().required("Currency is required"),
   fileBase64: Yup.mixed()
-    .test("fileType", "File Type Not Supported", (value: any) => {
-      if (value[0]) {
+    .test("fileType", "File Type Not Supported", (value) => {
+      if (value instanceof FileList) {
         return !value || imageType.includes(value[0].type);
       } else {
         return true;
       }
     })
-    .test("fileSize", "File size too large", (value: any) => {
-      if (value[0]) {
+    .test("fileSize", "File size too large", (value) => {
+      if (value instanceof FileList) {
         return !value || value[0].size <= 1024 * 1024;
       } else {
         return true;
