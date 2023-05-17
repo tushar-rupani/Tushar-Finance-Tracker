@@ -7,7 +7,8 @@ export const handleSort = (
   setDataValue: React.Dispatch<React.SetStateAction<FormType[]>>,
   dataValue: FormType[],
   sortedOrder: SortType,
-  items: FormType[]
+  items: FormType[],
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
 ) => {
   let cloneData;
   switch (title) {
@@ -63,4 +64,5 @@ export const handleSort = (
         setSortedOrder({ key: title, direction: "asc" });
       }
   }
+  setCurrentPage(1);
 };

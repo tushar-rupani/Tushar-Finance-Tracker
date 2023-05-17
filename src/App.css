@@ -3,3 +3,21 @@ a{
   color: black
 }
 
+.active{
+  background-color: #1976d2;
+  color: white
+
+}
+
+.pagination{
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  margin: 0 5px;
+  transition: background-color 0.9s, color 0.9s;
+}
+
+.pagination:hover{
+  background-color: black;
+  color: white
+}
