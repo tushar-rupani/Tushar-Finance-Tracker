@@ -22,6 +22,7 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import { RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
+import ErrorBoundary from "../../ErrorBoundry";
 
 function Form() {
   const [formState, setFormState] = useState<FormType | undefined>(
@@ -58,9 +59,6 @@ function Form() {
     navigate("/");
   });
 
-  const throwError = () => {
-    throw new Error("SOmething bad happened");
-  };
   useEffect(() => {
     if (id) {
       let dataToShow: FormType | undefined = data.find(
@@ -73,6 +71,8 @@ function Form() {
       setFormState(dataToShow);
     } else {
       setFormState(INITIAL_STATE);
+      setReceipt("");
+      setImageSelected(false);
     }
   }, [id, data]);
 
@@ -91,7 +91,7 @@ function Form() {
 
   return (
     <Sidebar>
-      <>
+      <ErrorBoundary fallback="Error Occured">
         <form onSubmit={onSubmit}>
           <Input
             name="date"
@@ -185,10 +185,8 @@ function Form() {
           <button type="submit" className="submit">
             {id ? "Edit Data" : "Submit"}
           </button>
-
-          <button onClick={throwError}>Throw Error</button>
         </form>
-      </>
+      </ErrorBoundary>
     </Sidebar>
   );
 }

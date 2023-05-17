@@ -87,7 +87,6 @@ export default function TableComponent({ items }: { items: FormType[] }) {
                 }
                 style={{ cursor: "pointer" }}
               >
-                {" "}
                 <span style={{ fontSize: "15px" }}>{header.title}</span> &nbsp;
                 {sortedOrder.direction === "asc" ? (
                   <>&#8597; </>
@@ -106,6 +105,7 @@ export default function TableComponent({ items }: { items: FormType[] }) {
           {dataValue.length > 0 &&
             dataValue.map((element, index) => (
               <TableRow
+                key={index}
                 style={{
                   background:
                     element.amount < 0
