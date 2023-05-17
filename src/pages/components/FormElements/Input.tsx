@@ -22,9 +22,9 @@ export const Input = ({ name, type, register, error, label }: InputProps) => {
     <div>
       <br />
       <label>{label} </label>
+      <br />
       <input {...register(name)} type={type} name={name} />
       <div style={{ color: "red" }}>{error && error.message}</div>
-      <br />
     </div>
   );
 };

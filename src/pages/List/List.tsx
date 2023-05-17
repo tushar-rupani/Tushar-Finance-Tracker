@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { FormType } from "../models/FormTypes/Form";
@@ -7,9 +7,20 @@ import TableComponent from "../components/Table/Table";
 export const List = () => {
   const data = useSelector((state: RootState) => state.transactions.value);
   const [records, setRecords] = useState<FormType[]>(data);
+
+  useEffect(() => {
+    setRecords([...data]);
+  }, [data]);
   return (
     <>
-      <Sidebar>{records && <TableComponent items={records} />}</Sidebar>
+      <Sidebar>
+        {records && (
+          <>
+            {" "}
+            <TableComponent items={records} />
+          </>
+        )}
+      </Sidebar>
     </>
   );
 };

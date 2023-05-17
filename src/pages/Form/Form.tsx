@@ -15,12 +15,13 @@ import { schema } from "../../utils/ValidationSchema";
 import { Select } from "../components/FormElements/Select";
 import { Input } from "../components/FormElements/Input";
 import { base64 } from "../../utils/base64Converter";
-import { addTransactions } from "../../reducers/transactions";
+import { addTransactions, editTransaction } from "../../reducers/transactions";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { RootState } from "../../store";
+import { useNavigate } from "react-router-dom";
+import "./style.css";
 
 function Form() {
   const [formState, setFormState] = useState<FormType | undefined>(
@@ -32,11 +33,13 @@ function Form() {
   const data = useSelector((state: RootState) => state.transactions.value);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<formValues>({ values, resolver: yupResolver(schema) });
+
   const { id } = useParams();
   const onSubmit = handleSubmit((data) => {
     const newObject: FormType = {
@@ -46,12 +49,18 @@ function Form() {
       user: "tushar",
     };
     if (id) {
-      alert("WE will edit this");
+      let new_id = parseInt(id);
+      dispatch(editTransaction({ new_id, newObject }));
+      navigate("/");
       return;
     }
     dispatch(addTransactions(newObject));
+    navigate("/");
   });
 
+  const throwError = () => {
+    throw new Error("SOmething bad happened");
+  };
   useEffect(() => {
     if (id) {
       let dataToShow: FormType | undefined = data.find(
@@ -143,14 +152,27 @@ function Form() {
           />
           {imageSelected ? (
             <>
-              <img src={receipt} alt="Oops Error" width={40} height={40} />{" "}
-              <button type="button" onClick={handleImageCancel}>
+              <br />
+              <img
+                src={receipt}
+                alt="Oops Error"
+                width={100}
+                height={100}
+              />{" "}
+              <button
+                type="button"
+                onClick={handleImageCancel}
+                className="cancel"
+              >
                 X
               </button>
               {errors && errors.fileBase64?.message}
+              <br />
             </>
           ) : (
             <>
+              <br />
+              <label>Add Receipt:</label>
               <input
                 type="file"
                 {...register("fileBase64", {
@@ -160,10 +182,11 @@ function Form() {
             </>
           )}
 
-          <button type="submit">Submit</button>
-          <Link to="/">
-            <button type="submit">Go to List</button>
-          </Link>
+          <button type="submit" className="submit">
+            {id ? "Edit Data" : "Submit"}
+          </button>
+
+          <button onClick={throwError}>Throw Error</button>
         </form>
       </>
     </Sidebar>
@@ -171,3 +194,4 @@ function Form() {
 }
 
 export default Form;
+// 9998452334

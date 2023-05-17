@@ -10,8 +10,7 @@ export const schema = Yup.object().shape({
     .notOneOf([Yup.ref("from_account")])
     .required("To Account Required"),
   amount: Yup.number()
-    .min(1, "Should be Greater than 1")
-    .max(10000, "Should not be greater than 10000")
+    .max(1000000, "Should not be greater than 10000")
     .required("Amount is required"),
   notes: Yup.string().required("Note is required"),
   currency: Yup.string().required("Currency is required"),

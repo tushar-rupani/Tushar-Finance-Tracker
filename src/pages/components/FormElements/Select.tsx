@@ -23,7 +23,9 @@ export const Select = ({ name, register, data, error }: SelectProps) => {
   return (
     <>
       <select {...register(name)}>
-        <option value={""}>Select {name}</option>
+        <option value={""} disabled>
+          Select {name}
+        </option>
         {data.map((element, index) => (
           <option key={index} value={element}>
             {element}

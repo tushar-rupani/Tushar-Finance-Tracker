@@ -64,7 +64,11 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
           <Divider />
         </Box>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, p: 3 }}
+        style={{ background: "#F4F4F4" }}
+      >
         <Toolbar />
         {children}
       </Box>
