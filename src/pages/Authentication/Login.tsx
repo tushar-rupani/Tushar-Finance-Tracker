@@ -80,6 +80,7 @@ const Login = () => {
         setSignUp(false);
       }
     } else {
+      const isEmpty = Object.values(errorObj).every((value) => value === "");
       Object.keys(formData).forEach((data) => {
         if (
           formData[data as keyof UserFormType] === "" &&
@@ -89,18 +90,22 @@ const Login = () => {
         }
       });
       setErrors(errorObj);
-      if (Object.keys(errorObj).length === 0) {
+      if (isEmpty) {
         const user = users.find((user) => user.email === formData.email);
         if (user) {
           if (
             formData.email === user.email &&
             formData.password === user.password
           ) {
-            localStorage.setItem(
-              "token",
-              JSON.stringify({ token: generateString(), email: formData.email })
-            );
-            navigate("/show");
+            const objToSetCookie = {
+              email: formData.email,
+              token: generateString(),
+            };
+            const expDate = new Date(new Date().getTime() + 3600 * 1000);
+            document.cookie = `finance-tracker=${JSON.stringify(
+              objToSetCookie
+            )};expires=${expDate.toUTCString()}`;
+            navigate("/");
           }
         } else {
           alert("You have entered wrong credentials");

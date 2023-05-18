@@ -10,10 +10,20 @@ export const List = () => {
   const data = useSelector((state: RootState) => state.transactions.value);
   const [records, setRecords] = useState<FormType[]>(data);
   const [groupBy, setGroupBy] = useState({});
+  const [currentFilter, setCurrentFilter] = useState("");
 
   useEffect(() => {
     setRecords([...data]);
-  }, [data]);
+    const groupByCategory = data.reduce((group, product) => {
+      const category = product[currentFilter as keyof FormType];
+      (group as Record<string, FormType[]>)[category] =
+        (group as Record<string, FormType[]>)[category] ?? [];
+      (group as Record<string, FormType[]>)[category].push(product);
+      return group;
+    }, {});
+
+    setGroupBy(groupByCategory);
+  }, [data, currentFilter]);
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     let searchTerm = e.target.value;
@@ -27,16 +37,16 @@ export const List = () => {
     }, {});
 
     setGroupBy(groupByCategory);
+    setCurrentFilter(searchTerm);
     setRecords([]);
   };
 
   const handleRemoveFilter = (e: React.MouseEvent<HTMLButtonElement>) => {
     setGroupBy({});
     setRecords(data);
+    setCurrentFilter("");
   };
-  useEffect(() => {
-    console.log(groupBy);
-  }, [groupBy]);
+
   return (
     <>
       <Sidebar>
@@ -62,7 +72,7 @@ export const List = () => {
             <option value="to_account">To Account</option>
           </select>
 
-          {Object.keys(groupBy).length > 0 && (
+          {currentFilter !== "" && (
             <button
               style={{ padding: "5px", cursor: "pointer" }}
               onClick={handleRemoveFilter}
@@ -72,7 +82,7 @@ export const List = () => {
           )}
         </div>
         <br />
-        {records.length > 0 && (
+        {records.length > 0 && currentFilter === "" && (
           <>
             {" "}
             <ErrorBoundary
@@ -89,7 +99,7 @@ export const List = () => {
           </>
         )}
 
-        {Object.keys(groupBy).length > 0 &&
+        {currentFilter !== "" &&
           Object.keys(groupBy).map((dataKey, index) => (
             <>
               <TableComponent

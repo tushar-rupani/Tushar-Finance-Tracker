@@ -13,11 +13,17 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const drawerWidth = 240;
 
 export default function Sidebar({ children }: { children: React.ReactNode }) {
+  const navigate = useNavigate();
+  const handleCookieDelete = () => {
+    document.cookie = `finance-tracker=test;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    navigate("/login");
+  };
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -62,6 +68,16 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
             ))}
           </List>
           <Divider />
+          <List>
+            <ListItem disablePadding>
+              <ListItemButton onClick={handleCookieDelete}>
+                <ListItemIcon>
+                  <LogoutIcon />
+                </ListItemIcon>
+                <ListItemText>Logout</ListItemText>
+              </ListItemButton>
+            </ListItem>
+          </List>
         </Box>
       </Drawer>
       <Box
