@@ -30,7 +30,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-export default function TableComponent({ items }: { items: FormType[] }) {
+export default function TableComponent({
+  items,
+  label,
+}: {
+  items: FormType[];
+  label: string | undefined;
+}) {
   const handleError = useErrorHandler();
   const dispatch = useDispatch();
   const [dataValue, setDataValue] = useState(items);
@@ -49,6 +55,7 @@ export default function TableComponent({ items }: { items: FormType[] }) {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(2);
+  const [dataFound, setDataFound] = useState("");
   let lengthOfData, pagesNeeded, pageNumbers, indexOfFirstPage, indexOfLastPage;
   lengthOfData = dataValue.length;
   pagesNeeded = Math.ceil(lengthOfData / itemsPerPage);
@@ -90,137 +97,183 @@ export default function TableComponent({ items }: { items: FormType[] }) {
   };
 
   const handlePageSelected = (e: ChangeEvent<HTMLSelectElement>) => {
-    // console.log(e.target.value);
     setItemsPerPage(parseInt(e.target.value));
+    setCurrentPage(1);
   };
 
   const causeError = () => {
     // throw new Error("Causing error!");
     handleError("You can not sort images bruv!");
   };
+
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    // console.log(e.target.value);
+    let searchTerm = e.target.value;
+    searchTerm = searchTerm.toLowerCase();
+    if (searchTerm.length === 0) {
+      setDataValue(items);
+      setDataFound("");
+
+      return;
+    }
+    const filteredData = items.filter((data) => {
+      if (
+        data.month.toLowerCase().includes(searchTerm) ||
+        data.year.toLowerCase().includes(searchTerm) ||
+        data.to_account.toLowerCase().includes(searchTerm) ||
+        data.from_account.toLowerCase().includes(searchTerm) ||
+        data.transaction_type.toLowerCase().includes(searchTerm) ||
+        data.amount.toString().toLowerCase().includes(searchTerm) ||
+        data.notes.toString().toLowerCase().includes(searchTerm)
+      ) {
+        return data;
+      }
+      return "";
+    });
+    setDataValue(filteredData);
+    if (!filteredData.length) {
+      setDataFound("No Records Found");
+    } else {
+      setDataFound("");
+    }
+  };
   return (
     <>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              {transactionHeader.map((header, index) => (
-                <StyledTableCell
-                  key={index}
-                  align="right"
-                  onClick={() =>
-                    handleSort(
-                      header.functionTitle,
-                      setSortedOrder,
-                      setDataValue,
-                      dataValue,
-                      sortedOrder,
-                      items,
-                      setCurrentPage
-                    )
-                  }
-                  style={{ cursor: "pointer" }}
-                >
-                  <span style={{ fontSize: "15px" }}>{header.title}</span>{" "}
-                  &nbsp;
-                  {sortedOrder.direction === "asc" ? (
-                    <>&#8597; </>
-                  ) : sortedOrder.direction === "desc" ? (
-                    <>&#8593;</>
-                  ) : (
-                    <>&#8595;</>
-                  )}
-                </StyledTableCell>
-              ))}
-              <StyledTableCell onClick={causeError}>Receipt</StyledTableCell>
-              <StyledTableCell>Actions</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {dataValue.length > 0 &&
-              dataValue
-                .slice(indexOfFirstPage, indexOfLastPage)
-                .map((element, index) => (
-                  <TableRow
+      <input
+        type="text"
+        placeholder="Search Here..."
+        style={{ width: "40%" }}
+        onChange={handleSearch}
+      />
+      {dataFound}
+      {dataValue.length > 0 && (
+        <TableContainer component={Paper}>
+          <div style={{ textAlign: "center", padding: "4px", fontWeight: 800 }}>
+            {label !== "" && label}
+          </div>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                {transactionHeader.map((header, index) => (
+                  <StyledTableCell
                     key={index}
-                    style={{
-                      background:
-                        element.amount < 0
-                          ? "rgba(255,0,0,0.1)"
-                          : "rgba(61,255,36,0.0)",
-                    }}
+                    align="right"
+                    onClick={() =>
+                      handleSort(
+                        header.functionTitle,
+                        setSortedOrder,
+                        setDataValue,
+                        dataValue,
+                        sortedOrder,
+                        items,
+                        setCurrentPage
+                      )
+                    }
+                    style={{ cursor: "pointer" }}
                   >
-                    <StyledTableCell>{element.date}</StyledTableCell>
-                    <StyledTableCell>
-                      {element.month} - {element.year}
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      {element.transaction_type}
-                    </StyledTableCell>
-                    <StyledTableCell>{element.from_account}</StyledTableCell>
-                    <StyledTableCell>{element.to_account}</StyledTableCell>
-                    <StyledTableCell>
-                      {element.currency}
-                      {element.amount.toLocaleString("en-IN")}
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      {element.notes?.substr(0, 10)}
-                      {element.notes.length > 10 ? "..." : ""}
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      <img
-                        src={element.fileBase64}
-                        width={40}
-                        height={40}
-                        alt="error"
-                      ></img>
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      <Link to={`/transaction/${element.id}`}>
-                        <Button>
-                          <EyeFilled />
-                        </Button>
-                      </Link>
-                      &nbsp;
-                      <Link to={`/form/${element.id}`}>
-                        <Button>Edit</Button>{" "}
-                      </Link>{" "}
-                      <Button danger onClick={() => askDelete(element.id)}>
-                        Delete
-                      </Button>
-                    </StyledTableCell>
-                  </TableRow>
+                    <span style={{ fontSize: "15px" }}>{header.title}</span>{" "}
+                    &nbsp;
+                    {sortedOrder.direction === "asc" ? (
+                      <>&#8597; </>
+                    ) : sortedOrder.direction === "desc" ? (
+                      <>&#8593;</>
+                    ) : (
+                      <>&#8595;</>
+                    )}
+                  </StyledTableCell>
                 ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                <StyledTableCell onClick={causeError}>Receipt</StyledTableCell>
+                <StyledTableCell>Actions</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {dataValue.length > 0 &&
+                dataValue
+                  .slice(indexOfFirstPage, indexOfLastPage)
+                  .map((element, index) => (
+                    <TableRow
+                      key={index}
+                      style={{
+                        background:
+                          element.amount < 0
+                            ? "rgba(255,0,0,0.1)"
+                            : "rgba(61,255,36,0.0)",
+                      }}
+                    >
+                      <StyledTableCell>{element.date}</StyledTableCell>
+                      <StyledTableCell>
+                        {element.month} - {element.year}
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        {element.transaction_type}
+                      </StyledTableCell>
+                      <StyledTableCell>{element.from_account}</StyledTableCell>
+                      <StyledTableCell>{element.to_account}</StyledTableCell>
+                      <StyledTableCell>
+                        {element.currency}
+                        {element.amount.toLocaleString("en-IN")}
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        {element.notes?.substr(0, 10)}
+                        {element.notes.length > 10 ? "..." : ""}
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        <img
+                          src={element.fileBase64}
+                          width={40}
+                          height={40}
+                          alt="error"
+                        ></img>
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        <Link to={`/transaction/${element.id}`}>
+                          <Button>
+                            <EyeFilled />
+                          </Button>
+                        </Link>
+                        &nbsp;
+                        <Link to={`/form/${element.id}`}>
+                          <Button>Edit</Button>{" "}
+                        </Link>{" "}
+                        <Button danger onClick={() => askDelete(element.id)}>
+                          Delete
+                        </Button>
+                      </StyledTableCell>
+                    </TableRow>
+                  ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
       <br />
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Pagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          pageNumbers={pageNumbers}
-        />
-        <br />
-        <select
-          defaultValue={""}
-          onChange={(e) => handlePageSelected(e)}
-          style={{ width: "10%" }}
+      {dataValue.length > 0 && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
         >
-          <option value="" disabled>
-            Per Page
-          </option>
-          <option value={2}>2</option>
-          <option value={5}>5</option>
-          <option value={10}>10</option>
-        </select>
-      </div>
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            pageNumbers={pageNumbers}
+          />
+          <br />
+          <select
+            defaultValue={itemsPerPage}
+            onChange={(e) => handlePageSelected(e)}
+            style={{ width: "10%" }}
+          >
+            <option value="" disabled>
+              Per Page
+            </option>
+            <option value={2}>2</option>
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+          </select>
+        </div>
+      )}
     </>
   );
 }
