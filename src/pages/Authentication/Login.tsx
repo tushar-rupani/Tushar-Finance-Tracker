@@ -36,12 +36,13 @@ const Login = () => {
     password: "",
     repassword: "",
   };
-  const InitialError = { email: "", password: "", repassword: "" };
+
+  let InitialError: { [key: string]: string } = {};
 
   const users = useSelector((state: RootState) => state.users.value);
   const navigate = useNavigate();
   const [formData, setFormData] = useState(initalState);
-  const [errors, setErrors] = useState<ErrorType>(InitialError);
+  const [errors, setErrors] = useState(InitialError);
   const [signUp, setSignUp] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -53,11 +54,14 @@ const Login = () => {
   };
 
   const handleSubmit = (e: FormEvent) => {
-    console.log("coming");
-
-    let errorObj: ErrorType = InitialError;
     e.preventDefault();
+
+    console.log(signUp);
+
     if (signUp) {
+      // const isEmpty = Object.values(errorObj).every((value) => value === "");
+      // console.log(isEmpty);
+      let errorObj = InitialError;
       Object.keys(formData).forEach((data) => {
         if (formData[data as keyof UserFormType] === "") {
           errorObj[data as keyof ErrorType] = "This field is required";
@@ -71,26 +75,34 @@ const Login = () => {
         }));
         return;
       }
-
-      const isEmpty = Object.values(errorObj).every((value) => value === "");
-      console.log(isEmpty);
-
-      if (isEmpty) {
+      if (Object.keys(errorObj).length === 0) {
         dispatch(addUser(formData));
+        alert("User has been added!");
         setSignUp(false);
       }
     } else {
-      const isEmpty = Object.values(errorObj).every((value) => value === "");
+      let errorObj = InitialError;
+      console.log(formData);
+
+      Object.keys(formData).forEach((data) => {
+        if (data === "repassword") return;
+        if (formData[data as keyof UserFormType] === "") {
+          errorObj[data as keyof ErrorType] = "This field is required";
+        }
+      });
+      const isEmpty = Object.values(errors).every((value) => value === "");
       Object.keys(formData).forEach((data) => {
         if (
           formData[data as keyof UserFormType] === "" &&
           data !== "repassword"
         ) {
           errorObj[data as keyof ErrorType] = "This field is required";
+          setErrors(errorObj);
         }
       });
-      setErrors(errorObj);
-      if (isEmpty) {
+      console.log(errorObj);
+
+      if (Object.keys(errorObj).length === 0) {
         const user = users.find((user) => user.email === formData.email);
         if (user) {
           if (
@@ -108,7 +120,11 @@ const Login = () => {
             navigate("/");
           }
         } else {
-          alert("You have entered wrong credentials");
+          console.log({ isEmpty, errors });
+
+          if (isEmpty) {
+            alert("Wrong Password");
+          }
         }
       }
     }

@@ -15,14 +15,29 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { Link, useNavigate } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
+import { changeLanguage } from "../../reducers/language";
+import { useDispatch } from "react-redux";
+// import { getTranslation } from "../../utils/transalations";
 
 const drawerWidth = 240;
 
 export default function Sidebar({ children }: { children: React.ReactNode }) {
+  const dispatch = useDispatch();
+  let language = useSelector((state: RootState) => state.language.value);
   const navigate = useNavigate();
   const handleCookieDelete = () => {
     document.cookie = `finance-tracker=test;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
     navigate("/login");
+  };
+
+  let currentLangage = localStorage.getItem("ft-current-language") || "en";
+  console.log("current language", currentLangage);
+
+  const handleLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    localStorage.setItem("ft-current-language", e.target.value);
+    dispatch(changeLanguage(e.target.value));
   };
   return (
     <Box sx={{ display: "flex" }}>
@@ -31,10 +46,19 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
-        <Toolbar>
+        <Toolbar style={{ display: "flex", justifyContent: "space-between" }}>
           <Typography variant="h6" noWrap component="div">
-            Finance Tracker with TypeScript{" "}
+            {language.title}
           </Typography>
+
+          <select
+            defaultValue={currentLangage}
+            style={{ width: "10%" }}
+            onChange={handleLanguage}
+          >
+            <option value="en">English</option>
+            <option value="hi">हिंदी</option>
+          </select>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -52,8 +76,8 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
         <Box sx={{ overflow: "auto" }}>
           <List>
             {[
-              { text: "Add Transaction", link: "/form" },
-              { text: "Show Transactions", link: "/" },
+              { text: language.add, link: "/form" },
+              { text: language.show, link: "/" },
             ].map((item, index) => (
               <ListItem key={index} disablePadding>
                 <ListItemButton>
@@ -74,7 +98,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                 <ListItemIcon>
                   <LogoutIcon />
                 </ListItemIcon>
-                <ListItemText>Logout</ListItemText>
+                <ListItemText>{language.logout}</ListItemText>
               </ListItemButton>
             </ListItem>
           </List>

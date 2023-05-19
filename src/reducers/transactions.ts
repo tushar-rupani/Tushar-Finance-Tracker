@@ -10,6 +10,7 @@ interface EditTransactionState {
 }
 
 const initialState: TransactionState = { value: [] };
+
 const transactionSlice = createSlice({
   name: "Transactions",
   initialState,

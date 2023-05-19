@@ -13,11 +13,12 @@ import { Link } from "react-router-dom";
 import { ExclamationCircleFilled, EyeFilled } from "@ant-design/icons";
 import { Modal } from "antd";
 import { deleteTransaction } from "../../../reducers/transactions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SortType } from "../../models/TableTypes/Table";
 import { handleSort } from "../../../utils/sorting";
 import { useErrorHandler } from "react-error-boundary";
 import { Pagination } from "./Pagination";
+import { RootState } from "../../../store";
 const { confirm } = Modal;
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -53,6 +54,7 @@ export default function TableComponent({
   }
   */
 
+  const language = useSelector((state: RootState) => state.language.value);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(2);
   const [dataFound, setDataFound] = useState("");
@@ -73,20 +75,22 @@ export default function TableComponent({
   }, [items]);
 
   const transactionHeader = [
-    { title: "Date", functionTitle: "date" },
-    { title: "Month - Year", functionTitle: "month" },
-    { title: "Transaction", functionTitle: "transaction_type" },
-    { title: "From Account", functionTitle: "from_account" },
-    { title: "To Account", functionTitle: "to_account" },
-    { title: "Amount", functionTitle: "amount" },
-    { title: "Notes", functionTitle: "notes" },
+    { title: language.date, functionTitle: "date" },
+    { title: language.month, functionTitle: "month" },
+    { title: language.transcation, functionTitle: "transaction_type" },
+    { title: language.from_account, functionTitle: "from_account" },
+    { title: language.to_account, functionTitle: "to_account" },
+    { title: language.amount, functionTitle: "amount" },
+    { title: language.notes, functionTitle: "notes" },
   ];
 
   const askDelete = (id: number) => {
     confirm({
-      title: "Do you Want to delete this transaction?",
+      title: language.warning,
       icon: <ExclamationCircleFilled />,
-      content: "Once deleted it is not possible to recover it.",
+      content: language.warningdesc,
+      okText: language.ok,
+      cancelText: language.cancel,
       onOk() {
         handleDelete(id);
       },
@@ -182,8 +186,10 @@ export default function TableComponent({
                     )}
                   </StyledTableCell>
                 ))}
-                <StyledTableCell onClick={causeError}>Receipt</StyledTableCell>
-                <StyledTableCell>Actions</StyledTableCell>
+                <StyledTableCell onClick={causeError}>
+                  {language.receipt}
+                </StyledTableCell>
+                <StyledTableCell>{language.action}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -233,10 +239,10 @@ export default function TableComponent({
                         </Link>
                         &nbsp;
                         <Link to={`/form/${element.id}`}>
-                          <Button>Edit</Button>{" "}
+                          <Button>{language.edit}</Button>{" "}
                         </Link>{" "}
                         <Button danger onClick={() => askDelete(element.id)}>
-                          Delete
+                          {language.delete}
                         </Button>
                       </StyledTableCell>
                     </TableRow>

@@ -7,7 +7,10 @@ import TableComponent from "../components/Table/Table";
 import { ErrorBoundary } from "react-error-boundary";
 import { FilterOutlined } from "@ant-design/icons";
 export const List = () => {
-  const data = useSelector((state: RootState) => state.transactions.value);
+  let data = useSelector((state: RootState) => state.transactions.value);
+
+  // console.log("data", data);
+
   const [records, setRecords] = useState<FormType[]>(data);
   const [groupBy, setGroupBy] = useState({});
   const [currentFilter, setCurrentFilter] = useState("");

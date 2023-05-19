@@ -1,0 +1,21 @@
+{
+    "title": "Finance Tracker with TypeScript",
+    "add": "Add Transactions",
+    "show": "Show Transactions",
+    "logout": "Log Out",
+    "date": "Date",
+    "month": "Month",
+    "transcation": "Transactions",
+    "from_account": "From Account",
+    "to_account": "To Account",
+    "amount": "Amount",
+    "notes": "Notes",
+    "receipt": "Receipt",
+    "action": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "warning": "Are you sure you want to delete this?",
+    "warningdesc": "Once deleted it is not possible to recover it.",
+    "cancel": "Cancel",
+    "ok": "Ok"
+}
